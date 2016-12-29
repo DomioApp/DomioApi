@@ -1,0 +1,1 @@
+psql -U postgres domio_dev < domio_dev.sql 

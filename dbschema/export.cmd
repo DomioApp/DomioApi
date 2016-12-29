@@ -1,0 +1,1 @@
+pg_dump -U postgres --schema-only --no-owner domio_dev > domio_dev.sql

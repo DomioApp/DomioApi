@@ -1,0 +1,72 @@
+package handlers
+
+import (
+    "net/http/httptest"
+    "net/http"
+    "testing"
+    . "github.com/franela/goblin"
+    "log"
+)
+
+/*
+func TestHTTPRunner(t *testing.T) {
+    ts := httptest.NewServer(http.HandlerFunc(GetAvailableDomainsHandler))
+    log.Print("**********************************************************************")
+    log.Print(ts.URL)
+    res, err := http.Get(ts.URL)
+    if err != nil {
+        log.Fatal(err)
+    }
+    log.Print(res.Body)
+    log.Print("**********************************************************************")
+    defer ts.Close()
+}
+*/
+
+func TestGetAvailableDomainsHandler1(t *testing.T) {
+    ts := httptest.NewServer(http.HandlerFunc(DummyHTTPServerHandler))
+    defer ts.Close()
+
+    g := Goblin(t)
+    g.Describe("DummyHandler tests", func() {
+        g.It("Should get dummy response", func(done Done) {
+            go func() {
+                cli.URL(ts.URL)
+                var req = cli.Request()
+                req.Path(ts.URL)
+                req.Method("GET")
+
+                res, err := req.Send()
+
+                log.Print(err)
+                log.Print(res.String())
+                log.Print(res.Header.Get("Content-Type"))
+                done()
+            }()
+        })
+    })
+}
+
+func TestGetAvailableDomainsHandler2(t *testing.T) {
+    ts := httptest.NewServer(http.HandlerFunc(DummyHTTPServerHandler))
+    defer ts.Close()
+
+    g := Goblin(t)
+    g.Describe("DummyHandler tests", func() {
+        g.It("Should get dummy response", func(done Done) {
+            go func() {
+                cli.URL(ts.URL)
+                var req = cli.Request()
+                req.Path(ts.URL)
+                req.Method("GET")
+
+                res, err := req.Send()
+
+                log.Print(err)
+                log.Print(res.String())
+                log.Print(res.Header.Get("Content-Type"))
+                done()
+            }()
+        })
+    })
+}
