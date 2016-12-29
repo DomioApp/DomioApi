@@ -10,6 +10,7 @@ import (
 type UserTokenWithClaims struct {
     Email   string
     Expires int64
+    Id      string
 }
 
 func VerifyTokenString(tokenString string) (UserTokenWithClaims, domioerrors.DomioError) {
@@ -31,8 +32,8 @@ func VerifyTokenString(tokenString string) (UserTokenWithClaims, domioerrors.Dom
     }
 
     if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-        stClaims := jwt.StandardClaims{Subject:claims["sub"].(string)}
-        userTokenWithClaims = UserTokenWithClaims{Email:stClaims.Subject, Expires:stClaims.ExpiresAt}
+        stClaims := jwt.StandardClaims{Subject:claims["sub"].(string), Id:claims["jti"].(string)}
+        userTokenWithClaims = UserTokenWithClaims{Email:stClaims.Subject, Expires:stClaims.ExpiresAt, Id:stClaims.Id}
         return userTokenWithClaims, domioerrors.DomioError{}
     } else {
         return UserTokenWithClaims{}, domioerrors.JwtTokenParseError

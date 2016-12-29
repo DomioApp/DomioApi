@@ -12,7 +12,7 @@ import (
 type Domain struct {
 	Name  string `json:"name" db:"name"`
 	Owner string `json:"owner" db:"owner"`
-	Plan string `json:"plan" db:"plan"`
+	PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
 }
 
 type AvailableDomain struct {
@@ -77,6 +77,18 @@ func GetDomainInfo(domainName string) (interface{}, *domioerrors.DomioError) {
 	return domainWithRentalInfo, nil
 }
 
+func GetDomain(domainName string) (Domain, *domioerrors.DomioError) {
+	var domain Domain
+
+	domainError := Db.QueryRowx("SELECT * FROM domains where name=$1", domainName).StructScan(&domain)
+
+	if domainError != nil {
+		return Domain{}, &domioerrors.DomainNotFound
+	}
+
+	return domain, nil
+}
+
 func IsDomainRented(domainName string) bool {
 	const RentedDomainQuery = `SELECT domain_name, period_range
                                         FROM rentals WHERE domain_name=$1
@@ -108,7 +120,7 @@ func GetDomainOwner(domainName string) (string, error) {
 
 func CreateDomain(domain Domain, ownerEmail string) (Domain, *pq.Error) {
 	var domainResult Domain
-	insertErr := Db.QueryRowx("INSERT INTO domains (name, plan, owner) VALUES ($1, $2, $3) RETURNING name, plan, owner", domain.Name, domain.Plan, ownerEmail).StructScan(&domainResult)
+	insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner", domain.Name, domain.PricePerMonth, ownerEmail).StructScan(&domainResult)
 
 	if (insertErr != nil) {
 		return domainResult, insertErr.(*pq.Error)
