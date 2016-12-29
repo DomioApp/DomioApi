@@ -24,19 +24,19 @@
   "tags": [
     {
       "name": "user",
-      "description": "Operations about users"
+      "description": "Signup, login, update users"
     },
     {
-      "name": "subscription",
-      "description": "Operations with subscriptions",
+      "name": "domain",
+      "description": "Create, update and get info about domains",
       "externalDocs": {
         "description": "Find out more",
         "url": "http://swagger.io"
       }
     },
     {
-      "name": "domain",
-      "description": "Domains",
+      "name": "subscription",
+      "description": "Subscribe to domain rentals",
       "externalDocs": {
         "description": "Find out more",
         "url": "http://swagger.io"
@@ -72,6 +72,84 @@
         "responses": {
           "405": {
             "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      }
+    },
+    "/domains": {
+      "post": {
+        "tags": [
+          "domain"
+        ],
+        "summary": "Add a new domain to the store",
+        "description": "",
+        "operationId": "addDomain",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "domain",
+            "description": "Domain object that needs to be added to the store",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/NewDomain"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "domain"
+        ],
+        "summary": "Update an existing domain",
+        "description": "",
+        "operationId": "updatePet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pet object that needs to be added to the store",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Domain"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Validation exception"
+          },
+          "404": {
+            "description": "Pet not found"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
           }
         },
         "security": [
@@ -195,84 +273,6 @@
           },
           "400": {
             "description": "Invalid status value"
-          }
-        },
-        "security": [
-          {
-            "jwt_key": []
-          }
-        ]
-      }
-    },
-    "/domains": {
-      "post": {
-        "tags": [
-          "domain"
-        ],
-        "summary": "Add a new domain to the store",
-        "description": "",
-        "operationId": "addDomain",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "domain",
-            "description": "Domain object that needs to be added to the store",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/NewDomain"
-            }
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        },
-        "security": [
-          {
-            "jwt_key": []
-          }
-        ]
-      },
-      "put": {
-        "tags": [
-          "domain"
-        ],
-        "summary": "Update an existing domain",
-        "description": "",
-        "operationId": "updatePet",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Pet object that needs to be added to the store",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/Domain"
-            }
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Validation exception"
-          },
-          "404": {
-            "description": "Pet not found"
-          },
-          "400": {
-            "description": "Invalid ID supplied"
           }
         },
         "security": [
