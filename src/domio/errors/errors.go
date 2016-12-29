@@ -28,4 +28,6 @@ var RentableDomainNotExist = DomioError{2060, "Domain requested for rent doesn't
 var DomainNotFound = DomioError{2070, "Domain not found"}
 var UserEmailExists = DomioError{2080, "User email already exists and can't be used for a new registration"}
 
+var StripeCustomerCreationError = DomioError{3010, "Stripe customer creation error"}
+
 var UnknownError = DomioError{2990, "Unknown error"}

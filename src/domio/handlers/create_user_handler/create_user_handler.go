@@ -2,43 +2,50 @@ package create_user_handler
 
 import (
 	"net/http"
-	"encoding/json"
 	"domio/db"
-	"fmt"
 	domioerrors  "domio/errors"
-	"domio/messages"
 	"domio/components/responses"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go"
 	"log"
+	"domio/components/requests"
+	"domio/messages"
 )
 
 func CreateUserHandler(w http.ResponseWriter, req *http.Request) {
-	decoder := json.NewDecoder(req.Body)
 	var user domiodb.EmailAndPasswordPair
-	err := decoder.Decode(&user)
 
-	defer req.Body.Close()
+	err := requests.DecodeJsonRequestBody(req, &user)
 
 	if err != nil {
-		fmt.Fprintln(w, "{\"error\":\"wrong json input\"")
-		responses.ReturnErrorResponse(w, domioerrors.IncorrectJSONInputError)
+		responses.ReturnErrorResponse(w, domioerrors.JsonDecodeError)
 		return
 	}
-	_, creationError := domiodb.CreateUser(user)
 
-	if (creationError != nil) {
-		if (creationError.Code.Name() == "unique_violation") {
+	newCustomer, err := createStripeCustomer(user.Email)
+	log.Print(newCustomer)
+	log.Print(err)
+
+	if err != nil {
+		responses.ReturnErrorResponse(w, domioerrors.StripeCustomerCreationError)
+		return
+	}
+
+	new_customer := domiodb.NewCustomer{Id:newCustomer.ID, Email:newCustomer.Email, Password:user.Password}
+	newUser, userCreationError := domiodb.CreateUser(new_customer)
+	log.Print(newUser)
+
+	if (userCreationError != nil) {
+		if (userCreationError.Code.Name() == "unique_violation") {
 			responses.ReturnErrorResponseWithCustomCode(w, domioerrors.UserEmailExists, http.StatusUnprocessableEntity)
 			return
 		}
 	}
-	c, err := createStripeCustomer(user.Email)
-	log.Print(c)
-	log.Print(err)
 
 	responses.ReturnMessageResponse(w, messages.UserCreated)
+	defer req.Body.Close()
 }
+
 func createStripeCustomer(email string) (*stripe.Customer, error) {
 
 	stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"

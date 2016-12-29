@@ -36,9 +36,9 @@ func CreatePaymentHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    log.Print(charge.Id)
+    log.Print(charge.ID)
 
-    newPayment, paymentCreationError := domiodb.CreatePayment(paymentRequest, userProfile.Email, charge.Id)
+    newPayment, paymentCreationError := domiodb.CreatePayment(paymentRequest, userProfile.Email, charge.ID)
     if (paymentCreationError != nil) {
         responses.ReturnErrorResponseWithCustomCode(w, paymentCreationError, http.StatusUnprocessableEntity)
         return
