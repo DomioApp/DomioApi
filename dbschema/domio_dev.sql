@@ -40,9 +40,10 @@ SET default_with_oids = false;
 CREATE TABLE domains (
     name character varying NOT NULL,
     owner character varying NOT NULL,
-    price integer NOT NULL,
-    CONSTRAINT domain_name_min_length CHECK ((length((name)::text) > 3)),
-    CONSTRAINT price_min_ten CHECK ((price >= 10))
+    price_per_month integer NOT NULL,
+    is_rented boolean DEFAULT false NOT NULL,
+    period_end date,
+    CONSTRAINT domain_name_min_length CHECK ((length((name)::text) > 3))
 );
 
 
@@ -86,8 +87,8 @@ CREATE TABLE rentals (
     domain_name character varying NOT NULL,
     period_range daterange,
     id bigint NOT NULL,
-    payment_id bigint,
-    renter_id character varying NOT NULL
+    renter_id character varying NOT NULL,
+    payment_id bigint
 );
 
 
@@ -111,31 +112,13 @@ ALTER SEQUENCE rentals_id_seq OWNED BY rentals.id;
 
 
 --
--- Name: rentals_payment_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE rentals_payment_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: rentals_payment_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE rentals_payment_seq OWNED BY rentals.payment_id;
-
-
---
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE users (
     email character varying(30) NOT NULL,
-    password text
+    password text,
+    id character(18)
 );
 
 
@@ -151,13 +134,6 @@ ALTER TABLE ONLY payments ALTER COLUMN id SET DEFAULT nextval('payments_id_seq':
 --
 
 ALTER TABLE ONLY rentals ALTER COLUMN id SET DEFAULT nextval('rentals_id_seq'::regclass);
-
-
---
--- Name: payment_id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY rentals ALTER COLUMN payment_id SET DEFAULT nextval('rentals_payment_seq'::regclass);
 
 
 --
@@ -214,13 +190,6 @@ CREATE INDEX fki_payer_id ON payments USING btree (paid_by);
 
 
 --
--- Name: fki_payment_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX fki_payment_id ON rentals USING btree (payment_id);
-
-
---
 -- Name: fki_renter_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -249,6 +218,14 @@ ALTER TABLE ONLY domains
 
 ALTER TABLE ONLY payments
     ADD CONSTRAINT payer_id FOREIGN KEY (paid_by) REFERENCES users(email);
+
+
+--
+-- Name: rentals_payment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY rentals
+    ADD CONSTRAINT rentals_payment_id_fkey FOREIGN KEY (payment_id) REFERENCES payments(id);
 
 
 --
