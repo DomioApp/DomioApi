@@ -1,1 +1,1 @@
-psql -U postgres domio_dev < domio_dev.sql 
+psql -U sergeibasharov domio_dev < domio_dev.sql 

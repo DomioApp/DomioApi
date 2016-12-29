@@ -1,0 +1,1 @@
+createdb -U sergeibasharov domio_dev

@@ -1,0 +1,1 @@
+createuser -U postgres -P -s sergeibasharov

@@ -1,0 +1,1 @@
+dropdb -U sergeibasharov domio_dev
