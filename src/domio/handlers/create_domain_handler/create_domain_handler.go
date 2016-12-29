@@ -7,11 +7,12 @@ import (
     "domio/components/tokens"
     "domio/components/responses"
     "domio/components/requests"
+    "log"
 )
 
 func CreateDomainHandler(w http.ResponseWriter, req *http.Request) {
 
-    var domain domiodb.Domain
+    var newDomain domiodb.Domain
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 
     if (verifyTokenError != domioerrors.DomioError{}) {
@@ -19,14 +20,18 @@ func CreateDomainHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    err := requests.DecodeJsonRequestBody(req, &domain)
+    err := requests.DecodeJsonRequestBody(req, &newDomain)
 
     if err != nil {
+        log.Print(err)
         responses.ReturnErrorResponse(w, domioerrors.JsonDecodeError)
         return
     }
 
-    newDomain, domainCreationError := domiodb.CreateDomain(domain, userProfile.Email)
+    //============================================================================================================================
+
+    newDomain, domainCreationError := domiodb.CreateDomain(newDomain, userProfile.Email)
+
     if (domainCreationError != nil) {
         if (domainCreationError.Code.Name() == "unique_violation") {
             responses.ReturnErrorResponseWithCustomCode(w, domioerrors.DomainAlreadyExists, http.StatusUnprocessableEntity)
@@ -41,6 +46,7 @@ func CreateDomainHandler(w http.ResponseWriter, req *http.Request) {
         responses.ReturnErrorResponseWithCustomCode(w, domainCreationError, http.StatusUnprocessableEntity)
         return
     }
+
     responses.ReturnObjectResponse(w, newDomain)
 
     defer req.Body.Close()

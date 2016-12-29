@@ -12,7 +12,7 @@ import (
 type Domain struct {
 	Name  string `json:"name" db:"name"`
 	Owner string `json:"owner" db:"owner"`
-	Price int `json:"price" db:"price"`
+	Plan string `json:"plan" db:"plan"`
 }
 
 type AvailableDomain struct {
@@ -108,7 +108,7 @@ func GetDomainOwner(domainName string) (string, error) {
 
 func CreateDomain(domain Domain, ownerEmail string) (Domain, *pq.Error) {
 	var domainResult Domain
-	insertErr := Db.QueryRowx("INSERT INTO domains (name, price, owner) VALUES ($1, $2, $3) RETURNING name, price, owner", domain.Name, domain.Price, ownerEmail).StructScan(&domainResult)
+	insertErr := Db.QueryRowx("INSERT INTO domains (name, plan, owner) VALUES ($1, $2, $3) RETURNING name, plan, owner", domain.Name, domain.Plan, ownerEmail).StructScan(&domainResult)
 
 	if (insertErr != nil) {
 		return domainResult, insertErr.(*pq.Error)
