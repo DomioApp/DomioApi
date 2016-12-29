@@ -63,6 +63,7 @@ func LoginUser(user EmailAndPasswordPair) (error, *jwt.StandardClaims, string) {
     newClaims := &jwt.StandardClaims{
         ExpiresAt: time.Now().AddDate(0, 0, 7).Unix(),
         Subject: userDb.Email,
+        Id: userDb.Id,
     }
     token := jwt.NewWithClaims(jwt.SigningMethodHS256, newClaims)
 

@@ -1038,7 +1038,7 @@
         },
         "id": {
           "type": "string",
-          "example": "month-plan"
+          "example": "month-400"
         }
       }
     },
@@ -1049,7 +1049,7 @@
       "properties": {
         "plan": {
           "type": "string",
-          "example": "month-plan"
+          "example": "month-400"
         }
       }
     },

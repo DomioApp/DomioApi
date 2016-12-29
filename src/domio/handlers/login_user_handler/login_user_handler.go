@@ -10,6 +10,7 @@ import (
 
 type UserLoggedinObject struct {
     Email       string  `json:"email"`
+    Id          string  `json:"id"`
     TokenString string  `json:"token"`
 }
 
@@ -37,5 +38,5 @@ func LoginUser(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    responses.ReturnObjectResponse(w, UserLoggedinObject{Email:userClaims.Subject, TokenString:tokenString})
+    responses.ReturnObjectResponse(w, UserLoggedinObject{Email:userClaims.Subject, Id:userClaims.Id, TokenString:tokenString})
 }
