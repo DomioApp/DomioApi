@@ -22,9 +22,21 @@ func CreateUserHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
+    existingUser := domiodb.GetUser(user.Email)
+    log.Print("+++++++++++++++++++++++++++")
+    log.Print(existingUser)
+    log.Print("+++++++++++++++++++++++++++")
+    if (existingUser != domiodb.UserInfo{}) {
+        log.Print("====================")
+        log.Print("User exists")
+        log.Print("====================")
+        responses.ReturnErrorResponseWithCustomCode(w, domioerrors.UserEmailExists, http.StatusUnprocessableEntity)
+        return
+    }
+
+    log.Print("Creating stripe user")
+
     newCustomer, err := createStripeCustomer(user.Email)
-    log.Print(newCustomer)
-    log.Print(err)
 
     if err != nil {
         responses.ReturnErrorResponse(w, domioerrors.StripeCustomerCreationError)

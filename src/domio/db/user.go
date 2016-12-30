@@ -72,6 +72,15 @@ func LoginUser(user EmailAndPasswordPair) (error, *jwt.StandardClaims, string) {
     return loginError, newClaims, tokenString
 }
 
+func GetUser(email string) UserInfo {
+    user := UserInfo{}
+    Db.QueryRowx("SELECT * FROM users where email=$1", email).StructScan(&user)
+    log.Print("----------------------------------------------")
+    log.Print(user)
+    log.Print("----------------------------------------------")
+    return user
+}
+
 func GetUsers() []UserInfo {
     users := []UserInfo{}
     Db.Select(&users, "SELECT email FROM users")
