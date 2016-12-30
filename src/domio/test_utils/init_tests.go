@@ -1,4 +1,5 @@
 package handlers
+/*
 
 import (
     "gopkg.in/h2non/gentleman.v1"
@@ -39,4 +40,4 @@ func resetDb() {
     domiodb.Db.Query("INSERT INTO domains (name, price, owner) VALUES ('jack3000.com', 3000, 'jack@gmail.com');")
     domiodb.Db.Query("INSERT INTO domains (name, price, owner) VALUES ('john100.com', 100, 'john@gmail.com');")
 
-}
+}*/

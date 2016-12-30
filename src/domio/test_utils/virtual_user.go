@@ -1,4 +1,5 @@
 package handlers
+/*
 
 import (
     "gopkg.in/h2non/gentleman.v1/plugins/body"
@@ -75,3 +76,4 @@ func CreateDomainAs(user *VirtualUser, domain domiodb.Rental) (*gentleman.Respon
     res, err := req.Send()
     return res, err
 }
+*/

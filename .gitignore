@@ -1,5 +1,6 @@
 bin
 pkg
 src/*
+.idea/**
 !src/domio
-.idea/workspace.xml
+!.idea/codeStyleSettings.xml
