@@ -8,9 +8,7 @@ import (
     "domio/handlers/get_available_domains_handler"
     "domio/handlers/get_user_domains_handler"
     "domio/handlers/create_domain_handler"
-    "domio/handlers/create_rental_handler"
     "domio/handlers/get_domain_info_handler"
-    "domio/handlers/create_payment_handler"
     "domio/handlers/create_plan_handler"
     "domio/handlers/create_subscription_handler"
     "domio/handlers/create_card_handler"
@@ -63,12 +61,6 @@ var RoutesList = Routes{
         create_domain_handler.CreateDomainHandler,
     },
     Route{
-        "CreateRental",
-        "POST",
-        "/rentals",
-        create_rental_handler.CreateRentalHandler,
-    },
-    Route{
         "CreatePlan",
         "POST",
         "/plans",
@@ -79,12 +71,6 @@ var RoutesList = Routes{
         "POST",
         "/subscriptions",
         create_subscription_handler.CreateSubscriptionHandler,
-    },
-    Route{
-        "CreatePayment",
-        "POST",
-        "/payments",
-        create_payment_handler.CreatePaymentHandler,
     },
     Route{
         "CreateCard",

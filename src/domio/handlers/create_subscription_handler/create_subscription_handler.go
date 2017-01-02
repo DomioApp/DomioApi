@@ -34,21 +34,35 @@ func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
+    domainInfo, domainError := domiodb.GetDomain(newSubscription.Domain)
+
+    if (domainError != nil) {
+        responses.ReturnErrorResponseWithCustomCode(w, domainError, http.StatusUnprocessableEntity)
+        return
+    }
+
+    if (domainInfo != domiodb.Domain{} && domainInfo.IsRented) {
+        responses.ReturnErrorResponseWithCustomCode(w, domioerrors.DomainIsAlreadyRented, http.StatusUnprocessableEntity)
+        return
+    }
+
     newSubscription.CustomerId = userProfile.Id
 
-    stripeSubscription, subscriptionCreationError := createSubscription(&newSubscription)
+    stripeSubscription, subscriptionCreationError := createSubscription(&newSubscription, &domainInfo)
 
     if (subscriptionCreationError != nil) {
         responses.ReturnErrorResponseWithCustomCode(w, subscriptionCreationError, http.StatusUnprocessableEntity)
         return
     }
 
+    domiodb.SetDomainAsRented(domainInfo.Name)
+
     responses.ReturnObjectResponse(w, stripeSubscription)
 
     defer req.Body.Close()
 }
 
-func createSubscription(newSubscription *NewSubscription) (stripe.Sub, error) {
+func createSubscription(newSubscription *NewSubscription, domainInfo *domiodb.Domain) (stripe.Sub, error) {
     stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
     subParams := &stripe.SubParams{
         Customer: newSubscription.CustomerId,
@@ -57,9 +71,8 @@ func createSubscription(newSubscription *NewSubscription) (stripe.Sub, error) {
     }
 
     subParams.AddMeta("Domain", newSubscription.Domain)
-    domain, _ := domiodb.GetDomain(newSubscription.Domain)
 
-    subParams.Quantity = domain.PricePerMonth;
+    subParams.Quantity = domainInfo.PricePerMonth;
     s, err := sub.New(subParams)
     return *s, err
 }

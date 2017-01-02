@@ -22,7 +22,7 @@ func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request) {
         responses.ReturnErrorResponse(w, domioerrors.JwtTokenParseError)
         return
     }
-    domainInfo, err := domiodb.GetDomainInfo(domainName)
+    domainInfo, err := domiodb.GetDomain(domainName)
     if (err != nil) {
         responses.ReturnErrorResponse(w, err)
         return

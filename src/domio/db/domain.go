@@ -1,130 +1,74 @@
 package domiodb
 
 import (
-	_ "github.com/lib/pq"
-	"database/sql"
-	"errors"
-	domioerrors  "domio/errors"
-	"github.com/lib/pq"
-	"log"
+    domioerrors  "domio/errors"
+    "github.com/lib/pq"
+    "log"
 )
 
 type Domain struct {
-	Name  string `json:"name" db:"name"`
-	Owner string `json:"owner" db:"owner"`
-	PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
+    Name          string `json:"name" db:"name"`
+    Owner         string `json:"owner" db:"owner"`
+    PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
+    IsRented      bool `json:"is_rented" db:"is_rented"`
 }
 
 type AvailableDomain struct {
-	Name  string `json:"name" db:"name"`
-	Price int `json:"price" db:"price"`
+    Name  string `json:"name" db:"name"`
+    PricePerMonth int `json:"price_per_month" db:"price_per_month"`
 }
 
 type DomainWithRental struct {
-	Name        string `json:"name"`
-	PeriodRange string `json:"period_range"`
+    Name        string `json:"name"`
+    PeriodRange string `json:"period_range"`
 }
 
 type DomainWithoutRental struct {
-	Domain
+    Domain
 }
 
-var ErrDomainNotFound = errors.New("Domain is is not found in the database.")
-
 func GetAvailableDomains() []AvailableDomain {
-	domains := make([]AvailableDomain, 0)
-	err := Db.Select(&domains, `SELECT name, price
-                             FROM public.domains domain
-                             LEFT JOIN rentals rental
-                             ON domain.name = rental.domain_name
-                             WHERE rental.domain_name IS NULL
-                             OR NOW()::date - upper(rental.period_range::daterange) > 0
-                         ORDER BY price`)
+    domains := make([]AvailableDomain, 0)
+    err := Db.Select(&domains, `SELECT name, price_per_month FROM public.domains domain WHERE is_rented=false ORDER BY price_per_month`)
 
-	if (err != nil) {
-		log.Fatalln(err)
-	}
+    if (err != nil) {
+        log.Fatalln(err)
+    }
 
-	return domains
+    return domains
 }
 
 func GetUserDomains(userEmail string) []Domain {
-	var domains []Domain
-	Db.Select(&domains, "SELECT * FROM domains WHERE owner=$1 ORDER BY price", userEmail)
-	return domains
-}
-
-func GetDomainInfo(domainName string) (interface{}, *domioerrors.DomioError) {
-	var domain Domain
-	var domainRental Rental
-	var domainWithRentalInfo DomainWithRental
-
-	domainError := Db.QueryRowx("SELECT * FROM domains where name=$1", domainName).StructScan(&domain)
-	if domainError != nil {
-		return Domain{}, &domioerrors.DomainNotFound
-	}
-
-	domainRentalError := Db.QueryRowx(`SELECT domain_name, period_range
-                                            FROM rentals WHERE domain=$1
-                                            AND NOW()::date - upper(period_range::daterange) <= 0
-                                            LIMIT 1`, domain.Name).StructScan(&domainRental)
-
-	if domainRentalError != nil && domainRentalError == sql.ErrNoRows {
-		return domain, nil
-	}
-	domainWithRentalInfo = DomainWithRental{Name:domain.Name, PeriodRange:domainRental.PeriodRange}
-
-	return domainWithRentalInfo, nil
+    var domains []Domain
+    Db.Select(&domains, "SELECT * FROM domains WHERE owner=$1 ORDER BY price_per_month", userEmail)
+    return domains
 }
 
 func GetDomain(domainName string) (Domain, *domioerrors.DomioError) {
-	var domain Domain
+    var domain Domain
 
-	domainError := Db.QueryRowx("SELECT * FROM domains where name=$1", domainName).StructScan(&domain)
+    domainError := Db.QueryRowx("SELECT * FROM domains where name=$1", domainName).StructScan(&domain)
 
-	if domainError != nil {
-		return Domain{}, &domioerrors.DomainNotFound
-	}
+    if domainError != nil {
+        log.Print(domainError)
+        return Domain{}, &domioerrors.DomainNotFound
+    }
 
-	return domain, nil
+    return domain, nil
 }
 
-func IsDomainRented(domainName string) bool {
-	const RentedDomainQuery = `SELECT domain_name, period_range
-                                        FROM rentals WHERE domain_name=$1
-                                        AND NOW()::date - upper(period_range::daterange) <= 0
-                                        LIMIT 1`
-	var domainRental Rental
-
-	domainIsNotRentedError := Db.QueryRowx(RentedDomainQuery, domainName).StructScan(&domainRental)
-	log.Print(domainIsNotRentedError)
-
-	if domainIsNotRentedError != nil && domainIsNotRentedError == sql.ErrNoRows {
-		return false
-	}
-
-	return true
-}
-
-func GetDomainOwner(domainName string) (string, error) {
-	const DomainOwnerQuery = `SELECT * FROM domains where name=$1 LIMIT 1`
-	var domainInfo Domain
-
-	domainQueryError := Db.QueryRowx(DomainOwnerQuery, domainName).StructScan(&domainInfo)
-
-	if domainQueryError != nil && domainQueryError == sql.ErrNoRows {
-		return "", ErrDomainNotFound
-	}
-	return domainInfo.Owner, nil
+func SetDomainAsRented(domainName string) {
+    domainError := Db.MustExec("UPDATE public.domains SET is_rented=true WHERE name=$1", domainName)
+    log.Print(domainError)
 }
 
 func CreateDomain(domain Domain, ownerEmail string) (Domain, *pq.Error) {
-	var domainResult Domain
-	insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner", domain.Name, domain.PricePerMonth, ownerEmail).StructScan(&domainResult)
+    var domainResult Domain
+    insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner", domain.Name, domain.PricePerMonth, ownerEmail).StructScan(&domainResult)
 
-	if (insertErr != nil) {
-		return domainResult, insertErr.(*pq.Error)
-	}
+    if (insertErr != nil) {
+        return domainResult, insertErr.(*pq.Error)
+    }
 
-	return domainResult, nil
+    return domainResult, nil
 }
