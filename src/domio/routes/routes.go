@@ -11,6 +11,9 @@ import (
     "domio/handlers/get_domain_info_handler"
     "domio/handlers/create_subscription_handler"
     "domio/handlers/create_card_handler"
+    "domio/handlers/delete_domain_handler"
+    "domio/handlers/delete_subscription_handler"
+    "domio/handlers/get_user_subscriptions_handler"
 )
 
 type Route struct {
@@ -60,10 +63,28 @@ var RoutesList = Routes{
         create_domain_handler.CreateDomainHandler,
     },
     Route{
+        "DeleteDomain",
+        "DELETE",
+        "/domains/{name}",
+        delete_domain_handler.DeleteDomainHandler,
+    },
+    Route{
+        "GetUserSubscriptions",
+        "GET",
+        "/subscriptions",
+        get_user_subscriptions_handler.GetUserSubscriptionsHandler,
+    },
+    Route{
         "CreateSubscription",
         "POST",
         "/subscriptions",
         create_subscription_handler.CreateSubscriptionHandler,
+    },
+    Route{
+        "DeleteSubscription",
+        "DELETE",
+        "/subscriptions/{id}",
+        delete_subscription_handler.DeleteSubscriptionHandler,
     },
     Route{
         "CreateCard",

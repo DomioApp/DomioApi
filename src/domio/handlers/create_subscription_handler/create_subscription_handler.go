@@ -55,7 +55,7 @@ func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    domiodb.SetDomainAsRented(domainInfo.Name)
+    domiodb.SetDomainAsRented(domainInfo.Name, &userProfile)
 
     responses.ReturnObjectResponse(w, stripeSubscription)
 
@@ -70,7 +70,7 @@ func createSubscription(newSubscription *NewSubscription, domainInfo *domiodb.Do
 
     }
 
-    subParams.AddMeta("Domain", newSubscription.Domain)
+    subParams.AddMeta("domain", newSubscription.Domain)
 
     subParams.Quantity = domainInfo.PricePerMonth;
     s, err := sub.New(subParams)

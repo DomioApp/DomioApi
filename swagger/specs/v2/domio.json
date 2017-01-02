@@ -53,6 +53,37 @@
   ],
   "paths": {
     "/subscriptions": {
+      "get": {
+        "tags": [
+          "subscription"
+        ],
+        "summary": "Get user subscriptions",
+        "description": "",
+        "operationId": "getUserSubscriptions",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Subscription"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      },
       "post": {
         "tags": [
           "subscription"
@@ -80,6 +111,38 @@
         "responses": {
           "405": {
             "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      }
+    },
+    "/subscriptions/{id}": {
+      "delete": {
+        "tags": [
+          "subscription"
+        ],
+        "summary": "Unsubscribe from a domain",
+        "description": "",
+        "operationId": "deleteSubscription",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Subscription id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid pet value"
           }
         },
         "security": [
@@ -793,6 +856,17 @@
       }
     },
     "NewSubscription": {
+      "required": [
+        "domain"
+      ],
+      "properties": {
+        "domain": {
+          "type": "string",
+          "example": "john.com"
+        }
+      }
+    },
+    "Subscription": {
       "required": [
         "domain"
       ],

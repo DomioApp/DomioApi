@@ -10,6 +10,8 @@ import (
     "github.com/aws/aws-sdk-go/aws"
     "github.com/fatih/color"
     "time"
+    "domio/components/tokens"
+    "database/sql"
 )
 
 type Domain struct {
@@ -17,6 +19,7 @@ type Domain struct {
     Owner         string `json:"owner" db:"owner"`
     PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
     IsRented      bool `json:"is_rented" db:"is_rented"`
+    RentedBy      sql.NullString `json:"rented_by" db:"rented_by"`
     ZoneId        string `json:"zone_id" db:"zone_id"`
 }
 
@@ -45,8 +48,43 @@ func GetDomain(domainName string) (Domain, *domioerrors.DomioError) {
     return domain, nil
 }
 
-func SetDomainAsRented(domainName string) {
-    Db.MustExec("UPDATE domains SET is_rented=true WHERE name=$1", domainName)
+func DeleteDomain(domainName string, ownerEmail string) domioerrors.DomioError {
+    domain, domainError := GetDomain(domainName)
+    if (domainError != nil) {
+        log.Print(domainError)
+        return domioerrors.DomainNotFound
+    }
+
+    result := Db.MustExec("DELETE FROM domains where name=$1 AND owner=$2 AND is_rented=false", domainName, ownerEmail)
+
+    rowsAffected, err := result.RowsAffected()
+    if (err != nil) {
+        color.Set(color.FgHiRed)
+        log.Print(err)
+        color.Unset()
+        return domioerrors.DomainNotFound
+    }
+
+    color.Set(color.FgHiCyan)
+    log.Print(rowsAffected)
+    color.Unset()
+
+    if (rowsAffected == 0) {
+        return domioerrors.DomainNotFound
+    }
+
+    deleteDomainZone(&domain)
+
+    log.Print("Domain removed from local database")
+    return domioerrors.DomioError{}
+}
+
+func SetDomainAsRented(domainName string, userProfile *tokens.UserTokenWithClaims) {
+    Db.MustExec("UPDATE domains SET is_rented=true, rented_by=$1 WHERE name=$2", userProfile.Email, domainName)
+}
+
+func SetDomainAsAvailable(domainName string, userProfile *tokens.UserTokenWithClaims) {
+    Db.MustExec("UPDATE domains SET is_rented=false, rented_by=NULL WHERE rented_by=$1 AND name=$2", userProfile.Email, domainName)
 }
 
 func SetDomainZoneId(domain *Domain, id *string) {
@@ -93,6 +131,30 @@ func createDomainZone(domain *Domain) {
     }
     SetDomainZoneId(domain, resp.HostedZone.Id)
     log.Println(resp)
+}
+func deleteDomainZone(domain *Domain) {
+    sess, err := session.NewSession()
+    if err != nil {
+        fmt.Println("failed to create session,", err)
+        return
+    }
+
+    svc := route53.New(sess)
+
+    params := &route53.DeleteHostedZoneInput{
+        Id: &domain.ZoneId,
+    }
+    //resp, err := svc.DeleteHostedZone(params)
+    resp, err := svc.DeleteHostedZone(params)
+
+    if err != nil {
+        color.Set(color.FgRed)
+        log.Println(err)
+        color.Unset()
+        return
+    }
+    log.Println(resp)
+    log.Print("Domain zone removed from Route 53")
 }
 
 func GetHostedZone(domain *Domain) {
