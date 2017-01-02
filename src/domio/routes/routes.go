@@ -9,7 +9,6 @@ import (
     "domio/handlers/get_user_domains_handler"
     "domio/handlers/create_domain_handler"
     "domio/handlers/get_domain_info_handler"
-    "domio/handlers/create_plan_handler"
     "domio/handlers/create_subscription_handler"
     "domio/handlers/create_card_handler"
 )
@@ -59,12 +58,6 @@ var RoutesList = Routes{
         "POST",
         "/domains",
         create_domain_handler.CreateDomainHandler,
-    },
-    Route{
-        "CreatePlan",
-        "POST",
-        "/plans",
-        create_plan_handler.CreatePlanHandler,
     },
     Route{
         "CreateSubscription",

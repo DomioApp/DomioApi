@@ -13,28 +13,9 @@ type Domain struct {
     IsRented      bool `json:"is_rented" db:"is_rented"`
 }
 
-type AvailableDomain struct {
-    Name  string `json:"name" db:"name"`
-    PricePerMonth int `json:"price_per_month" db:"price_per_month"`
-}
-
-type DomainWithRental struct {
-    Name        string `json:"name"`
-    PeriodRange string `json:"period_range"`
-}
-
-type DomainWithoutRental struct {
-    Domain
-}
-
-func GetAvailableDomains() []AvailableDomain {
-    domains := make([]AvailableDomain, 0)
-    err := Db.Select(&domains, `SELECT name, price_per_month FROM public.domains domain WHERE is_rented=false ORDER BY price_per_month`)
-
-    if (err != nil) {
-        log.Fatalln(err)
-    }
-
+func GetAvailableDomains() []Domain {
+    var domains []Domain
+    Db.Select(&domains, "SELECT name, price_per_month FROM domains WHERE is_rented=false ORDER BY price_per_month")
     return domains
 }
 
@@ -58,8 +39,7 @@ func GetDomain(domainName string) (Domain, *domioerrors.DomioError) {
 }
 
 func SetDomainAsRented(domainName string) {
-    domainError := Db.MustExec("UPDATE public.domains SET is_rented=true WHERE name=$1", domainName)
-    log.Print(domainError)
+    Db.MustExec("UPDATE public.domains SET is_rented=true WHERE name=$1", domainName)
 }
 
 func CreateDomain(domain Domain, ownerEmail string) (Domain, *pq.Error) {
