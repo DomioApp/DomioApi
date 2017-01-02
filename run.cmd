@@ -1,4 +1,6 @@
 @echo off
+set AWS_ACCESS_KEY_ID=AKIAJMMKIJN7KUGLXA3Q
+set AWS_SECRET_ACCESS_KEY=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
 set DOMIO_DB_USER=sergeibasharov
 set DOMIO_DB_PASSWORD=fulcrum
 set DOMIO_DB_NAME=domio_dev
