@@ -8,7 +8,8 @@ import (
     "fmt"
     "github.com/aws/aws-sdk-go/service/route53"
     "github.com/aws/aws-sdk-go/aws"
-    "math/rand"
+    "github.com/fatih/color"
+    "time"
 )
 
 type Domain struct {
@@ -16,6 +17,7 @@ type Domain struct {
     Owner         string `json:"owner" db:"owner"`
     PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
     IsRented      bool `json:"is_rented" db:"is_rented"`
+    ZoneId        string `json:"zone_id" db:"zone_id"`
 }
 
 func GetAvailableDomains() []Domain {
@@ -44,7 +46,11 @@ func GetDomain(domainName string) (Domain, *domioerrors.DomioError) {
 }
 
 func SetDomainAsRented(domainName string) {
-    Db.MustExec("UPDATE public.domains SET is_rented=true WHERE name=$1", domainName)
+    Db.MustExec("UPDATE domains SET is_rented=true WHERE name=$1", domainName)
+}
+
+func SetDomainZoneId(domain *Domain, id *string) {
+    Db.MustExec("UPDATE domains SET zone_id=$1 WHERE name=$2", id, domain.Name)
 }
 
 func CreateDomain(domain Domain, ownerEmail string) (Domain, *pq.Error) {
@@ -69,12 +75,39 @@ func createDomainZone(domain *Domain) {
     }
 
     svc := route53.New(sess)
+    id := time.Now().Format(time.RFC850);
 
     params := &route53.CreateHostedZoneInput{
-        CallerReference: aws.String(generateRandomString()),
+        CallerReference: &id,
         Name:            aws.String(domain.Name),
     }
     resp, err := svc.CreateHostedZone(params)
+
+    if err != nil {
+        color.Set(color.FgRed)
+        log.Println(params.CallerReference)
+        log.Println(id)
+        log.Println(err)
+        color.Unset()
+        return
+    }
+    SetDomainZoneId(domain, resp.HostedZone.Id)
+    log.Println(resp)
+}
+
+func GetHostedZone(domain *Domain) {
+    sess, err := session.NewSession()
+    if err != nil {
+        fmt.Println("failed to create session,", err)
+        return
+    }
+
+    svc := route53.New(sess)
+
+    params := &route53.GetHostedZoneInput{
+        Id: aws.String(domain.ZoneId), // Required
+    }
+    resp, err := svc.GetHostedZone(params)
 
     if err != nil {
         fmt.Println(err.Error())
@@ -82,13 +115,4 @@ func createDomainZone(domain *Domain) {
     }
 
     fmt.Println(resp)
-}
-func generateRandomString() string {
-    var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-    var n = 32
-    b := make([]rune, n)
-    for i := range b {
-        b[i] = letters[rand.Intn(len(letters))]
-    }
-    return string(b)
 }

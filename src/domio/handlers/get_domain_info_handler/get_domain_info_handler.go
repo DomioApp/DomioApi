@@ -27,5 +27,8 @@ func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request) {
         responses.ReturnErrorResponse(w, err)
         return
     }
+
+    domiodb.GetHostedZone(&domainInfo)
+
     responses.ReturnObjectResponse(w, domainInfo)
 }
