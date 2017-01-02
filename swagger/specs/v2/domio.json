@@ -41,6 +41,14 @@
         "description": "Find out more",
         "url": "http://swagger.io"
       }
+    },
+    {
+      "name": "card",
+      "description": "Add cards to customers for payments",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
     }
   ],
   "paths": {
@@ -66,6 +74,43 @@
             "required": false,
             "schema": {
               "$ref": "#/definitions/NewSubscription"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      }
+    },
+    "/cards": {
+      "post": {
+        "tags": [
+          "card"
+        ],
+        "summary": "Create a new card for the customer",
+        "description": "",
+        "operationId": "addCard",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "name",
+            "description": "Card",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/NewCard"
             }
           }
         ],
@@ -717,6 +762,33 @@
         "price_per_month": {
           "type": "integer",
           "example": 1000
+        }
+      }
+    },
+    "NewCard": {
+      "required": [
+        "customer_name"
+      ],
+      "properties": {
+        "customer_name": {
+          "type": "string",
+          "example": "John Doe"
+        },
+        "month": {
+          "type": "string",
+          "example": "12"
+        },
+        "year": {
+          "type": "string",
+          "example": "2018"
+        },
+        "cvc": {
+          "type": "string",
+          "example": "123"
+        },
+        "number": {
+          "type": "string",
+          "example": "4242424242424242"
         }
       }
     },
