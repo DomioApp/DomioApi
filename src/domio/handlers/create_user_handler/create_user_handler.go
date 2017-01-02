@@ -10,6 +10,7 @@ import (
     "log"
     "domio/components/requests"
     "domio/messages"
+    "github.com/fatih/color"
 )
 
 func CreateUserHandler(w http.ResponseWriter, req *http.Request) {
@@ -23,27 +24,27 @@ func CreateUserHandler(w http.ResponseWriter, req *http.Request) {
     }
 
     existingUser := domiodb.GetUser(user.Email)
-    log.Print("+++++++++++++++++++++++++++")
-    log.Print(existingUser)
-    log.Print("+++++++++++++++++++++++++++")
     if (existingUser != domiodb.UserInfo{}) {
-        log.Print("====================")
-        log.Print("User exists")
-        log.Print("====================")
+        color.Set(color.FgRed)
+        log.Print("===================")
+        log.Print("User already exists")
+        log.Print("===================")
+        color.Unset()
         responses.ReturnErrorResponseWithCustomCode(w, domioerrors.UserEmailExists, http.StatusUnprocessableEntity)
         return
     }
 
     log.Print("Creating stripe user")
 
-    newCustomer, err := createStripeCustomer(user.Email)
+    newlyCreatedCustomer, err := createStripeCustomer(user.Email)
 
     if err != nil {
+        log.Print(err)
         responses.ReturnErrorResponse(w, domioerrors.StripeCustomerCreationError)
         return
     }
 
-    new_customer := domiodb.NewCustomer{Id:newCustomer.ID, Email:newCustomer.Email, Password:user.Password}
+    new_customer := domiodb.NewCustomer{Id:newlyCreatedCustomer.ID, Email:newlyCreatedCustomer.Email, Password:user.Password}
 
     log.Print(new_customer)
     newUser, userCreationError := domiodb.CreateUser(new_customer)

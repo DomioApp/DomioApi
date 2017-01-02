@@ -30,7 +30,9 @@ type UserToken struct {
 }
 
 type UserInfo struct {
-    Email string `json:"email"`
+    Email    string `json:"email" db:"email"`
+    Password string `json:"password" db:"password"`
+    Id       string `json:"id" db:"id"`
 }
 
 func CreateUser(customer NewCustomer) (sql.Result, *pq.Error) {
@@ -74,10 +76,10 @@ func LoginUser(user EmailAndPasswordPair) (error, *jwt.StandardClaims, string) {
 
 func GetUser(email string) UserInfo {
     user := UserInfo{}
-    Db.QueryRowx("SELECT * FROM users where email=$1", email).StructScan(&user)
-    log.Print("----------------------------------------------")
-    log.Print(user)
-    log.Print("----------------------------------------------")
+    err := Db.QueryRowx("SELECT * FROM users where email=$1", email).StructScan(&user)
+    if (err != nil) {
+        log.Println(err)
+    }
     return user
 }
 
