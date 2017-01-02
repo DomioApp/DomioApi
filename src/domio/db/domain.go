@@ -88,7 +88,7 @@ func SetDomainAsRented(domainName string, userProfile *tokens.UserTokenWithClaim
 }
 
 func SetDomainAsAvailable(domainName string, userProfile *tokens.UserTokenWithClaims) {
-    Db.MustExec("UPDATE domains SET is_rented=false, rented_by=NULL WHERE rented_by=$1 AND name=$2", userProfile.Email, domainName)
+    Db.MustExec("UPDATE domains SET is_rented=false, rented_by=NULL, ns1=NULL, ns2=NULL, ns3=NUL, ns4=NULL WHERE rented_by=$1 AND name=$2", userProfile.Email, domainName)
 }
 
 func SetDomainZoneId(domain *Domain, id *string) {
