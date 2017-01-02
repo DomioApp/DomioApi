@@ -21,6 +21,10 @@ type Domain struct {
     IsRented      bool `json:"is_rented" db:"is_rented"`
     RentedBy      sql.NullString `json:"rented_by" db:"rented_by"`
     ZoneId        string `json:"zone_id" db:"zone_id"`
+    NS1           sql.NullString `json:"ns1" db:"ns1"`
+    NS2           sql.NullString `json:"ns2" db:"ns2"`
+    NS3           sql.NullString `json:"ns3" db:"ns3"`
+    NS4           sql.NullString `json:"ns4" db:"ns4"`
 }
 
 func GetAvailableDomains() []Domain {
@@ -91,6 +95,10 @@ func SetDomainZoneId(domain *Domain, id *string) {
     Db.MustExec("UPDATE domains SET zone_id=$1 WHERE name=$2", id, domain.Name)
 }
 
+func SetDomainNameServers(domain *Domain, ns1 *string, ns2 *string, ns3 *string, ns4 *string) {
+    Db.MustExec("UPDATE domains SET ns1=$2, ns2=$3, ns3=$4, ns4=$5 WHERE name=$1", domain.Name, ns1, ns2, ns3, ns4, )
+}
+
 func CreateDomain(domain Domain, ownerEmail string) (Domain, *pq.Error) {
     var domainResult Domain
     insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner", domain.Name, domain.PricePerMonth, ownerEmail).StructScan(&domainResult)
@@ -130,6 +138,8 @@ func createDomainZone(domain *Domain) {
         return
     }
     SetDomainZoneId(domain, resp.HostedZone.Id)
+    SetDomainNameServers(domain, resp.DelegationSet.NameServers[0], resp.DelegationSet.NameServers[1], resp.DelegationSet.NameServers[2], resp.DelegationSet.NameServers[3])
+
     log.Println(resp)
 }
 func deleteDomainZone(domain *Domain) {
