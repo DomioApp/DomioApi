@@ -1,16 +1,18 @@
 image: golang:1.7.3
 
 before_script:
-    - export GO_PROJECT_PATH="$GOPATH/src/gitlab.com/$CI_PROJECT_NAMESPACE"
-    - echo $GO_PROJECT_PATH
-    - mkdir -p $GO_PROJECT_PATH
-    - ln -s $(pwd) $GO_PROJECT_PATH
-    - export GO_PROJECT_PATH="$GO_PROJECT_PATH/$CI_PROJECT_NAME"
-    - echo $GO_PROJECT_PATH
-    - cd $GO_PROJECT_PATH
-    - ls $GO_PROJECT_PATH
-
+#    - export GO_PROJECT_PATH="$GOPATH/src/gitlab.com/$CI_PROJECT_NAMESPACE"
+#    - echo $GO_PROJECT_PATH
+#    - mkdir -p $GO_PROJECT_PATH
+#    - ln -s $(pwd) $GO_PROJECT_PATH
+#    - export GO_PROJECT_PATH="$GO_PROJECT_PATH/$CI_PROJECT_NAME"
+#    - echo $GO_PROJECT_PATH
+#    - cd $GO_PROJECT_PATH
+#    - ls $GO_PROJECT_PATH
+    - export GOPATH="$CI_PROJECT_NAMESPACE"
+    - ls $GOPATH
     - go get -u github.com/constabulary/gb/...
+
     - go get -u github.com/dgrijalva/jwt-go
     - go get -u github.com/aws/aws-sdk-go/aws
     - go get -u github.com/go-ini/ini
@@ -21,7 +23,6 @@ before_script:
     - go get -u github.com/lib/pq
     - go get -u github.com/stripe/stripe-go
     - go get -u golang.org/x/crypto/bcrypt
-    - ls $GO_PROJECT_PATH/src
 
 stages:
     - build
