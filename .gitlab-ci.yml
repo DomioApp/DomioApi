@@ -18,7 +18,7 @@ stages:
 go_build:
     stage: build
     script:
-        - go build domio
+        - go build
 
 go_test:
     stage: verify
@@ -28,6 +28,7 @@ go_vet:
     stage: verify
     script:
         - go vet $(go list ./... | grep -v "vendor")
+
 staticcheck:
     stage: verify
     script:
