@@ -17,7 +17,7 @@ stages:
 go_build:
     stage: build
     script:
-        - go build -race
+        - go build domio -race
 
 go_test:
     stage: verify
