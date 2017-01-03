@@ -34,6 +34,7 @@ go_build:
     stage: build
     script:
         - gb build domio
+        - ls bin
 
 #go_test:
 #    stage: verify
