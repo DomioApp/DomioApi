@@ -1,4 +1,4 @@
-image: golang:1.7
+image: golang:1.7.3
 
 before_script:
     - export GO_PROJECT_PATH="$GOPATH/src/gitlab.com/$CI_PROJECT_NAMESPACE"
@@ -9,40 +9,43 @@ before_script:
     - echo $GO_PROJECT_PATH
     - cd $GO_PROJECT_PATH
     - ls $GO_PROJECT_PATH
+    - go get -u github.com/constabulary/gb/...
 
 stages:
     - build
-    - verify
-    - style
+#    - verify
+#    - style
 
 go_build:
     stage: build
     script:
-        - go build
+        - gb build domio
 
-go_test:
-    stage: verify
-    script:
-        - go test -race -cover $(go list ./... | grep -v "vendor")
-go_vet:
-    stage: verify
-    script:
-        - go vet $(go list ./... | grep -v "vendor")
+#go_test:
+#    stage: verify
+#    script:
+#        - go test -race -cover $(go list ./... | grep -v "vendor")
 
-staticcheck:
-    stage: verify
-    script:
-        - go get -u honnef.co/go/staticcheck/cmd/staticcheck
-        - staticcheck $(go list ./... | grep -v "vendor")
+#go_vet:
+#    stage: verify
+#    script:
+#        - go vet $(go list ./... | grep -v "vendor")
 
-golint:
-    stage: style
-    script:
-        - go get -u github.com/golang/lint/golint
-        - out=$(golint $(go list ./... | grep -v "vendor"))
-        - if [ "$out" ]; then echo "$out"; exit 1; fi
-gosimple:
-    stage: style
-    script:
-        - go get -u honnef.co/go/simple/cmd/gosimple
-        - gosimple $(go list ./... | grep -v "vendor")
+#staticcheck:
+#    stage: verify
+#    script:
+#        - go get -u honnef.co/go/staticcheck/cmd/staticcheck
+#        - staticcheck $(go list ./... | grep -v "vendor")
+
+#golint:
+#    stage: style
+#    script:
+#        - go get -u github.com/golang/lint/golint
+#        - out=$(golint $(go list ./... | grep -v "vendor"))
+#        - if [ "$out" ]; then echo "$out"; exit 1; fi
+
+#gosimple:
+#    stage: style
+#    script:
+#        - go get -u honnef.co/go/simple/cmd/gosimple
+#        - gosimple $(go list ./... | grep -v "vendor")
