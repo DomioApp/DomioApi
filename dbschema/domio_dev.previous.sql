@@ -35,6 +35,16 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: app; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE app (
+    property character varying NOT NULL,
+    value character varying NOT NULL
+);
+
+
+--
 -- Name: domains; Type: TABLE; Schema: public; Owner: -
 --
 

@@ -52,13 +52,13 @@ CREATE TABLE domains (
     name character varying NOT NULL,
     owner character varying NOT NULL,
     price_per_month integer NOT NULL,
-    zone_id character varying(26),
     is_rented boolean DEFAULT false NOT NULL,
+    zone_id character varying(26),
     rented_by character varying,
-    ns1 character varying NOT NULL,
-    ns2 character varying NOT NULL,
-    ns3 character varying NOT NULL,
-    ns4 character varying NOT NULL,
+    ns1 character varying,
+    ns2 character varying,
+    ns3 character varying,
+    ns4 character varying,
     CONSTRAINT domain_name_min_length CHECK ((length((name)::text) > 3))
 );
 ALTER TABLE ONLY domains ALTER COLUMN rented_by SET STORAGE PLAIN;
