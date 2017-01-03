@@ -1,1 +1,0 @@
-psql -U postgres -d domio_dev -a -f users.sql

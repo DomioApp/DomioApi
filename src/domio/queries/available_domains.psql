@@ -1,6 +1,0 @@
-SELECT *
-FROM public.domains d
-    LEFT JOIN rentals r
-    ON d.name = r.domain
-    WHERE r.domain IS NULL
-    OR NOW()::date - upper(r.period_range::daterange) > 0
