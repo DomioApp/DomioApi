@@ -8,6 +8,7 @@ before_script:
     - export GO_PROJECT_PATH="$GO_PROJECT_PATH/$CI_PROJECT_NAME"
     - echo $GO_PROJECT_PATH
     - cd $GO_PROJECT_PATH
+    - ls $GO_PROJECT_PATH
 
 stages:
     - build
