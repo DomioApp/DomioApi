@@ -9,7 +9,7 @@ before_script:
 #    - echo $GO_PROJECT_PATH
 #    - cd $GO_PROJECT_PATH
 #    - ls $GO_PROJECT_PATH
-    - export GOPATH="$CI_PROJECT_NAMESPACE"
+    - export GOPATH="/builds/basharov/DomioApi"
     - ls $GOPATH
     - go get -u github.com/constabulary/gb/...
 
