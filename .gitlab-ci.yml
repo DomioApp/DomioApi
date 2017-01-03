@@ -10,6 +10,7 @@ before_script:
     - cd $GO_PROJECT_PATH
     - ls $GO_PROJECT_PATH
 
+    - go get -u github.com/constabulary/gb/...
     - go get -u github.com/dgrijalva/jwt-go
     - go get -u github.com/aws/aws-sdk-go/aws
     - go get -u github.com/go-ini/ini
@@ -20,8 +21,7 @@ before_script:
     - go get -u github.com/lib/pq
     - go get -u github.com/stripe/stripe-go
     - go get -u golang.org/x/crypto/bcrypt
-
-    - go get -u github.com/constabulary/gb/...
+    - ls $GO_PROJECT_PATH/src
 
 stages:
     - build
