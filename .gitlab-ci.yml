@@ -44,4 +44,3 @@ gosimple:
     script:
         - go get -u honnef.co/go/simple/cmd/gosimple
         - gosimple $(go list ./... | grep -v "vendor")
-0
