@@ -9,6 +9,9 @@ before_script:
 #    - echo $GO_PROJECT_PATH
 #    - cd $GO_PROJECT_PATH
 #    - ls $GO_PROJECT_PATH
+    - echo ============================================
+    - echo $STRIPE_KEY
+    - echo ============================================
     - go get -u github.com/constabulary/gb/...
     - export GOPATH="/builds/basharov/DomioApi"
     - ls $GOPATH
