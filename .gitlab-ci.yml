@@ -27,6 +27,7 @@ before_script:
 
 stages:
     - build
+    - deploy
 #    - verify
 #    - style
 
@@ -35,6 +36,16 @@ go_build:
     script:
         - gb build domio
         - ls bin
+
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploy to staging server"
+  environment:
+    name: staging
+    url: https://staging.example.com
+  only:
+  - master
 
 #go_test:
 #    stage: verify
