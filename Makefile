@@ -1,3 +1,6 @@
+GOPATH := ${PWD}/src:${GOPATH}
+export GOPATH
+
 default: build
 
 build:
