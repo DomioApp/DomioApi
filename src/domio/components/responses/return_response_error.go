@@ -9,7 +9,7 @@ import (
 func ReturnErrorResponse(w http.ResponseWriter, messageError interface{}) {
     log.Print(messageError)
     w.Header().Set("Content-Type", "application/json")
-    w.WriteHeader(http.StatusUnauthorized)
+    w.WriteHeader(http.StatusUnprocessableEntity)
     json.NewEncoder(w).Encode(messageError)
 }
 func ReturnErrorResponseWithCustomCode(w http.ResponseWriter, messageError interface{}, httpErrorCode int) {
