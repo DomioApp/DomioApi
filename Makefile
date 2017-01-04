@@ -1,4 +1,4 @@
-export GOPATH=/domio/DomioApi/src
+export GOPATH=/DomioApi
 
 default: build
 
