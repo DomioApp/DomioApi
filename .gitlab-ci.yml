@@ -9,25 +9,11 @@ before_script:
 #    - echo $GO_PROJECT_PATH
 #    - cd $GO_PROJECT_PATH
 #    - ls $GO_PROJECT_PATH
-    - go get -u github.com/constabulary/gb/...
-    - export GOPATH="/builds/basharov/DomioApi"
-    - ls $GOPATH
-    - go get -u github.com/constabulary/gb/...
-
-    - go get -u github.com/dgrijalva/jwt-go
-    - go get -u github.com/aws/aws-sdk-go/aws
-    - go get -u github.com/go-ini/ini
-    - go get -u github.com/jmespath/go-jmespath
-    - go get -u github.com/fatih/color
-    - go get -u github.com/gorilla/mux
-    - go get -u github.com/jmoiron/sqlx
-    - go get -u github.com/lib/pq
-    - go get -u github.com/stripe/stripe-go
-    - go get -u golang.org/x/crypto/bcrypt
 
 stages:
+    - deps
     - build
-    - deploy
+#    - deploy
 #    - verify
 #    - style
 
@@ -36,6 +22,23 @@ go_build:
     script:
         - gb build domio
         - ls bin
+go_get_deps
+    stage: deps
+    script:
+      - go get -u github.com/constabulary/gb/...
+      - export GOPATH="/builds/basharov/DomioApi"
+      - go get -u github.com/constabulary/gb/...
+
+      - go get -u github.com/dgrijalva/jwt-go
+      - go get -u github.com/aws/aws-sdk-go/aws
+      - go get -u github.com/go-ini/ini
+      - go get -u github.com/jmespath/go-jmespath
+      - go get -u github.com/fatih/color
+      - go get -u github.com/gorilla/mux
+      - go get -u github.com/jmoiron/sqlx
+      - go get -u github.com/lib/pq
+      - go get -u github.com/stripe/stripe-go
+      - go get -u golang.org/x/crypto/bcrypt
 
 deploy_staging:
   stage: deploy
