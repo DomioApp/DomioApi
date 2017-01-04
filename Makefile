@@ -1,4 +1,4 @@
-GOPATH := ${PWD}/src:${GOPATH}
+GOPATH := /domio/DomioApi/src:${GOPATH}
 export GOPATH
 
 default: build
