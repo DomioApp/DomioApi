@@ -11,7 +11,7 @@ rm /usr/bin/go-fmt
 mkdir /godist
 cd /godist
 wget https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
-sudo tar -xvf go1.7.4.linux-amd64.tar.gz
+sudo tar -xf go1.7.4.linux-amd64.tar.gz
 sudo mv go /usr/local
 
 ln -s /usr/local/go/bin/go /usr/bin/go
