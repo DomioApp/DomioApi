@@ -22,7 +22,7 @@ go_build:
     script:
         - gb build domio
         - ls bin
-go_get_deps
+go_get_deps:
     stage: deps
     script:
       - go get -u github.com/constabulary/gb/...
