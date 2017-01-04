@@ -1,6 +1,6 @@
 default: build
 
-build: vet
+build:
 	go get -u github.com/constabulary/gb/...
 
 	go get -u github.com/dgrijalva/jwt-go
