@@ -3,6 +3,8 @@ sudo apt-get update
 sudo apt-get -y upgrade
 
 rm -rf /godist
+rm -rf /usr/local/go
+
 rm /usr/bin/go
 rm /usr/bin/go-fmt
 
