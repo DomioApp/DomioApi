@@ -17,12 +17,6 @@ stages:
 #    - verify
 #    - style
 
-go_build:
-    stage: build
-    script:
-        - gb build domio
-        - ls bin
-
 go_get_deps:
     stage: deps
     script:
@@ -40,6 +34,13 @@ go_get_deps:
       - go get -u github.com/lib/pq
       - go get -u github.com/stripe/stripe-go
       - go get -u golang.org/x/crypto/bcrypt
+
+go_build:
+    stage: build
+    script:
+        - export GOPATH="/builds/basharov/DomioApi"
+        - gb build domio
+        - ls bin
 
 deploy_staging:
   stage: deploy
