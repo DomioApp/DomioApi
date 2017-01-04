@@ -13,7 +13,7 @@ before_script:
 stages:
     - deps
     - build
-#    - deploy
+    - deploy
 #    - verify
 #    - style
 
@@ -22,6 +22,7 @@ go_build:
     script:
         - gb build domio
         - ls bin
+
 go_get_deps:
     stage: deps
     script:
