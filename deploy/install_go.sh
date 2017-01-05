@@ -4,7 +4,7 @@ echo Removing folders...
 rm -rf /godist
 rm -rf /usr/local/go
 
-echo \033[0;33mRemoving linked binaries...\033[0m'
+echo Removing linked binaries...
 rm /usr/bin/go
 rm /usr/bin/go-fmt
 
