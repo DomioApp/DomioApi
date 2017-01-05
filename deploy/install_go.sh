@@ -4,13 +4,13 @@ echo Removing folders...
 rm -rf /godist
 rm -rf /usr/local/go
 
-echo Removing folders...
+echo \033[0;33mRemoving linked binaries...\033[0m'
 rm /usr/bin/go
 rm /usr/bin/go-fmt
 
 echo Creating folders...
-mkdir /godist
-cd /godist
+mkdir ~/godist
+cd ~/godist
 
 echo Downloading go source...
 wget https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
@@ -24,6 +24,10 @@ ln -s /usr/local/go/bin/go /usr/bin/go
 ln -s /usr/local/go/bin/go-fmt /usr/bin/go-fmt
 
 export GOROOT=/usr/local/go
+
+echo Removing folders...
+rm -rf /godist
+rm -rf /usr/local/go
 
 echo Removing downloaded packages...
 rm go1.7.4.linux-amd64.tar.gz
