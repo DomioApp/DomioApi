@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 echo Building Domio...
+rm -rf /domio
 mkdir /domio
 
 gb build domio
