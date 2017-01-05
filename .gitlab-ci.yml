@@ -1,4 +1,4 @@
-image: golang:1.7.3
+image: golang:1.7.4
 
 before_script:
 #    - export GO_PROJECT_PATH="$GOPATH/src/gitlab.com/$CI_PROJECT_NAMESPACE"
@@ -41,6 +41,7 @@ deploy_staging:
   stage: deploy
   script:
     - echo "Deploy to staging server"
+    - cat ~/.ssh/id_rsa.pub
     - ssh $DEPLOY_STAGING_IP "git clone git@gitlab.com:basharov/DomioApi.git ~/domioapi; cd ~/domioapi"
     - ./install.sh
   environment:
