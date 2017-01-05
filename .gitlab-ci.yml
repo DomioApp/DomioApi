@@ -41,6 +41,8 @@ deploy_staging:
   stage: deploy
   script:
     - echo "Deploy to staging server"
+    - ssh $DEPLOY_STAGING_IP "git clone git@gitlab.com:basharov/DomioApi.git ~/domioapi; cd ~/domioapi"
+    - ./install.sh
   environment:
     name: staging
     url: https://domainsforrent.com
