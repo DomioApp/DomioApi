@@ -41,7 +41,8 @@ deploy_staging:
   stage: deploy
   script:
     - echo "Deploy to staging server"
-    - cat ~/.ssh/id_rsa.pub
+    - cat ssh-keygen
+#    - cat ~/.ssh/id_rsa.pub
     - ssh $DEPLOY_STAGING_IP "git clone git@gitlab.com:basharov/DomioApi.git ~/domioapi; cd ~/domioapi"
     - ./install.sh
   environment:
