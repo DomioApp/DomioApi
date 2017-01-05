@@ -6,3 +6,5 @@ sh deploy/install_go.sh
 sh deploy/install_gb.sh
 sh deploy/install_deps.sh
 sh deploy/install_pg.sh
+
+sh deploy/buld.sh
