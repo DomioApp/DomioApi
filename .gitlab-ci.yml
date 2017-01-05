@@ -61,8 +61,7 @@ deploy_staging:
     - ssh-keygen -b 2048 -t rsa -f /tmp/sshkey -q -N ""
     - cat /tmp/sshkey.pub
 #    - cat ~/.ssh/id_rsa.pub
-    - ssh $DEPLOY_STAGING_IP "git clone git@gitlab.com:basharov/DomioApi.git ~/domioapi; cd ~/domioapi"
-    - ./install.sh
+    - ssh root@$DEPLOY_STAGING_IP "git clone git@gitlab.com:basharov/DomioApi.git ~/domioapi; cd ~/domioapi; ./install.sh"
   environment:
     name: staging
     url: https://domainsforrent.com
