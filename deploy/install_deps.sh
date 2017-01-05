@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 go get -u github.com/dgrijalva/jwt-go
 go get -u github.com/aws/aws-sdk-go/aws
 go get -u github.com/go-ini/ini

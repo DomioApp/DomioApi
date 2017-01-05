@@ -27,7 +27,6 @@ export GOROOT=/usr/local/go
 
 echo Removing folders...
 rm -rf /godist
-rm -rf /usr/local/go
 
 echo Removing downloaded packages...
 rm go1.7.4.linux-amd64.tar.gz
