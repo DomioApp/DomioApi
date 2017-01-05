@@ -19,9 +19,14 @@ echo Extracting go source...
 sudo tar -xf go1.7.4.linux-amd64.tar.gz
 sudo mv go /usr/local
 
+echo Linking binaries...
 ln -s /usr/local/go/bin/go /usr/bin/go
 ln -s /usr/local/go/bin/go-fmt /usr/bin/go-fmt
 
 export GOROOT=/usr/local/go
 
+echo Removing downloaded packages...
 rm go1.7.4.linux-amd64.tar.gz
+
+echo Go is installed!
+go version
