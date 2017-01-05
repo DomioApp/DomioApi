@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo Removing folders...
-rm -rf /godist
+rm -rf ~/godist
 rm -rf /usr/local/go
 
 echo Removing linked binaries...
