@@ -23,4 +23,11 @@ if ! [ -x "$(command -v psql)" ]; then
    echo "Postgres is already installed!" >&2
 fi
 
+if ! [ -x "$(command -v nginx)" ]; then
+   echo 'nginx is not installed.' >&2
+   sh ~/domioapi/deploy/install_nginx.sh
+  else
+   echo "nginx is already installed!" >&2
+fi
+
 sh ~/domioapi/deploy/build.sh
