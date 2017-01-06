@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 echo Building Domio...
-rm -rf /domio
-mkdir /domio
+#rm -rf /domio
+#mkdir /domio
 
 cd ~/domioapi
 export GOPATH=$PWD
