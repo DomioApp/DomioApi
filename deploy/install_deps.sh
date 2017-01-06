@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
+echo Installing Go dependendcies...
 cd ~/domioapi
-export GOPATH=$PWD
 
 go get -u github.com/dgrijalva/jwt-go
 go get -u github.com/aws/aws-sdk-go/aws
@@ -15,6 +15,4 @@ go get -u github.com/lib/pq
 go get -u github.com/stripe/stripe-go
 go get -u golang.org/x/crypto/bcrypt
 
-echo **********************************************
-ls ${GOPATH}
-echo **********************************************
+echo Go dependencies installed!
