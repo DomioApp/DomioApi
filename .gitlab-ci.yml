@@ -36,7 +36,7 @@ stages:
 go_build:
     stage: build
     script:
-        - export GOPATH=${pwd}
+        - export GOPATH=$PWD
         - echo ======================================================
         - echo $GOPATH
         - echo ======================================================
