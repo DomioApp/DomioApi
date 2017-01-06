@@ -10,3 +10,5 @@ go build -o /domio/domio domio
 
 cd /
 rm -rf ~/domioapi
+
+echo Domio is built and ready!
