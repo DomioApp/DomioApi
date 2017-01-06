@@ -37,7 +37,7 @@ go_build:
     stage: build
     script:
         - export GOPATH="/builds/basharov/DomioApi"
-        - sudo apt-get -y install gb
+        - apt-get -y install gb
 
         - go get -u github.com/dgrijalva/jwt-go
         - go get -u github.com/aws/aws-sdk-go/aws
