@@ -37,9 +37,6 @@ go_build:
     stage: build
     script:
         - export GOPATH=$PWD
-        - echo ======================================================
-        - echo $GOPATH
-        - echo ======================================================
 
         - go get -u github.com/dgrijalva/jwt-go
         - go get -u github.com/aws/aws-sdk-go/aws
@@ -54,16 +51,16 @@ go_build:
 
         - go build -o bin/domio domio
 
-#deploy_staging:
-#  stage: deploy
-#  script:
-#    - echo "Deploy to staging server"
-#    - ssh root@$DEPLOY_STAGING_IP "rm -rf ~/domioapi; git clone git@gitlab.com:basharov/DomioApi.git ~/domioapi; cd ~/domioapi; ./install.sh"
-#  environment:
-#    name: staging
-#    url: https://domainsforrent.com
-#  only:
-#  - master
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploy to staging server"
+    - ssh root@$DEPLOY_STAGING_IP "rm -rf ~/domioapi; git clone git@gitlab.com:basharov/DomioApi.git ~/domioapi; cd ~/domioapi; ./install.sh"
+  environment:
+    name: staging
+    url: https://domainsforrent.com
+  only:
+  - master
 
 #go_test:
 #    stage: verify

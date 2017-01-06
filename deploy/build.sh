@@ -8,7 +8,7 @@ cd ~/domioapi
 export GOPATH=$PWD
 echo $GOPATH
 
-gb build domio
-mv bin/domio /domio
+go build -o /domio/domio domio
+
 cd /
 rm -rf ~/domioapi
