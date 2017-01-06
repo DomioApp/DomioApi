@@ -13,6 +13,6 @@ cat ~/domioapi/deploy/build.sh
 
 #sh ~/domioapi/deploy/install_deps.sh
 
-#sh ~/domioapi/deploy/buld.sh
+sh ~/domioapi/deploy/build.sh
 
 #sh ~/domioapi/deploy/install_pg.sh
