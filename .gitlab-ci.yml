@@ -36,7 +36,6 @@ stages:
 go_build:
     stage: build
     script:
-        - go get -u github.com/constabulary/gb/...
         - export GOPATH="/builds/basharov/DomioApi"
         - go get -u github.com/constabulary/gb/...
 

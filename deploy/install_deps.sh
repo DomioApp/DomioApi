@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+cd ~/domioapi
+export GOPATH=$PWD
+echo $GOPATH
+
+
 go get -u github.com/dgrijalva/jwt-go
 go get -u github.com/aws/aws-sdk-go/aws
 go get -u github.com/go-ini/ini
