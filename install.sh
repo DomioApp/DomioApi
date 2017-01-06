@@ -6,8 +6,9 @@ sh ~/domioapi/deploy/apt_update.sh
 
 if ! [ -x "$(command -v go)" ]; then
    echo 'go is not installed.' >&2
-  else
    sh ~/domioapi/deploy/install_go.sh
+  else
+   echo "Go is already installed!"
 fi
 
 
