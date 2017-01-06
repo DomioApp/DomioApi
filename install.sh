@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
-
 sh ~/domioapi/deploy/apt_update.sh
 
 if ! [ -x "$(command -v go)" ]; then
