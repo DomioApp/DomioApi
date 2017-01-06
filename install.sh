@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+cd ~/domioapi
+export GOPATH=$PWD
+echo $GOPATH
+
 sh ~/domioapi/deploy/apt_update.sh
 
 if ! [ -x "$(command -v go)" ]; then
