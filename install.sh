@@ -9,6 +9,9 @@ sh ~/domioapi/deploy/install_deps.sh
 echo ======================================================
 echo ~/
 echo ======================================================
+echo ------------------------------------------------------
+echo ~/domioapi/
+echo ------------------------------------------------------
 sh ~/domioapi/deploy/buld.sh
 
 sh ~/domioapi/deploy/install_pg.sh
