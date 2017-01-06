@@ -8,7 +8,7 @@ if ! [ -x "$(command -v go)" ]; then
    echo 'go is not installed.' >&2
    sh ~/domioapi/deploy/install_go.sh
   else
-   echo "Go is already installed!"
+   echo "Go is already installed!" >&2
 fi
 
 
@@ -20,6 +20,7 @@ echo ======================================================
 
 echo ------------------------------------------------------
 echo ~/domioapi/
+ls ~/domioapi/
 echo ------------------------------------------------------
 sh ~/domioapi/deploy/buld.sh
 
