@@ -29,7 +29,7 @@ before_script:
 
 stages:
     - build
-#    - deploy
+    - deploy
 #    - verify
 #    - style
 
