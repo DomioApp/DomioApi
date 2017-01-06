@@ -125,7 +125,7 @@ ALTER TABLE ONLY domains
 -- Name: public; Type: ACL; Schema: -; Owner: -
 --
 
-GRANT ALL ON SCHEMA public TO sergeibasharov;
+GRANT ALL ON SCHEMA public TO postgres;
 
 
 --

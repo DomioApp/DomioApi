@@ -1,1 +1,1 @@
-createdb -U sergeibasharov domio_dev
+createdb -U postgres domio_dev
