@@ -10,7 +10,7 @@ if ! [ -x "$(command -v go)" ]; then
 fi
 
 
-sh ~/domioapi/deploy/install_deps.sh
+#sh ~/domioapi/deploy/install_deps.sh
 
 echo ======================================================
 echo ~/
