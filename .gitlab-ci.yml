@@ -36,13 +36,10 @@ stages:
 go_build:
     stage: build
     script:
-        - echo ===================================================
-        - echo $GOROOT
-        - which go
-        - pwd
-        - echo ===================================================
-        - export GOPATH="/builds/basharov/DomioApi"
-#        - go get -u github.com/constabulary/gb/...
+        - export GOPATH=${pwd}
+        - echo ======================================================
+        - echo $GOPATH
+        - echo ======================================================
 
         - go get -u github.com/dgrijalva/jwt-go
         - go get -u github.com/aws/aws-sdk-go/aws
@@ -55,7 +52,6 @@ go_build:
         - go get -u github.com/stripe/stripe-go
         - go get -u golang.org/x/crypto/bcrypt
 
-        - export GOPATH="/builds/basharov/DomioApi"
         - go build -o bin/domio domio
 
 #deploy_staging:
