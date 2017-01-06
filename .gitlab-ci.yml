@@ -38,6 +38,7 @@ go_build:
     script:
         - echo ===================================================
         - echo $GOROOT
+        - which go
         - echo ===================================================
         - export GOPATH="/builds/basharov/DomioApi"
         - go get -u github.com/constabulary/gb/...
