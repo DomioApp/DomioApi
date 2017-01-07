@@ -7,6 +7,9 @@ LOGFILE="/var/log/${NAME}.log"
 
 DAEMON="/domio/run.sh"
 
+#start-stop-daemon --start --background --make-pidfile --pidfile /var/run/domio.pid --exec /domio/run.sh
+#start-stop-daemon --stop --pidfile /var/run/domio.pid
+
 START_OPTS="--start --background --make-pidfile --pidfile ${PIDFILE} --exec ${DAEMON}"
 STOP_OPTS="--stop --pidfile ${PIDFILE}"
 
