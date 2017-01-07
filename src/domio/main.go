@@ -16,7 +16,7 @@ func init() {
 }
 
 func main() {
-    port := 8080
+    port := Config.Port
     domiorouter := router.NewRouter()
     log.Printf("Web server is running on http://localhost:%d", port)
     err := http.ListenAndServe(":8080", domiorouter)
