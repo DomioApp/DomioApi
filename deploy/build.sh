@@ -8,10 +8,8 @@ mkdir /domio
 cd ~/domioapi
 
 go build -o /domio/domio domio
-#cp ~/domioapi/utils/run.sh /domio/run.sh
 
-#rm -rf /usr/sbin/domio
-#ln -s /domio/domio /usr/sbin/domio
+sh ~/domioapi/deploy/create_config_file.sh
 
 cd /
 rm -rf ~/domioapi
