@@ -1,26 +1,44 @@
-#!/bin/sh
+#! /bin/sh
 
-# kFreeBSD do not accept scripts as interpreters, using #!/bin/sh and sourcing.
-if [ true != "$INIT_D_SCRIPT_SOURCED" ] ; then
- set "$0" "$@"; INIT_D_SCRIPT_SOURCED=true . /lib/init/init-d-script
-fi
+NAME=domio
+DESC="Domio service"
+PIDFILE="/var/run/${NAME}.pid"
+LOGFILE="/var/log/${NAME}.log"
 
-### BEGIN INIT INFO
-# Provides:          skeleton
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remote_fs $syslog
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: Example initscript
-# Description:       This file should be used to construct scripts to be
-#                    placed in /etc/init.d.  This example start a
-#                    single forking daemon capable of writing a pid
-#                    file.  To get other behavoirs, implemend
-#                    do_start(), do_stop() or other functions to
-#                    override the defaults in /lib/init/init-d-script.
-### END INIT INFO
+# PHP binary path
+DAEMON="/usr/sbin/domio"
 
-# Author: Sergei Basharov <sergei@basharov.net>
+START_OPTS="--start --background --make-pidfile --pidfile ${PIDFILE} --exec ${DAEMON}"
+STOP_OPTS="--stop --pidfile ${PIDFILE}"
 
-DESC="Domio Linux Service"
-DAEMON=/usr/sbin/domio
+test -x $DAEMON || exit 0
+
+set -e
+
+case "$1" in
+ start)
+ echo -n "Starting ${DESC}: "
+ start-stop-daemon $START_OPTS >> $LOGFILE
+ echo "$NAME."
+ ;;
+stop)
+ echo -n "Stopping $DESC: "
+ start-stop-daemon $STOP_OPTS
+ echo "$NAME."
+ rm -f $PIDFILE
+ ;;
+restart|force-reload)
+ echo -n "Restarting $DESC: "
+ start-stop-daemon $STOP_OPTS
+ sleep 1
+ start-stop-daemon $START_OPTS >> $LOGFILE
+ echo "$NAME."
+ ;;
+*)
+ N=/etc/init.d/$NAME
+ echo "Usage: $N {start|stop|restart|force-reload}" >&2
+ exit 1
+ ;;
+esac
+
+exit 0
