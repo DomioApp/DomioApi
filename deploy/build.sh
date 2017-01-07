@@ -9,6 +9,9 @@ cd ~/domioapi
 
 go build -o /domio/domio domio
 
+rm /usr/sbin/domio
+ln -s /domio/domio /usr/sbin/domio
+
 cd /
 rm -rf ~/domioapi
 
