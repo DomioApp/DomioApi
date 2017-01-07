@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+echo "{ \"AWS_ACCESS_KEY_ID\": \"AKIAJMMKIJN7KUGLXA3Q\", \"AWS_SECRET_ACCESS_KEY\": \"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\", \"DOMIO_DB_USER\": \"postgres\", \"DOMIO_DB_PASSWORD\": \"postgres\", \"DOMIO_DB_NAME\": \"domio_dev\", \"port\": 8080 }" > /domio/config.json
