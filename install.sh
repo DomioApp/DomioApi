@@ -30,4 +30,6 @@ if ! [ -x "$(command -v nginx)" ]; then
    echo "nginx is already installed!" >&2
 fi
 
+sh ~/domioapi/deploy/copy_swagger.sh
+
 sh ~/domioapi/deploy/build.sh
