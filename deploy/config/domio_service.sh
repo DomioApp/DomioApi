@@ -19,23 +19,25 @@ set -e
 
 case "$1" in
  start)
- echo -----------------------------------
- echo "PIDFILE: ${PIDFILE}"
- echo "NAME: ${NAME}"
- echo -n "Starting ${DESC}: "
- echo -----------------------------------
- start-stop-daemon $START_OPTS >> $LOGFILE
+# echo -----------------------------------
+# echo "PIDFILE: ${PIDFILE}"
+# echo "NAME: ${NAME}"
+# echo -n "Starting ${DESC}: "
+# echo -----------------------------------
+# start-stop-daemon $START_OPTS >> $LOGFILE
  echo "$NAME."
+ start-stop-daemon --start --background --make-pidfile --pidfile /var/run/domio.pid --exec /domio/domio
  ;;
 stop)
- echo -----------------------------------
- echo "PIDFILE: ${PIDFILE}"
- echo "NAME: ${NAME}"
- echo -n "Stopping $DESC: "
- echo -----------------------------------
- start-stop-daemon $STOP_OPTS
- echo "$NAME."
- rm -f $PIDFILE
+# echo -----------------------------------
+# echo "PIDFILE: ${PIDFILE}"
+# echo "NAME: ${NAME}"
+# echo -n "Stopping $DESC: "
+# echo -----------------------------------
+# start-stop-daemon $STOP_OPTS
+# echo "$NAME."
+# rm -f $PIDFILE
+ start-stop-daemon --stop --pidfile /var/run/domio.pid
  ;;
 restart|force-reload)
  echo -n "Restarting $DESC: "
