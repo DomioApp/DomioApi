@@ -19,12 +19,20 @@ set -e
 
 case "$1" in
  start)
+ echo -----------------------------------
+ echo "PIDFILE: ${PIDFILE}"
+ echo "NAME: ${NAME}"
  echo -n "Starting ${DESC}: "
+ echo -----------------------------------
  start-stop-daemon $START_OPTS >> $LOGFILE
  echo "$NAME."
  ;;
 stop)
+ echo -----------------------------------
+ echo "PIDFILE: ${PIDFILE}"
+ echo "NAME: ${NAME}"
  echo -n "Stopping $DESC: "
+ echo -----------------------------------
  start-stop-daemon $STOP_OPTS
  echo "$NAME."
  rm -f $PIDFILE
