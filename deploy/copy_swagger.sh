@@ -2,6 +2,6 @@
 set -e
 
 echo Copying Swagger...
-yes cp -rf ~/domioapi/swagger ~/
+yes | mv -rf ~/domioapi/swagger ~/
 
 echo Swagger copied!
