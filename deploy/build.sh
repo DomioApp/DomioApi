@@ -10,8 +10,8 @@ cd ~/domioapi
 go build -o /domio/domio domio
 #cp ~/domioapi/utils/run.sh /domio/run.sh
 
-rm -rf /usr/sbin/domio
-ln -s /domio/domio /usr/sbin/domio
+#rm -rf /usr/sbin/domio
+#ln -s /domio/domio /usr/sbin/domio
 
 cd /
 rm -rf ~/domioapi

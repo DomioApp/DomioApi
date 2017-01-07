@@ -23,5 +23,5 @@ fi
 # Please remove the "Author" lines above and replace them
 # with your own name if you copy and modify this script.
 
-DESC="Description of the service"
-DAEMON=/usr/sbin/domio
+DESC="Domio service"
+DAEMON=/domio/domio
