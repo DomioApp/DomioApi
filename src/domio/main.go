@@ -5,10 +5,15 @@ import (
     "log"
     "domio/router"
     "fmt"
+    "domio/components/config"
 )
+
+var Config = config.Configuration{}
 
 func init() {
     log.SetFlags(log.LstdFlags | log.Lshortfile)
+    Config = config.LoadConfig()
+    log.Print(Config)
 }
 
 func main() {

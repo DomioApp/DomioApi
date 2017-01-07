@@ -1,3 +1,4 @@
+deploy/config/config.json
 bin
 pkg
 src/*

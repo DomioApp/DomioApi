@@ -4,12 +4,12 @@ if [ true != "$INIT_D_SCRIPT_SOURCED" ] ; then
     set "$0" "$@"; INIT_D_SCRIPT_SOURCED=true . /lib/init/init-d-script
 fi
 ### BEGIN INIT INFO
-# Provides:          skeleton
+# Provides:          domio
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Example initscript
+# Short-Description: Domio init script
 # Description:       This file should be used to construct scripts to be
 #                    placed in /etc/init.d.  This example start a
 #                    single forking daemon capable of writing a pid

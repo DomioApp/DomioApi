@@ -13,7 +13,6 @@ func NewRouter() *mux.Router {
     for _, route := range routes.RoutesList {
         var handler http.Handler
         handler = route.HandlerFunc
-        //handler = Logger.Logger(handler, route.Name)
 
         router.
         Methods(route.Method).
@@ -22,6 +21,6 @@ func NewRouter() *mux.Router {
             Handler(handler)
 
     }
-    //log.Println("Listening on 8080")
+
     return router
 }
