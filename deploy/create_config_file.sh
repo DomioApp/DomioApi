@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
-echo "{ \"AWS_ACCESS_KEY_ID\": \"AKIAJMMKIJN7KUGLXA3Q\", \"AWS_SECRET_ACCESS_KEY\": \"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\", \"DOMIO_DB_USER\": \"postgres\", \"DOMIO_DB_PASSWORD\": \"postgres\", \"DOMIO_DB_NAME\": \"domio_dev\", \"port\": 8080 }" > /domio/config.json
+echo Creating config file...
+echo "{ \"AWS_ACCESS_KEY_ID\": \"${AWS_ACCESS_KEY_ID}\", \"AWS_SECRET_ACCESS_KEY\": \"${AWS_SECRET_ACCESS_KEY}\", \"DOMIO_DB_USER\": \"${DOMIO_DB_USER}\", \"DOMIO_DB_PASSWORD\": \"${DOMIO_DB_PASSWORD}\", \"DOMIO_DB_NAME\": \"${DOMIO_DB_NAME}\", \"port\": \"${port}\" }" > /domio/config.json
+echo Config file created!
