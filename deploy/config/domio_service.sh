@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/usr/bin/env bash
 
 NAME=domio
 DESC="Domio service"
