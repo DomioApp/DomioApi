@@ -5,7 +5,7 @@ DESC="Domio service"
 PIDFILE="/var/run/${NAME}.pid"
 LOGFILE="/var/log/${NAME}.log"
 
-DAEMON="/usr/sbin/domio"
+DAEMON="/domio/run.sh"
 
 START_OPTS="--start --background --make-pidfile --pidfile ${PIDFILE} --exec ${DAEMON}"
 STOP_OPTS="--stop --pidfile ${PIDFILE}"
