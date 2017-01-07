@@ -5,9 +5,9 @@ DESC="Domio service"
 PIDFILE="/var/run/${NAME}.pid"
 LOGFILE="/var/log/${NAME}.log"
 
-DAEMON="/domio/run.sh"
+DAEMON="/domio/domio"
 
-#start-stop-daemon --start --background --make-pidfile --pidfile /var/run/domio.pid --exec /domio/run.sh
+#start-stop-daemon --start --background --make-pidfile --pidfile /var/run/domio.pid --exec /domio/domio
 #start-stop-daemon --stop --pidfile /var/run/domio.pid
 
 START_OPTS="--start --background --make-pidfile --pidfile ${PIDFILE} --exec ${DAEMON}"

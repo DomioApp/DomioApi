@@ -8,7 +8,7 @@ mkdir /domio
 cd ~/domioapi
 
 go build -o /domio/domio domio
-cp ~/domioapi/utils/run.sh /domio/run.sh
+#cp ~/domioapi/utils/run.sh /domio/run.sh
 
 rm -rf /usr/sbin/domio
 ln -s /domio/domio /usr/sbin/domio
