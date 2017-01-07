@@ -5,4 +5,4 @@ echo Copying Domio Service Config...
 
 yes | cp -rf ~/domioapi/deploy/config/domio_service.sh /etc/init.d/domio
 
-echo Swagger copied!
+echo Domio Service Config copied!
