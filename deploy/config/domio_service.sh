@@ -5,7 +5,6 @@ DESC="Domio service"
 PIDFILE="/var/run/${NAME}.pid"
 LOGFILE="/var/log/${NAME}.log"
 
-# PHP binary path
 DAEMON="/usr/sbin/domio"
 
 START_OPTS="--start --background --make-pidfile --pidfile ${PIDFILE} --exec ${DAEMON}"

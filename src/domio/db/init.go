@@ -14,6 +14,8 @@ func init() {
 	var username = os.Getenv("DOMIO_DB_USER")
 	var password = os.Getenv("DOMIO_DB_PASSWORD")
 	var dbname = os.Getenv("DOMIO_DB_NAME")
+	var aws_access_key_id = os.Getenv("AWS_ACCESS_KEY_ID")
+	var aws_secret_access_key = os.Getenv("AWS_SECRET_ACCESS_KEY")
 
 	if (username == "") {
 		log.Fatalln("DOMIO_DB_USER not set")
@@ -25,6 +27,14 @@ func init() {
 
 	if (dbname == "") {
 		log.Fatalln("DOMIO_DB_NAME not set")
+	}
+
+	if (aws_access_key_id == "") {
+		log.Fatalln("AWS_ACCESS_KEY_ID not set")
+	}
+
+	if (aws_secret_access_key == "") {
+		log.Fatalln("AWS_SECRET_ACCESS_KEY not set")
 	}
 
 	var dbconfig = fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", username, password, dbname)
