@@ -26,6 +26,7 @@ func LoadConfig() Configuration {
     config := Configuration{}
     err := decoder.Decode(&config)
     if err != nil {
+        logger.Logger.Crit("Config file couldn't be loaded, exitting...")
         log.Fatalln("error:", err)
     }
     logger.Logger.Info("Config loaded")
