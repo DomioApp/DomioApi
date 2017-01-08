@@ -87,7 +87,7 @@ http {
         ssl_prefer_server_ciphers  on;
 
         location / {
-            root   /usr/share/nginx/html/public;
+            root   /usr/share/nginx/html/public_site;
             index  index.html index.htm;
         }
     }
