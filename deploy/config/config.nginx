@@ -75,7 +75,26 @@ http {
 
     server {
         listen       443 ssl;
-        server_name  domio.in api.domio.in www.domio.in;
+        server_name  domio.in www.domio.in;
+
+        ssl_certificate      /etc/letsencrypt/live/domio.in/fullchain.pem;
+        ssl_certificate_key  /etc/letsencrypt/live/domio.in/privkey.pem;
+
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+        location / {
+            root   /usr/share/nginx/html/public;
+            index  index.html index.htm;
+        }
+    }
+
+    server {
+        listen       443 ssl;
+        server_name  api.domio.in;
 
         ssl_certificate      /etc/letsencrypt/live/domio.in/fullchain.pem;
         ssl_certificate_key  /etc/letsencrypt/live/domio.in/privkey.pem;
