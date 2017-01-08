@@ -72,7 +72,13 @@ func LoginUser(user EmailAndPasswordPair) (error, *jwt.StandardClaims, string) {
 
     tokenString, _ := token.SignedString([]byte("karamba"))
 
-    logger.Logger.Info("User tried to login")
+    if (loginError != nil) {
+        logger.Logger.Err("User login error: " + user.Email)
+    }
+
+    if (newClaims != nil) {
+        logger.Logger.Info("User logged in: " + newClaims.Subject)
+    }
 
     return loginError, newClaims, tokenString
 }

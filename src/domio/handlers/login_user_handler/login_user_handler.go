@@ -14,7 +14,7 @@ type UserLoggedinObject struct {
     TokenString string  `json:"token"`
 }
 
-func LoginUser(w http.ResponseWriter, req *http.Request) {
+func LoginUserHandler(w http.ResponseWriter, req *http.Request) {
     defer req.Body.Close()
 
     var emailAndPasswordPair domiodb.EmailAndPasswordPair

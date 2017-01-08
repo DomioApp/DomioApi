@@ -43,7 +43,7 @@ var RoutesList = Routes{
         "LoginUser",
         "POST",
         "/users/login",
-        login_user_handler.LoginUser,
+        login_user_handler.LoginUserHandler,
     },
     Route{
         "VerifyToken",
