@@ -44,6 +44,10 @@ http {
 #            index  index.html index.htm;
 #        }
 
+        location = /swagger {
+            proxy_pass   http://127.0.0.1:8080/swagger;
+        }
+
         location = / {
             proxy_pass   http://127.0.0.1:8080/;
         }
