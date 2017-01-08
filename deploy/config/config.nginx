@@ -90,12 +90,8 @@ http {
         ssl_ciphers  HIGH:!aNULL:!MD5;
         ssl_prefer_server_ciphers  on;
 
-        location = / {
+        location / {
             proxy_pass   http://127.0.0.1:8080/;
-        }
-
-        location = /users {
-            proxy_pass   http://127.0.0.1:8080/users;
         }
     }
 }
