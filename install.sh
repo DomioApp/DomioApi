@@ -35,3 +35,5 @@ sh ~/domioapi/deploy/copy_domio_service_config.sh
 sh ~/domioapi/deploy/copy_nginx_config_files.sh
 
 sh ~/domioapi/deploy/build.sh
+
+cd /

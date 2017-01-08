@@ -3,6 +3,6 @@ set -e
 
 echo Copying Swagger...
 rm -rf ~/swagger
-yes | mv -f ~/domioapi/swagger ~/
+yes | mv -f ~/domioapi/swagger /usr/share/nginx/html
 
 echo Swagger copied!

@@ -40,7 +40,7 @@ http {
         #access_log  logs/host.access.log  main;
 
         location = /swagger {
-            root   /root/swagger;
+            root   /usr/share/nginx/html/swagger;
             index  index.html index.htm;
         }
 
