@@ -15,3 +15,5 @@ cd /
 rm -rf ~/domioapi
 
 echo Domio is built and ready!
+
+logger -n logs5.papertrailapp.com -t deploy -P 18422 -p user.notice "Domio is built and ready!"
