@@ -5,6 +5,7 @@ import (
     "os"
     "log"
     "path/filepath"
+    "domio/components/logger"
 )
 
 type Configuration struct {
@@ -27,5 +28,6 @@ func LoadConfig() Configuration {
     if err != nil {
         log.Fatalln("error:", err)
     }
+    logger.Logger.Info("Config loaded")
     return config
 }

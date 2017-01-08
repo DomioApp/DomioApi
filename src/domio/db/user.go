@@ -8,6 +8,7 @@ import (
     "database/sql"
     "time"
     "log"
+    "domio/components/logger"
 )
 
 type EmailAndPasswordPair struct {
@@ -70,6 +71,8 @@ func LoginUser(user EmailAndPasswordPair) (error, *jwt.StandardClaims, string) {
     token := jwt.NewWithClaims(jwt.SigningMethodHS256, newClaims)
 
     tokenString, _ := token.SignedString([]byte("karamba"))
+
+    logger.Logger.Info("User tried to login")
 
     return loginError, newClaims, tokenString
 }

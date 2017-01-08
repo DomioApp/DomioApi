@@ -6,6 +6,7 @@ import (
     "domio/router"
     "fmt"
     "domio/components/config"
+    "domio/components/logger"
 )
 
 var Config = config.Configuration{}
@@ -16,6 +17,7 @@ func init() {
 }
 
 func main() {
+    logger.Logger.Info("Domio started")
     domiorouter := router.NewRouter()
     log.Printf("Web server is running on http://localhost:%d", Config.PORT)
     err := http.ListenAndServe(":8080", domiorouter)

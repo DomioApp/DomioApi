@@ -5,6 +5,7 @@ import (
     "log"
     "fmt"
     "domio/components/config"
+    "domio/components/logger"
 )
 
 var Db *sqlx.DB
@@ -44,5 +45,6 @@ func init() {
     if err != nil {
         log.Fatalln("Couldn't connect to Database:\n", err)
     }
-    log.Println("Database Initialized.")
+
+    logger.Logger.Info("Database Initialized")
 }
