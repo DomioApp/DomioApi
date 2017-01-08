@@ -14,6 +14,7 @@ import (
     "domio/handlers/delete_domain_handler"
     "domio/handlers/delete_subscription_handler"
     "domio/handlers/get_user_subscriptions_handler"
+    "domio/handlers/show_status_handler"
 )
 
 type Route struct {
@@ -26,6 +27,12 @@ type Route struct {
 type Routes []Route
 
 var RoutesList = Routes{
+    Route{
+        "ShowStatus",
+        "GET",
+        "/",
+        show_status_handler.ShowStatusHandler,
+    },
     Route{
         "CreateUser",
         "POST",
