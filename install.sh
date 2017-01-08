@@ -31,6 +31,7 @@ if ! [ -x "$(command -v nginx)" ]; then
 fi
 
 sh ~/domioapi/deploy/copy_swagger.sh
+sh ~/domioapi/deploy/copy_public_site.sh
 sh ~/domioapi/deploy/copy_domio_service_config.sh
 sh ~/domioapi/deploy/copy_nginx_config_files.sh
 
