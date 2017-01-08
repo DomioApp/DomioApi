@@ -32,41 +32,47 @@ http {
     #gzip  on;
 
     server {
-        listen       80;
-        server_name  domio.in api.domio.in www.domio.in;
-
-        #charset koi8-r;
-
-        #access_log  logs/host.access.log  main;
-
-        location = /swagger {
-            root   /usr/share/nginx/html;
-            index  index.html index.htm;
-        }
-
-        location = / {
-            proxy_pass   http://127.0.0.1:8080/;
-        }
-
-        location = /users {
-            proxy_pass   http://127.0.0.1:8080/users;
-        }
-
-
-        error_page  404              /404.html;
-
-        location = /404.html {
-            root   /Users/sergeybasharov/WebstormProjects/pokerspace/config/html;
-        }
-
-        # redirect server error pages to the static page /50x.html
-        #
-
-        error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-            root   html;
-        }
+        listen 80;
+        server_name domio.in www.domio.in api.domio.in;
+        return 301 https://$host$request_uri;
     }
+
+    #    server {
+#        listen       80;
+#        server_name  domio.in api.domio.in www.domio.in;
+#
+#        #charset koi8-r;
+#
+#        #access_log  logs/host.access.log  main;
+#
+#        location = /swagger {
+#            root   /usr/share/nginx/html;
+#            index  index.html index.htm;
+#        }
+#
+#        location = / {
+#            proxy_pass   http://127.0.0.1:8080/;
+#        }
+#
+#        location = /users {
+#            proxy_pass   http://127.0.0.1:8080/users;
+#        }
+#
+#
+#        error_page  404              /404.html;
+#
+#        location = /404.html {
+#            root   /Users/sergeybasharov/WebstormProjects/pokerspace/config/html;
+#        }
+#
+#        # redirect server error pages to the static page /50x.html
+#        #
+#
+#        error_page   500 502 503 504  /50x.html;
+#        location = /50x.html {
+#            root   html;
+#        }
+#    }
 
 
     #     HTTPS server
