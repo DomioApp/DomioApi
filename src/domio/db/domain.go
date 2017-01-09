@@ -13,6 +13,7 @@ import (
     "domio/components/tokens"
     "github.com/aws/aws-sdk-go/aws/credentials"
     "domio/components/config"
+    "database/sql"
 )
 
 type Domain struct {
@@ -20,7 +21,17 @@ type Domain struct {
     Owner         string `json:"owner" db:"owner"`
     PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
     IsRented      bool `json:"is_rented" db:"is_rented"`
-    RentedBy      string `json:"rented_by" db:"rented_by"`
+    RentedBy      sql.NullString `json:"rented_by" db:"rented_by"`
+    ZoneId        sql.NullString `json:"zone_id" db:"zone_id"`
+    NS1           sql.NullString `json:"ns1" db:"ns1"`
+    NS2           sql.NullString `json:"ns2" db:"ns2"`
+    NS3           sql.NullString `json:"ns3" db:"ns3"`
+    NS4           sql.NullString `json:"ns4" db:"ns4"`
+}
+type DomainJson struct {
+    Name          string `json:"name" db:"name"`
+    Owner         string `json:"owner" db:"owner"`
+    PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
     ZoneId        string `json:"zone_id" db:"zone_id"`
     NS1           string `json:"ns1" db:"ns1"`
     NS2           string `json:"ns2" db:"ns2"`
@@ -29,7 +40,7 @@ type Domain struct {
 }
 
 func GetAvailableDomains() []Domain {
-    var domains []Domain
+    var domains []Domain = make([]Domain, 0)
     Db.Select(&domains, "SELECT name, price_per_month FROM domains WHERE is_rented=false ORDER BY price_per_month")
     return domains
 }
@@ -49,10 +60,6 @@ func GetDomain(domainName string) (Domain, *domioerrors.DomioError) {
         log.Print(domainError)
         return Domain{}, &domioerrors.DomainNotFound
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of b166d54... domain creation logic
     return domain, nil
 }
 
@@ -103,17 +110,38 @@ func SetDomainNameServers(domain *Domain, ns1 *string, ns2 *string, ns3 *string,
     Db.MustExec("UPDATE domains SET ns1=$2, ns2=$3, ns3=$4, ns4=$5 WHERE name=$1", domain.Name, ns1, ns2, ns3, ns4, )
 }
 
-func CreateDomain(domain Domain, ownerEmail string) (Domain, *pq.Error) {
-    var domainResult Domain
-    insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner", domain.Name, domain.PricePerMonth, ownerEmail).StructScan(&domainResult)
+func CreateDomain(domain Domain, ownerEmail string) (DomainJson, *pq.Error) {
+    var domainResultDb Domain
+
+    insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner", domain.Name, domain.PricePerMonth, ownerEmail).StructScan(&domainResultDb)
 
     if (insertErr != nil) {
-        return domainResult, insertErr.(*pq.Error)
+        log.Println(insertErr)
+        return DomainJson{}, insertErr.(*pq.Error)
     }
 
-    createDomainZone(&domainResult)
+    createDomainZone(&domainResultDb)
 
-    return domainResult, nil
+    domainResultAws, getDomainError := GetDomain(domainResultDb.Name)
+
+    if (getDomainError != nil) {
+        log.Println(getDomainError)
+    }
+
+    return formatDomain(domainResultAws), nil
+}
+
+func formatDomain(domain Domain) DomainJson {
+    return DomainJson{
+        Name:domain.Name,
+        Owner:domain.Owner,
+        PricePerMonth:domain.PricePerMonth,
+        ZoneId:domain.ZoneId.String,
+        NS1:domain.NS1.String,
+        NS2:domain.NS2.String,
+        NS3:domain.NS3.String,
+        NS4:domain.NS4.String,
+    }
 }
 
 func createDomainZone(domain *Domain) {
@@ -163,7 +191,7 @@ func deleteDomainZone(domain *Domain) {
     svc := route53.New(sess)
 
     params := &route53.DeleteHostedZoneInput{
-        Id: &domain.ZoneId,
+        Id: &domain.ZoneId.String,
     }
     //resp, err := svc.DeleteHostedZone(params)
     resp, err := svc.DeleteHostedZone(params)
@@ -192,7 +220,7 @@ func GetHostedZone(domain *Domain) {
     svc := route53.New(sess)
 
     params := &route53.GetHostedZoneInput{
-        Id: aws.String(domain.ZoneId), // Required
+        Id: aws.String(domain.ZoneId.String), // Required
     }
     resp, err := svc.GetHostedZone(params)
 

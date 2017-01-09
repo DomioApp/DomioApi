@@ -8,6 +8,7 @@ import (
     "domio/components/responses"
     "github.com/gorilla/mux"
     "domio/messages"
+    "log"
 )
 
 func DeleteDomainHandler(w http.ResponseWriter, req *http.Request) {
@@ -25,6 +26,7 @@ func DeleteDomainHandler(w http.ResponseWriter, req *http.Request) {
     deleteError := domiodb.DeleteDomain(domainName, userProfile.Email)
 
     if (deleteError != domioerrors.DomioError{}) {
+        log.Println(deleteError)
         responses.ReturnErrorResponse(w, deleteError)
         return
     }

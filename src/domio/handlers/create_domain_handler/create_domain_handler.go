@@ -13,6 +13,8 @@ import (
 func CreateDomainHandler(w http.ResponseWriter, req *http.Request) {
 
     var newDomain domiodb.Domain
+    var createdDomain domiodb.DomainJson
+
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 
     if (verifyTokenError != domioerrors.DomioError{}) {
@@ -30,7 +32,7 @@ func CreateDomainHandler(w http.ResponseWriter, req *http.Request) {
 
     //============================================================================================================================
 
-    newDomain, domainCreationError := domiodb.CreateDomain(newDomain, userProfile.Email)
+    createdDomain, domainCreationError := domiodb.CreateDomain(newDomain, userProfile.Email)
 
     if (domainCreationError != nil) {
         if (domainCreationError.Code.Name() == "unique_violation") {
@@ -47,7 +49,7 @@ func CreateDomainHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    responses.ReturnObjectResponse(w, newDomain)
+    responses.ReturnObjectResponse(w, createdDomain)
 
     defer req.Body.Close()
 }

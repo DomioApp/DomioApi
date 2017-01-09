@@ -19,6 +19,7 @@ type NewCustomer struct {
     Email    string  `json:"email"`
     Password string  `json:"password"`
     Id       string  `json:"id"`
+    Role     string  `json:"role"`
 }
 
 func (emailAndPasswordPair *EmailAndPasswordPair) IsValid() bool {
@@ -38,10 +39,11 @@ type UserInfo struct {
 
 func CreateUser(customer NewCustomer) (sql.Result, *pq.Error) {
     encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(customer.Password), bcrypt.DefaultCost)
-    result, creationError := Db.Exec("INSERT INTO users (id, email, password) VALUES ($1, $2, $3)", customer.Id, customer.Email, string(encryptedPassword))
+    result, creationError := Db.Exec("INSERT INTO users (id, email, password, role) VALUES ($1, $2, $3, $4)", customer.Id, customer.Email, string(encryptedPassword), "user")
 
     if (creationError != nil) {
         pqErr := creationError.(*pq.Error)
+        log.Println(pqErr)
         return result, pqErr
     }
     return result, nil
@@ -56,6 +58,7 @@ func LoginUser(user EmailAndPasswordPair) (error, *jwt.StandardClaims, string) {
 
     if err != nil {
         /*if err == sql.ErrNoRows {}*/
+        log.Println(err)
         return err, nil, ""
     }
 
@@ -73,10 +76,12 @@ func LoginUser(user EmailAndPasswordPair) (error, *jwt.StandardClaims, string) {
     tokenString, _ := token.SignedString([]byte("karamba"))
 
     if (loginError != nil) {
+        log.Println(loginError)
         logger.Logger.Err("User login error: " + user.Email)
     }
 
     if (newClaims != nil) {
+        log.Println(newClaims)
         logger.Logger.Info("User logged in: " + newClaims.Subject)
     }
 
