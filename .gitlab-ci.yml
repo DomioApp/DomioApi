@@ -51,6 +51,7 @@ go_build:
         - go get -u github.com/lib/pq
         - go get -u github.com/stripe/stripe-go
         - go get -u golang.org/x/crypto/bcrypt
+        - go get -u github.com/RackSec/srslog
 
         - go build -o bin/domio domio
 
