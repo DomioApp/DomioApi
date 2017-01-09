@@ -49,6 +49,10 @@ func GetDomain(domainName string) (Domain, *domioerrors.DomioError) {
         log.Print(domainError)
         return Domain{}, &domioerrors.DomainNotFound
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of b166d54... domain creation logic
     return domain, nil
 }
 
@@ -100,23 +104,16 @@ func SetDomainNameServers(domain *Domain, ns1 *string, ns2 *string, ns3 *string,
 }
 
 func CreateDomain(domain Domain, ownerEmail string) (Domain, *pq.Error) {
-    var domainResultDb Domain
-
-    insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner", domain.Name, domain.PricePerMonth, ownerEmail).StructScan(&domainResultDb)
+    var domainResult Domain
+    insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner", domain.Name, domain.PricePerMonth, ownerEmail).StructScan(&domainResult)
 
     if (insertErr != nil) {
-        return domainResultDb, insertErr.(*pq.Error)
+        return domainResult, insertErr.(*pq.Error)
     }
 
-    createDomainZone(&domainResultDb)
+    createDomainZone(&domainResult)
 
-    domainResultAws, _ := GetDomain(domainResultDb.Name)
-
-    log.Print("*************************************************************")
-    log.Print(domainResultAws)
-    log.Print("*************************************************************")
-
-    return domainResultAws, nil
+    return domainResult, nil
 }
 
 func createDomainZone(domain *Domain) {
