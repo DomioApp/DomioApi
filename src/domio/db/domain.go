@@ -11,7 +11,6 @@ import (
     "github.com/fatih/color"
     "time"
     "domio/components/tokens"
-    "database/sql"
     "github.com/aws/aws-sdk-go/aws/credentials"
     "domio/components/config"
 )
@@ -21,12 +20,12 @@ type Domain struct {
     Owner         string `json:"owner" db:"owner"`
     PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
     IsRented      bool `json:"is_rented" db:"is_rented"`
-    RentedBy      sql.NullString `json:"rented_by" db:"rented_by"`
+    RentedBy      string `json:"rented_by" db:"rented_by"`
     ZoneId        string `json:"zone_id" db:"zone_id"`
-    NS1           sql.NullString `json:"ns1" db:"ns1"`
-    NS2           sql.NullString `json:"ns2" db:"ns2"`
-    NS3           sql.NullString `json:"ns3" db:"ns3"`
-    NS4           sql.NullString `json:"ns4" db:"ns4"`
+    NS1           string `json:"ns1" db:"ns1"`
+    NS2           string `json:"ns2" db:"ns2"`
+    NS3           string `json:"ns3" db:"ns3"`
+    NS4           string `json:"ns4" db:"ns4"`
 }
 
 func GetAvailableDomains() []Domain {
@@ -36,7 +35,7 @@ func GetAvailableDomains() []Domain {
 }
 
 func GetUserDomains(userEmail string) []Domain {
-    var domains []Domain
+    var domains []Domain = make([]Domain, 0)
     Db.Select(&domains, "SELECT * FROM domains WHERE owner=$1 ORDER BY price_per_month", userEmail)
     return domains
 }
@@ -50,7 +49,6 @@ func GetDomain(domainName string) (Domain, *domioerrors.DomioError) {
         log.Print(domainError)
         return Domain{}, &domioerrors.DomainNotFound
     }
-    log.Print(domain.NS1.Value())
     return domain, nil
 }
 
