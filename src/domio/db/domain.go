@@ -141,6 +141,7 @@ func createDomainZone(domain *Domain) {
         color.Unset()
         return
     }
+
     SetDomainZoneId(domain, resp.HostedZone.Id)
     SetDomainNameServers(domain, resp.DelegationSet.NameServers[0], resp.DelegationSet.NameServers[1], resp.DelegationSet.NameServers[2], resp.DelegationSet.NameServers[3])
 

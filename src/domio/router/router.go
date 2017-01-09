@@ -7,15 +7,17 @@ import (
     "path/filepath"
     "os"
     "domio/components/config"
+    "log"
 )
 
 func NewRouter() *mux.Router {
-    config := config.LoadConfig()
+    conf := config.LoadConfig()
     dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 
     router := mux.NewRouter().StrictSlash(true)
 
-    if (config.ENV == "development") {
+    if (conf.ENV == "development") {
+        log.Println("Running development environment.")
         router.PathPrefix("/swagger").Handler(http.FileServer(http.Dir(dir)))
     }
 

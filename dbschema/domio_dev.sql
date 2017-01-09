@@ -2,12 +2,11 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.1
--- Dumped by pg_dump version 9.6.1
+-- Dumped from database version 9.5.5
+-- Dumped by pg_dump version 9.5.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -35,16 +34,6 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: app; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE app (
-    property character varying NOT NULL,
-    value character varying NOT NULL
-);
-
-
---
 -- Name: domains; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -52,8 +41,8 @@ CREATE TABLE domains (
     name character varying NOT NULL,
     owner character varying NOT NULL,
     price_per_month integer NOT NULL,
-    is_rented boolean DEFAULT false NOT NULL,
     zone_id character varying(26),
+    is_rented boolean DEFAULT false NOT NULL,
     rented_by character varying,
     ns1 character varying,
     ns2 character varying,
@@ -76,7 +65,7 @@ CREATE TABLE users (
 
 
 --
--- Name: domains domains_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: domains_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY domains
@@ -84,7 +73,7 @@ ALTER TABLE ONLY domains
 
 
 --
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -106,7 +95,7 @@ CREATE INDEX fki_rented_by ON domains USING btree (rented_by);
 
 
 --
--- Name: domains owner; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: owner; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY domains
@@ -114,7 +103,7 @@ ALTER TABLE ONLY domains
 
 
 --
--- Name: domains rented_by; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: rented_by; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY domains
@@ -125,7 +114,10 @@ ALTER TABLE ONLY domains
 -- Name: public; Type: ACL; Schema: -; Owner: -
 --
 
-GRANT ALL ON SCHEMA public TO postgres;
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM sergeibasharov;
+GRANT ALL ON SCHEMA public TO sergeibasharov;
+GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
 --
