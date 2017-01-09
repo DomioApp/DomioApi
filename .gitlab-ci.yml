@@ -59,8 +59,10 @@ deploy_staging:
   stage: deploy
   script:
     - echo "Deploy to staging server"
-
-    - ssh root@$DEPLOY_STAGING_IP "rm -rf ~/domioapi; git clone git@gitlab.com:basharov/DomioApi.git ~/domioapi; cd ~/domioapi; ./install.sh; export DOMIO_DB_USER=postgres; DOMIO_DB_PASSWORD=pass; DOMIO_DB_NAME=domio_dev"
+    - echo --------------------------------------------------------------------------------------------------------
+    - echo root@$DEPLOY_STAGING_IP "rm -rf ~/domioapi; git clone git@gitlab.com:basharov/DomioApi.git ~/domioapi; cd ~/domioapi; ./install.sh; export DOMIO_DB_USER=$DOMIO_DB_USER; DOMIO_DB_PASSWORD=$DOMIO_DB_PASSWORD; DOMIO_DB_NAME=$DOMIO_DB_NAME"
+    - echo --------------------------------------------------------------------------------------------------------
+    - ssh root@$DEPLOY_STAGING_IP "rm -rf ~/domioapi; git clone git@gitlab.com:basharov/DomioApi.git ~/domioapi; cd ~/domioapi; ./install.sh; export DOMIO_DB_USER=$DOMIO_DB_USER; DOMIO_DB_PASSWORD=$DOMIO_DB_PASSWORD; DOMIO_DB_NAME=$DOMIO_DB_NAME"
   environment:
     name: staging
     url: https://domio.in
