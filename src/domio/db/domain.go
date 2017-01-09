@@ -12,6 +12,8 @@ import (
     "time"
     "domio/components/tokens"
     "database/sql"
+    "github.com/aws/aws-sdk-go/aws/credentials"
+    "domio/components/config"
 )
 
 type Domain struct {
@@ -113,8 +115,10 @@ func CreateDomain(domain Domain, ownerEmail string) (Domain, *pq.Error) {
 }
 
 func createDomainZone(domain *Domain) {
-    log.Print(domain)
-    sess, err := session.NewSession()
+    conf := config.LoadConfig()
+    token := ""
+    creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
+    sess, err := session.NewSession(&aws.Config{Credentials: creds})
     if err != nil {
         fmt.Println("failed to create session,", err)
         return
@@ -143,7 +147,11 @@ func createDomainZone(domain *Domain) {
     log.Println(resp)
 }
 func deleteDomainZone(domain *Domain) {
-    sess, err := session.NewSession()
+    conf := config.LoadConfig()
+    token := ""
+    creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
+    sess, err := session.NewSession(&aws.Config{Credentials: creds})
+
     if err != nil {
         fmt.Println("failed to create session,", err)
         return
@@ -168,7 +176,11 @@ func deleteDomainZone(domain *Domain) {
 }
 
 func GetHostedZone(domain *Domain) {
-    sess, err := session.NewSession()
+    conf := config.LoadConfig()
+    token := ""
+    creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
+    sess, err := session.NewSession(&aws.Config{Credentials: creds})
+
     if err != nil {
         fmt.Println("failed to create session,", err)
         return
