@@ -113,13 +113,6 @@ ALTER TABLE ONLY domains
 
 
 --
--- Name: public; Type: ACL; Schema: -; Owner: -
---
-
-GRANT ALL ON SCHEMA public TO sergeibasharov;
-
-
---
 -- PostgreSQL database dump complete
 --
 
