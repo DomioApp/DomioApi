@@ -15,6 +15,7 @@ type Configuration struct {
     DOMIO_DB_NAME         string `json:"DOMIO_DB_NAME"`
     DOMIO_DB_PASSWORD     string `json:"DOMIO_DB_PASSWORD"`
     PORT                  int    `json:"PORT"`
+    ENV                   string    `json:"ENV"`
 }
 
 func LoadConfig() Configuration {
