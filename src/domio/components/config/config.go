@@ -14,13 +14,19 @@ type Configuration struct {
     DOMIO_DB_USER         string `json:"DOMIO_DB_USER"`
     DOMIO_DB_NAME         string `json:"DOMIO_DB_NAME"`
     DOMIO_DB_PASSWORD     string `json:"DOMIO_DB_PASSWORD"`
-    PORT                  int `json:"PORT"`
+    PORT                  int    `json:"PORT"`
 }
 
 func LoadConfig() Configuration {
     dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 
-    file, _ := os.Open(dir + "/config.json")
+    configFile := dir + "/config.json"
+    if _, err := os.Stat(configFile); os.IsNotExist(err) {
+        logger.Logger.Crit("Config file couldn't be loaded, exitting...")
+        log.Fatalln("error:", err)
+    }
+
+    file, _ := os.Open(configFile)
 
     decoder := json.NewDecoder(file)
     config := Configuration{}

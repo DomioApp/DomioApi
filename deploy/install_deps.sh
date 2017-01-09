@@ -15,5 +15,6 @@ go get -u -v github.com/jmoiron/sqlx
 go get -u -v github.com/lib/pq
 go get -u -v github.com/stripe/stripe-go
 go get -u -v golang.org/x/crypto/bcrypt
+go get -u -v github.com/RackSec/srslog
 
 echo Go dependencies installed!

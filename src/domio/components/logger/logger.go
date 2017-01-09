@@ -2,7 +2,7 @@ package logger
 
 import (
     "log"
-    "log/syslog"
+    syslog "github.com/RackSec/srslog"
 )
 
 var Logger *syslog.Writer
