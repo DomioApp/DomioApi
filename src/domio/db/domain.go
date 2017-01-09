@@ -50,7 +50,7 @@ func GetDomain(domainName string) (Domain, *domioerrors.DomioError) {
         log.Print(domainError)
         return Domain{}, &domioerrors.DomainNotFound
     }
-
+    log.Print(domain.NS1.Value())
     return domain, nil
 }
 
@@ -102,16 +102,23 @@ func SetDomainNameServers(domain *Domain, ns1 *string, ns2 *string, ns3 *string,
 }
 
 func CreateDomain(domain Domain, ownerEmail string) (Domain, *pq.Error) {
-    var domainResult Domain
-    insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner", domain.Name, domain.PricePerMonth, ownerEmail).StructScan(&domainResult)
+    var domainResultDb Domain
+
+    insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner", domain.Name, domain.PricePerMonth, ownerEmail).StructScan(&domainResultDb)
 
     if (insertErr != nil) {
-        return domainResult, insertErr.(*pq.Error)
+        return domainResultDb, insertErr.(*pq.Error)
     }
 
-    createDomainZone(&domainResult)
+    createDomainZone(&domainResultDb)
 
-    return domainResult, nil
+    domainResultAws, _ := GetDomain(domainResultDb.Name)
+
+    log.Print("*************************************************************")
+    log.Print(domainResultAws)
+    log.Print("*************************************************************")
+
+    return domainResultAws, nil
 }
 
 func createDomainZone(domain *Domain) {
