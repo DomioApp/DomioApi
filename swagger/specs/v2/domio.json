@@ -127,6 +127,9 @@
         "summary": "Unsubscribe from a domain",
         "description": "",
         "operationId": "deleteSubscription",
+        "consumes": [
+          "application/json"
+        ],
         "produces": [
           "application/json"
         ],
