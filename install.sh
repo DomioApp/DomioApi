@@ -2,7 +2,7 @@
 
 set -e
 
-logger -n logs5.papertrailapp.com -t deploy -P 18422 -p user.notice "\e[33mDomio deploy has started..."
+logger -n logs5.papertrailapp.com -t deploy -P 18422 -p user.notice "Domio deploy has started..."
 
 cd ~/domioapi
 export GOPATH=$PWD
