@@ -34,14 +34,14 @@ func CreateCard(cardRequest *CardRequest, user *UserInfo) (Card, *domioerrors.Do
     stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
 
     cardParams := stripe.CardParams{
-        Customer:user.Id,
-        Currency:"USD",
+        Customer: user.Id,
+        Currency: "USD",
 
-        Name:cardRequest.Name,
-        Month:cardRequest.Month,
-        Year:cardRequest.Year,
-        CVC:cardRequest.CVC,
-        Number:cardRequest.Number,
+        Name: cardRequest.Name,
+        Month: cardRequest.Month,
+        Year: cardRequest.Year,
+        CVC: cardRequest.CVC,
+        Number: cardRequest.Number,
     }
 
     c, err := card.New(&cardParams)
