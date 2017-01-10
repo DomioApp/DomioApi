@@ -21,7 +21,11 @@ type Configuration struct {
 func LoadConfig() Configuration {
     dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 
-    configFile := dir + "/config.json"
+    log.Println("Loading config...");
+    log.Println(dir);
+
+    //configFile := dir + "/config.json"
+         configFile := "C:\\Users\\sbasharov\\WebstormProjects\\domio\\DomioApi\\bin\\config.json "
     if _, err := os.Stat(configFile); os.IsNotExist(err) {
         logger.Logger.Crit("Config file couldn't be loaded, exitting...")
         log.Fatalln("error:", err)

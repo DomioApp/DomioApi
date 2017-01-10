@@ -12,6 +12,7 @@ import (
 var Config = config.Configuration{}
 
 func init() {
+    log.Print("Main init...")
     log.SetFlags(log.LstdFlags | log.Lshortfile)
     Config = config.LoadConfig()
 }

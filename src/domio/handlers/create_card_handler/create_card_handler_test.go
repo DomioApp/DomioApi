@@ -4,7 +4,18 @@ import (
     "net/http"
     "testing"
     "net/http/httptest"
+    "os"
+    "fmt"
+    "log"
 )
+
+func init(){
+    log.Print("Init tests...")
+    if err := os.Chdir("../../../../bin"); err != nil {
+            log.Print("---------------------------------------------")
+            fmt.Println("Chdir error:", err)
+    }
+}
 
 func TestHealthCheckHandler(t *testing.T) {
     // Create a request to pass to our handler. We don't have any query parameters for now, so we'll
