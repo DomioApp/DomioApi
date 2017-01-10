@@ -3,46 +3,99 @@ package create_card_handler
 import (
     "net/http"
     "testing"
+    "encoding/json"
+    "bytes"
     "net/http/httptest"
-    "os"
-    "fmt"
+    "domio/handlers/login_user_handler"
+    . "github.com/franela/goblin"
     "log"
+    "domio/db"
+    "fmt"
 )
 
-func init(){
-    log.Print("Init tests...")
-    if err := os.Chdir("../../../../bin"); err != nil {
-            log.Print("---------------------------------------------")
-            fmt.Println("Chdir error:", err)
-    }
+type UserEmailAndPassword struct {
+    Email    string `json:"email"`
+    Password string `json:"password"`
 }
 
-func TestHealthCheckHandler(t *testing.T) {
+type UserCreds struct {
+    Email string `json:"email"`
+    Id    string `json:"id"`
+    Token string `json:"token"`
+}
+
+func TestCreateCardHandler(t *testing.T) {
     // Create a request to pass to our handler. We don't have any query parameters for now, so we'll
     // pass 'nil' as the third parameter.
-    req, err := http.NewRequest("GET", "/health-check", nil)
+
+    g := Goblin(t)
+
+    g.Describe("CreateCardHandler", func() {
+        g.It("Should create a card for a customer", func(done Done) {
+            go func() {
+                user := LoginAsUser()
+                var cardRequest = domiodb.CardRequest{
+                    Customer:user.Id,
+                }
+
+                uj, _ := json.Marshal(cardRequest)
+
+                reader := bytes.NewReader(uj)
+
+                req, err := http.NewRequest("POST", "/domains", reader)
+                authHeader := fmt.Sprintf("Bearer %s", user.Token)
+
+                req.Header.Set("Authorization", authHeader)
+
+                if err != nil {
+                    log.Print(err)
+                }
+
+                resp := httptest.NewRecorder()
+                handler := http.HandlerFunc(CreateCardHandler)
+
+                handler.ServeHTTP(resp, req)
+
+                var cardResp UserCreds
+
+                if err := json.Unmarshal(resp.Body.Bytes(), &cardResp); err != nil {
+                    log.Print(err)
+                }
+
+                log.Print("======================================")
+                log.Print(resp.Body.String())
+                log.Print(cardResp)
+                log.Print("======================================")
+
+                g.Assert(true).Eql(true)
+
+                done()
+            }()
+        })
+    })
+}
+
+func LoginAsUser() UserCreds {
+    userJson := UserEmailAndPassword{Email:"john@gmail.com", Password:"john@gmail.com"}
+    uj, _ := json.Marshal(userJson)
+
+    reader := bytes.NewReader(uj)
+
+    req, err := http.NewRequest("POST", "/users/login", reader)
+
     if err != nil {
-        t.Fatal(err)
+        log.Print(err)
     }
 
-    // We create a ResponseRecorder (which satisfies http.ResponseWriter) to record the response.
-    rr := httptest.NewRecorder()
-    handler := http.HandlerFunc(CreateCardHandler)
+    resp := httptest.NewRecorder()
+    handler := http.HandlerFunc(login_user_handler.LoginUserHandler)
 
-    // Our handlers satisfy http.Handler, so we can call their ServeHTTP method
-    // directly and pass in our Request and ResponseRecorder.
-    handler.ServeHTTP(rr, req)
+    handler.ServeHTTP(resp, req)
 
-    // Check the status code is what we expect.
-    if status := rr.Code; status != http.StatusOK {
-        t.Errorf("handler returned wrong status code: got %v want %v",
-            status, http.StatusOK)
+    var userCreds UserCreds
+
+    if err := json.Unmarshal(resp.Body.Bytes(), &userCreds); err != nil {
+        log.Print(err)
     }
-
-    // Check the response body is what we expect.
-    expected := `{"alive": true}`
-    if rr.Body.String() != expected {
-        t.Errorf("handler returned unexpected body: got %v want %v",
-            rr.Body.String(), expected)
-    }
+    return userCreds
 }

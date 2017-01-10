@@ -24,13 +24,11 @@ func CreateCardHandler(w http.ResponseWriter, req *http.Request) {
 
     err := requests.DecodeJsonRequestBody(req, &cardRequest)
 
-    color.Set(color.FgGreen)
-    log.Print(cardRequest)
-    color.Unset()
-
     if err != nil {
         color.Set(color.FgRed)
+        log.Print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         log.Print(err)
+        log.Print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         color.Unset()
         responses.ReturnErrorResponse(w, domioerrors.JsonDecodeError)
         return
@@ -39,8 +37,14 @@ func CreateCardHandler(w http.ResponseWriter, req *http.Request) {
     existingUser := domiodb.GetUser(userProfile.Email)
 
     newCard, cardCreationError := domiodb.CreateCard(&cardRequest, &existingUser)
-    log.Print(newCard)
-    log.Print(cardCreationError)
+
+    if cardCreationError != nil {
+        log.Print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        log.Print(cardCreationError)
+        log.Print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        responses.ReturnErrorResponse(w, cardCreationError)
+        return
+    }
 
     responses.ReturnObjectResponse(w, newCard)
 
