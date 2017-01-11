@@ -10,7 +10,7 @@ import (
 
 var Db *sqlx.DB
 
-func init() {
+func InitDb() {
     appconfig := config.Config
     var err error
     var username = appconfig.DOMIO_DB_USER

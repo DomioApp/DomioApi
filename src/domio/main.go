@@ -6,16 +6,21 @@ import (
     "domio/router"
     "fmt"
     "domio/components/config"
-    "domio/components/logger"
+    "domio/components/arguments"
 )
 
 func init() {
-    log.Print("Main init...")
     log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
 
 func main() {
-    logger.Logger.Info("Domio started")
+    result := arguments.ProcessArguments()
+    log.Print(result)
+
+    //startRouter()
+}
+
+func startRouter() {
     domiorouter := router.NewRouter()
     log.Printf("Web server is running on http://localhost:%d", config.Config.PORT)
     err := http.ListenAndServe(fmt.Sprintf(":%v", config.Config.PORT), domiorouter)
@@ -23,4 +28,5 @@ func main() {
         msg := fmt.Sprintf("Failed to start web server on port %d", config.Config.PORT)
         log.Fatal(msg)
     }
+
 }
