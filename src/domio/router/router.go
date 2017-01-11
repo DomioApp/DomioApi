@@ -11,7 +11,7 @@ import (
 )
 
 func NewRouter() *mux.Router {
-    conf := config.LoadConfig()
+    conf := config.Config
     dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 
     router := mux.NewRouter().StrictSlash(true)

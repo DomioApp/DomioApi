@@ -145,7 +145,7 @@ func formatDomain(domain Domain) DomainJson {
 }
 
 func createDomainZone(domain *Domain) {
-    conf := config.LoadConfig()
+    conf := config.Config
     token := ""
     creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
     sess, err := session.NewSession(&aws.Config{Credentials: creds})
@@ -178,7 +178,7 @@ func createDomainZone(domain *Domain) {
     log.Println(resp)
 }
 func deleteDomainZone(domain *Domain) {
-    conf := config.LoadConfig()
+    conf := config.Config
     token := ""
     creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
     sess, err := session.NewSession(&aws.Config{Credentials: creds})
@@ -207,7 +207,7 @@ func deleteDomainZone(domain *Domain) {
 }
 
 func GetHostedZone(domain *Domain) {
-    conf := config.LoadConfig()
+    conf := config.Config
     token := ""
     creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
     sess, err := session.NewSession(&aws.Config{Credentials: creds})

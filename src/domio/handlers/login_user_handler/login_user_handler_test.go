@@ -29,8 +29,8 @@ func TestLoginUserHandler(t *testing.T) {
 
     g := Goblin(t)
 
-    g.Describe("CreateCardHandler", func() {
-        g.It("Should create a card for a customer", func(done Done) {
+    g.Describe("LoginUserHandler", func() {
+        g.It("Should login a user with correct email and password", func(done Done) {
             go func() {
                 user := LoginAsUser()
                 var cardRequest = domiodb.CardRequest{

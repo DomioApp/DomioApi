@@ -11,7 +11,7 @@ import (
 var Db *sqlx.DB
 
 func init() {
-    appconfig := config.LoadConfig()
+    appconfig := config.Config
     var err error
     var username = appconfig.DOMIO_DB_USER
     var password = appconfig.DOMIO_DB_PASSWORD
