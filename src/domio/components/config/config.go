@@ -24,10 +24,10 @@ func LoadConfig() Configuration {
     log.Println("Loading config...");
     log.Println(dir);
 
-    //configFile := dir + "/config.json"
-    configFile := "/Users/sergeibasharov/WebstormProjects/DomioApiGo/deploy/config/config.json"
+    configFile := dir + "/config.json"
+    //configFile := "/Users/sergeibasharov/WebstormProjects/DomioApiGo/deploy/config/config.json"
     if _, err := os.Stat(configFile); os.IsNotExist(err) {
-        logger.Logger.Crit("Config file couldn't be loaded, exitting...")
+        logger.Logger.Crit("Config file doesn't exist, exitting...")
         log.Fatalln("error:", err)
     }
 
@@ -38,6 +38,7 @@ func LoadConfig() Configuration {
     err := decoder.Decode(&config)
     if err != nil {
         logger.Logger.Crit("Config file couldn't be loaded, exitting...")
+        logger.Logger.Crit(file)
         log.Fatalln("error:", err)
     }
     logger.Logger.Info("Config loaded")
