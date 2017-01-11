@@ -24,7 +24,8 @@ func LoadConfig() Configuration {
     log.Println("Loading config...");
     log.Println(dir);
 
-    configFile := dir + "/config.json"
+    //configFile := dir + "/config.json"
+    configFile := "C:\\Users\\sbasharov\\WebstormProjects\\domio\\DomioApi\\bin\\config.json"
     //configFile := "/Users/sergeibasharov/WebstormProjects/DomioApiGo/deploy/config/config.json"
     if _, err := os.Stat(configFile); os.IsNotExist(err) {
         logger.Logger.Crit("Config file doesn't exist, exitting...")
