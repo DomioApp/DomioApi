@@ -9,21 +9,18 @@ import (
     "domio/components/logger"
 )
 
-var Config = config.Configuration{}
-
 func init() {
     log.Print("Main init...")
     log.SetFlags(log.LstdFlags | log.Lshortfile)
-    Config = config.Config
 }
 
 func main() {
     logger.Logger.Info("Domio started")
     domiorouter := router.NewRouter()
-    log.Printf("Web server is running on http://localhost:%d", Config.PORT)
-    err := http.ListenAndServe(fmt.Sprintf(":%v", Config.PORT), domiorouter)
+    log.Printf("Web server is running on http://localhost:%d", config.Config.PORT)
+    err := http.ListenAndServe(fmt.Sprintf(":%v", config.Config.PORT), domiorouter)
     if (err != nil) {
-        msg := fmt.Sprintf("Failed to start web server on port %d", Config.PORT)
+        msg := fmt.Sprintf("Failed to start web server on port %d", config.Config.PORT)
         log.Fatal(msg)
     }
 }
