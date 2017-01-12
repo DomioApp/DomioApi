@@ -106,11 +106,11 @@ func initConfig(filenameFlag *string, awsAccessKeyIdFlag *string, awsSecretAcces
 
     if _, err := os.Stat(config.ConfigPath); os.IsNotExist(err) {
         log.Print("Creating config folder...")
-        os.MkdirAll(config.ConfigPath, 0755)
+        os.MkdirAll(config.ConfigPath, 0660)
     }
 
     jsonConfig, _ := json.MarshalIndent(conf, "", "    ")
-    err := ioutil.WriteFile(path.Join(config.ConfigPath, *filenameFlag), jsonConfig, 0755)
+    err := ioutil.WriteFile(path.Join(config.ConfigPath, *filenameFlag), jsonConfig, 0660)
     if (err != nil) {
         log.Println(err)
         os.Exit(1)
