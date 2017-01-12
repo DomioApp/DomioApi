@@ -26,6 +26,7 @@ func main() {
     //server.StartRouter()
 }
 
+
 func printHeader() {
     color.Set(color.FgHiCyan)
     fmt.Println()
