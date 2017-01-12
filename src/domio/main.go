@@ -19,6 +19,7 @@ func init() {
 
 func main() {
     fmt.Println("------------------------------------------------------")
+    fmt.Println()
     fmt.Println("Buildstamp: ", Buildstamp)
     fmt.Println("Hash:       ", Version)
     fmt.Println("------------------------------------------------------")
