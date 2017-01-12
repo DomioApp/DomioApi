@@ -24,6 +24,7 @@ func main() {
     fmt.Println("Hash:       ", Version)
     fmt.Println("------------------------------------------------------")
     fmt.Println()
+    fmt.Println()
 
     result := arguments.ProcessArguments()
     if (result != nil) {
