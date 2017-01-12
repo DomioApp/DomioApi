@@ -1,0 +1,1 @@
+go build -o bin/domio.exe -ldflags "-X main.Buildstamp=`date -u '+%Y-%m-%d_%I:%M:%S%p'` -X main.Version=`git rev-parse HEAD`" domio

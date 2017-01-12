@@ -10,11 +10,20 @@ import (
     "os"
 )
 
+var Version string
+var Buildstamp string
+
 func init() {
     log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
 
 func main() {
+    fmt.Println("------------------------------------------------------")
+    fmt.Println("Buildstamp: ", Buildstamp)
+    fmt.Println("Hash:       ", Version)
+    fmt.Println("------------------------------------------------------")
+    fmt.Println()
+
     result := arguments.ProcessArguments()
     if (result != nil) {
         fmt.Print(result)
