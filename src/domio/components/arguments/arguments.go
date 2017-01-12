@@ -1,51 +1,115 @@
 package arguments
 
 import (
-    "gopkg.in/alecthomas/kingpin.v2"
+    "flag"
     "os"
+    "fmt"
+    "domio/components/config"
     "log"
+    "encoding/json"
+    "io/ioutil"
+    "path/filepath"
+    "path"
 )
 
-func ProcessArguments() string {
-    var (
-        app = kingpin.New("domio", "Domio domains rental server.")
-        _ = app.Flag("debug", "Enable debug mode.").Bool()
-        _ = app.Flag("server", "Server address.").Default("127.0.0.1").IP()
+func ProcessArguments() error {
+    initCommand := flag.NewFlagSet("init", flag.ExitOnError)
+    filenameFlag := initCommand.String("file", "/etc/domio/config.json", "config file absolute path")
+    awsAccessKeyIdFlag := initCommand.String("aws-access-key-id", "", "AWS Access Key ID")
+    awsSecretAccessKeyFlag := initCommand.String("aws-secret-access-key", "", "AWS Secret Access Key")
+    dbNameFlag := initCommand.String("db-name", "", "DB name")
+    dbUserFlag := initCommand.String("db-user", "", "DB user name")
+    dbPasswordFlag := initCommand.String("db-password", "", "DB password")
+    webPortFlag := initCommand.Uint("port", 8080, "Port for the HTTP server to run on")
+    envFlag := initCommand.String("env", "", "Environment name: development, testing, production")
 
-        init = app.Command("init", "Init a new config file.")
-        configFile = app.Flag("file", "File").Default("config.json").String()
+    sendCommand := flag.NewFlagSet("send", flag.ExitOnError)
+    //recipientFlag := sendCommand.String("recipient", "", "Recipient of your message")
+    //messageFlag := sendCommand.String("message", "", "Text message")
 
-        //registerNick = register.Arg("nick", "Nickname for user.").String()
-        //registerName = register.Arg("name", "Name of user.").String()
-
-        //start = app.Command("start", "Start server.")
-        check = app.Command("check", "Check config.")
-        postImage = check.Flag("image", "Image to post.").File()
-        //configFilePath = start.Arg("config", "Config file to use.").Default("").Strings()
-    )
-
-    log.Print("*****************************************************")
-    log.Print(*configFile)
-    //log.Print(*debug)
-    //log.Print(*serverIP)
-    //log.Print(*registerName)
-    //log.Print(*check)
-    //log.Print(*start)
-    log.Print("*****************************************************")
-
-    switch kingpin.MustParse(app.Parse(os.Args[1:])) {
-    // Register user
-    /*
-    case register.FullCommand():
-        println(*registerNick)
-    */
-
-    case init.FullCommand():
-        if *postImage != nil {
-        }
-        println(*configFile)
-        println("Init:", init)
+    if len(os.Args) == 1 {
+        fmt.Println("usage: siri <command> [<args>]")
+        fmt.Println("The most commonly used git commands are: ")
+        fmt.Println(" ask   Ask questions")
+        fmt.Println(" send  Send messages to your contacts")
+        os.Exit(1)
     }
 
-    return "success"
+    switch os.Args[1] {
+    case "init":
+        initCommand.Parse(os.Args[2:])
+
+        if initCommand.Parsed() {
+            initConfig(filenameFlag, awsAccessKeyIdFlag, awsSecretAccessKeyFlag, dbNameFlag, dbUserFlag, dbPasswordFlag, webPortFlag, envFlag)
+        }
+
+        return nil
+    case "send":
+        sendCommand.Parse(os.Args[2:])
+    default:
+        fmt.Printf("%q is not valid command.\n", os.Args[1])
+        os.Exit(2)
+    }
+
+    return nil
+}
+
+func initConfig(filenameFlag *string, awsAccessKeyIdFlag *string, awsSecretAccessKeyFlag *string, dbNameFlag *string, dbUserFlag *string, dbPasswordFlag *string, webPortFlag *uint, envFlag *string) error {
+
+    argsErr := false
+
+    if *filenameFlag == "" {
+        fmt.Println("Please supply the filename --file option.")
+        argsErr = true
+    }
+
+    if *awsAccessKeyIdFlag == "" {
+        fmt.Println("Please supply the --aws-access-key-id option.")
+        argsErr = true
+    }
+
+    if *awsSecretAccessKeyFlag == "" {
+        fmt.Println("Please supply the --aws-secret-access-key option.")
+        argsErr = true
+    }
+
+    if *dbNameFlag == "" {
+        fmt.Println("Please supply the DB name --db-name option.")
+        argsErr = true
+    }
+
+    if *dbUserFlag == "" {
+        fmt.Println("Please supply the DB user name --db-user option.")
+        argsErr = true
+    }
+
+    if *dbPasswordFlag == "" {
+        fmt.Println("Please supply the DB password --db-password option.")
+        argsErr = true
+    }
+
+    if argsErr {
+        fmt.Println("-----------------------------------------")
+        fmt.Println("Please provide required options.")
+        os.Exit(1)
+    }
+    dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+
+    conf := config.Configuration{
+        AWS_ACCESS_KEY_ID: *awsAccessKeyIdFlag,
+        AWS_SECRET_ACCESS_KEY:*awsSecretAccessKeyFlag,
+        DOMIO_DB_NAME: *dbNameFlag,
+        DOMIO_DB_USER: *dbUserFlag,
+        DOMIO_DB_PASSWORD: *dbPasswordFlag,
+        PORT: *webPortFlag,
+        ENV: *envFlag,
+    }
+    jsonConfig, _ := json.MarshalIndent(conf, "", "    ")
+    err := ioutil.WriteFile(path.Join(dir, *filenameFlag), jsonConfig, 0644)
+    if (err != nil) {
+        log.Println(err)
+        os.Exit(1)
+    }
+    return nil
+
 }

@@ -7,6 +7,7 @@ import (
     "fmt"
     "domio/components/config"
     "domio/components/arguments"
+    "os"
 )
 
 func init() {
@@ -15,7 +16,10 @@ func init() {
 
 func main() {
     result := arguments.ProcessArguments()
-    log.Print(result)
+    if (result != nil) {
+        fmt.Print(result)
+        os.Exit(1)
+    }
 
     //startRouter()
 }
