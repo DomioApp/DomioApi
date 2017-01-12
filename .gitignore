@@ -2,6 +2,6 @@ deploy/config/config.json
 bin
 pkg
 src/*
-.idea/**
+.idea/**/**
 !src/domio
 !.idea/codeStyleSettings.xml
