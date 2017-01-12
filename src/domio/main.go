@@ -1,15 +1,11 @@
 package main
 
 import (
-    "net/http"
     "log"
-    "domio/router"
     "fmt"
-    "domio/components/config"
     "domio/components/arguments"
     "os"
     "github.com/fatih/color"
-    "domio/components/server"
 )
 
 var Version string
