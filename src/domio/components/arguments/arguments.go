@@ -8,13 +8,12 @@ import (
     "log"
     "encoding/json"
     "io/ioutil"
-    "path/filepath"
     "path"
 )
 
 func ProcessArguments() error {
     initCommand := flag.NewFlagSet("init", flag.ExitOnError)
-    filenameFlag := initCommand.String("file", "/etc/domio/config.json", "config file absolute path")
+    filenameFlag := initCommand.String("file", "config.json", "config file absolute path")
     awsAccessKeyIdFlag := initCommand.String("aws-access-key-id", "", "AWS Access Key ID")
     awsSecretAccessKeyFlag := initCommand.String("aws-secret-access-key", "", "AWS Secret Access Key")
     dbNameFlag := initCommand.String("db-name", "", "DB name")
@@ -93,7 +92,7 @@ func initConfig(filenameFlag *string, awsAccessKeyIdFlag *string, awsSecretAcces
         fmt.Println("Please provide required options.")
         os.Exit(1)
     }
-    dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+    //dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 
     conf := config.Configuration{
         AWS_ACCESS_KEY_ID: *awsAccessKeyIdFlag,
@@ -104,8 +103,14 @@ func initConfig(filenameFlag *string, awsAccessKeyIdFlag *string, awsSecretAcces
         PORT: *webPortFlag,
         ENV: *envFlag,
     }
+
+    if _, err := os.Stat(config.ConfigPath); os.IsNotExist(err) {
+        log.Print("Creating config folder...")
+        os.Mkdir(config.ConfigPath, 0755)
+    }
+
     jsonConfig, _ := json.MarshalIndent(conf, "", "    ")
-    err := ioutil.WriteFile(path.Join(dir, *filenameFlag), jsonConfig, 0644)
+    err := ioutil.WriteFile(path.Join(config.ConfigPath, *filenameFlag), jsonConfig, 0755)
     if (err != nil) {
         log.Println(err)
         os.Exit(1)

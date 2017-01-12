@@ -20,6 +20,7 @@ type Configuration struct {
 }
 
 var Config Configuration
+var ConfigPath = "/usr/local/domio"
 
 func LoadConfig() Configuration {
     dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
