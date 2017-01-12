@@ -22,6 +22,7 @@ func ProcessArguments() error {
     webPortFlag := initCommand.Uint("port", 8080, "Port for the HTTP server to run on")
     envFlag := initCommand.String("env", "development", "Environment name: development, testing, production")
 
+
     startCommand := flag.NewFlagSet("start", flag.ExitOnError)
     //recipientFlag := sendCommand.String("recipient", "", "Recipient of your message")
     //messageFlag := sendCommand.String("message", "", "Text message")
