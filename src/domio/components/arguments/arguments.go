@@ -22,15 +22,15 @@ func ProcessArguments() error {
     webPortFlag := initCommand.Uint("port", 8080, "Port for the HTTP server to run on")
     envFlag := initCommand.String("env", "development", "Environment name: development, testing, production")
 
-    sendCommand := flag.NewFlagSet("send", flag.ExitOnError)
+    startCommand := flag.NewFlagSet("start", flag.ExitOnError)
     //recipientFlag := sendCommand.String("recipient", "", "Recipient of your message")
     //messageFlag := sendCommand.String("message", "", "Text message")
 
     if len(os.Args) == 1 {
-        fmt.Println("usage: siri <command> [<args>]")
-        fmt.Println("The most commonly used git commands are: ")
-        fmt.Println(" ask   Ask questions")
-        fmt.Println(" send  Send messages to your contacts")
+        fmt.Println("usage: domio <command> [<args>]")
+        fmt.Println("Commands are: ")
+        fmt.Println(" init   Init with new config file")
+        fmt.Println(" start  Start server")
         os.Exit(1)
     }
 
@@ -43,14 +43,24 @@ func ProcessArguments() error {
         }
 
         return nil
-    case "send":
-        sendCommand.Parse(os.Args[2:])
+    case "start":
+        startCommand.Parse(os.Args[2:])
+
+        if startCommand.Parsed() {
+            startApp()
+        }
+
+        return nil
+
     default:
         fmt.Printf("%q is not valid command.\n", os.Args[1])
         os.Exit(2)
     }
 
     return nil
+}
+func startApp() {
+    fmt.Print("Starting app...")
 }
 
 func initConfig(filenameFlag *string, awsAccessKeyIdFlag *string, awsSecretAccessKeyFlag *string, dbNameFlag *string, dbUserFlag *string, dbPasswordFlag *string, webPortFlag *uint, envFlag *string) error {
