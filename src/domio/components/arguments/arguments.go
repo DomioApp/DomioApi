@@ -20,7 +20,7 @@ func ProcessArguments() error {
     dbUserFlag := initCommand.String("db-user", "", "DB user name")
     dbPasswordFlag := initCommand.String("db-password", "", "DB password")
     webPortFlag := initCommand.Uint("port", 8080, "Port for the HTTP server to run on")
-    envFlag := initCommand.String("env", "", "Environment name: development, testing, production")
+    envFlag := initCommand.String("env", "development", "Environment name: development, testing, production")
 
     sendCommand := flag.NewFlagSet("send", flag.ExitOnError)
     //recipientFlag := sendCommand.String("recipient", "", "Recipient of your message")
@@ -106,7 +106,7 @@ func initConfig(filenameFlag *string, awsAccessKeyIdFlag *string, awsSecretAcces
 
     if _, err := os.Stat(config.ConfigPath); os.IsNotExist(err) {
         log.Print("Creating config folder...")
-        os.Mkdir(config.ConfigPath, 0755)
+        os.MkdirAll(config.ConfigPath, 0755)
     }
 
     jsonConfig, _ := json.MarshalIndent(conf, "", "    ")
