@@ -9,6 +9,7 @@ import (
     "encoding/json"
     "io/ioutil"
     "path"
+    "domio/components/server"
 )
 
 func ProcessArguments() error {
@@ -21,7 +22,6 @@ func ProcessArguments() error {
     dbPasswordFlag := initCommand.String("db-password", "", "DB password")
     webPortFlag := initCommand.Uint("port", 8080, "Port for the HTTP server to run on")
     envFlag := initCommand.String("env", "development", "Environment name: development, testing, production")
-
 
     startCommand := flag.NewFlagSet("start", flag.ExitOnError)
     //recipientFlag := sendCommand.String("recipient", "", "Recipient of your message")
@@ -40,7 +40,7 @@ func ProcessArguments() error {
         initCommand.Parse(os.Args[2:])
 
         if initCommand.Parsed() {
-            initConfig(filenameFlag, awsAccessKeyIdFlag, awsSecretAccessKeyFlag, dbNameFlag, dbUserFlag, dbPasswordFlag, webPortFlag, envFlag)
+            config.InitConfigFile(filenameFlag, awsAccessKeyIdFlag, awsSecretAccessKeyFlag, dbNameFlag, dbUserFlag, dbPasswordFlag, webPortFlag, envFlag)
         }
 
         return nil
@@ -48,7 +48,7 @@ func ProcessArguments() error {
         startCommand.Parse(os.Args[2:])
 
         if startCommand.Parsed() {
-            startApp()
+            server.Start()
         }
 
         return nil
@@ -59,73 +59,4 @@ func ProcessArguments() error {
     }
 
     return nil
-}
-func startApp() {
-    fmt.Print("Starting app...")
-}
-
-func initConfig(filenameFlag *string, awsAccessKeyIdFlag *string, awsSecretAccessKeyFlag *string, dbNameFlag *string, dbUserFlag *string, dbPasswordFlag *string, webPortFlag *uint, envFlag *string) error {
-
-    argsErr := false
-
-    if *filenameFlag == "" {
-        fmt.Println("Please supply the filename --file option.")
-        argsErr = true
-    }
-
-    if *awsAccessKeyIdFlag == "" {
-        fmt.Println("Please supply the --aws-access-key-id option.")
-        argsErr = true
-    }
-
-    if *awsSecretAccessKeyFlag == "" {
-        fmt.Println("Please supply the --aws-secret-access-key option.")
-        argsErr = true
-    }
-
-    if *dbNameFlag == "" {
-        fmt.Println("Please supply the DB name --db-name option.")
-        argsErr = true
-    }
-
-    if *dbUserFlag == "" {
-        fmt.Println("Please supply the DB user name --db-user option.")
-        argsErr = true
-    }
-
-    if *dbPasswordFlag == "" {
-        fmt.Println("Please supply the DB password --db-password option.")
-        argsErr = true
-    }
-
-    if argsErr {
-        fmt.Println("-----------------------------------------")
-        fmt.Println("Please provide required options.")
-        os.Exit(1)
-    }
-    //dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
-
-    conf := config.Configuration{
-        AWS_ACCESS_KEY_ID: *awsAccessKeyIdFlag,
-        AWS_SECRET_ACCESS_KEY:*awsSecretAccessKeyFlag,
-        DOMIO_DB_NAME: *dbNameFlag,
-        DOMIO_DB_USER: *dbUserFlag,
-        DOMIO_DB_PASSWORD: *dbPasswordFlag,
-        PORT: *webPortFlag,
-        ENV: *envFlag,
-    }
-
-    if _, err := os.Stat(config.ConfigPath); os.IsNotExist(err) {
-        log.Print("Creating config folder...")
-        os.MkdirAll(config.ConfigPath, 0660)
-    }
-
-    jsonConfig, _ := json.MarshalIndent(conf, "", "    ")
-    err := ioutil.WriteFile(path.Join(config.ConfigPath, *filenameFlag), jsonConfig, 0660)
-    if (err != nil) {
-        log.Println(err)
-        os.Exit(1)
-    }
-    return nil
-
 }

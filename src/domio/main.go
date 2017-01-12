@@ -8,6 +8,8 @@ import (
     "domio/components/config"
     "domio/components/arguments"
     "os"
+    "github.com/fatih/color"
+    "domio/components/server"
 )
 
 var Version string
@@ -18,29 +20,23 @@ func init() {
 }
 
 func main() {
-    fmt.Println()
-    fmt.Println("------------------------------------------------------")
-    fmt.Println("Buildstamp: ", Buildstamp)
-    fmt.Println("Hash:       ", Version)
-    fmt.Println("------------------------------------------------------")
-    fmt.Println()
-
+    printHeader()
     result := arguments.ProcessArguments()
     if (result != nil) {
         fmt.Print(result)
         os.Exit(1)
     }
 
-    //startRouter()
+    //server.StartRouter()
 }
-
-func startRouter() {
-    domiorouter := router.NewRouter()
-    log.Printf("Web server is running on http://localhost:%d", config.Config.PORT)
-    err := http.ListenAndServe(fmt.Sprintf(":%v", config.Config.PORT), domiorouter)
-    if (err != nil) {
-        msg := fmt.Sprintf("Failed to start web server on port %d", config.Config.PORT)
-        log.Fatal(msg)
-    }
+func printHeader() {
+    color.Set(color.FgHiCyan)
+    fmt.Println()
+    fmt.Println("------------------------------------------------------")
+    fmt.Println("Buildstamp: ", Buildstamp)
+    fmt.Println("Hash:       ", Version)
+    fmt.Println("------------------------------------------------------")
+    fmt.Println()
+    color.Unset()
 
 }
