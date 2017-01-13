@@ -6,6 +6,7 @@ import (
     "fmt"
     "domio/components/config"
     "domio/components/server"
+    "domio/db"
 )
 
 func ProcessArguments() error {
@@ -44,6 +45,7 @@ func ProcessArguments() error {
         startCommand.Parse(os.Args[2:])
 
         config.LoadConfig()
+        domiodb.InitDb()
 
         if startCommand.Parsed() {
             server.Start()

@@ -4,21 +4,19 @@ import (
     "net/http"
     "github.com/gorilla/mux"
     "domio/routes"
-    "path/filepath"
-    "os"
+    //"path/filepath"
+    //"os"
     "domio/components/config"
-    "log"
 )
 
 func NewRouter() *mux.Router {
     conf := config.Config
-    dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+    //dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 
     router := mux.NewRouter().StrictSlash(true)
 
     if (conf.ENV == "development") {
-        log.Println("Running development environment.")
-        router.PathPrefix("/swagger").Handler(http.FileServer(http.Dir(dir)))
+        router.PathPrefix("/swagger").Handler(http.FileServer(http.Dir("/usr/local/domio/www")))
     }
 
     for _, route := range routes.RoutesList {

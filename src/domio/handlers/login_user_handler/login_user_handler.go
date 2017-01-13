@@ -6,6 +6,7 @@ import (
     domioerrors  "domio/errors"
     "domio/components/responses"
     "domio/components/requests"
+    //"log"
 )
 
 type UserLoggedinObject struct {
@@ -15,8 +16,6 @@ type UserLoggedinObject struct {
 }
 
 func LoginUserHandler(w http.ResponseWriter, req *http.Request) {
-    defer req.Body.Close()
-
     var emailAndPasswordPair domiodb.EmailAndPasswordPair
 
     err := requests.DecodeJsonRequestBody(req, &emailAndPasswordPair)
@@ -39,4 +38,6 @@ func LoginUserHandler(w http.ResponseWriter, req *http.Request) {
     }
 
     responses.ReturnObjectResponse(w, UserLoggedinObject{Email:userClaims.Subject, Id:userClaims.Id, TokenString:tokenString})
+
+    defer req.Body.Close()
 }

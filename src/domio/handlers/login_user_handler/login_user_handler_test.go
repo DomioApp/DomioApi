@@ -8,8 +8,9 @@ import (
     "net/http/httptest"
     . "github.com/franela/goblin"
     "log"
-    "domio/db"
-    "fmt"
+    //"domio/db"
+    //"fmt"
+    //"domio/components/server"
 )
 
 type UserEmailAndPassword struct {
@@ -31,6 +32,13 @@ func TestLoginUserHandler(t *testing.T) {
 
     g.Describe("LoginUserHandler", func() {
         g.It("Should login a user with correct email and password", func(done Done) {
+            go func() {
+                user := LoginAsUser()
+                log.Print(user)
+                g.Assert(false).Eql(true)
+                done()
+            }()
+            /*
             go func() {
                 user := LoginAsUser()
                 var cardRequest = domiodb.CardRequest{
@@ -70,6 +78,7 @@ func TestLoginUserHandler(t *testing.T) {
 
                 done()
             }()
+            */
         })
     })
 }
@@ -91,8 +100,11 @@ func LoginAsUser() UserCreds {
 
     handler.ServeHTTP(resp, req)
 
-    var userCreds UserCreds
+    var userCreds = UserCreds{}
 
+    log.Print("*******************************************")
+    log.Print(resp)
+    log.Print("*******************************************")
     if err := json.Unmarshal(resp.Body.Bytes(), &userCreds); err != nil {
         log.Print(err)
     }

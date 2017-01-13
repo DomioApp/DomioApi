@@ -58,11 +58,12 @@ func LoginUser(user EmailAndPasswordPair) (error, *jwt.StandardClaims, string) {
 
     if err != nil {
         /*if err == sql.ErrNoRows {}*/
-        log.Println(err)
         return err, nil, ""
     }
 
+    log.Print("*********************************")
     log.Print(userDb)
+    log.Print("*********************************")
 
     loginError := bcrypt.CompareHashAndPassword([]byte(userDb.Password), []byte(user.Password))
 
