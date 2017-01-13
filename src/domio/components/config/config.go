@@ -36,6 +36,17 @@ func (*AppStatus) GetBuildAgoValue() string {
     return time.Since(tm).String()
 }
 
+func (*AppStatus) GetBuildDateTime() string {
+
+    i, err := strconv.ParseInt(AppStatusInfo.Buildstamp, 10, 64)
+    if err != nil {
+        panic(err)
+    }
+    tm := time.Unix(i, 0)
+
+    return tm.String()
+}
+
 var AppStatusInfo AppStatus
 var Config Configuration
 var ConfigPath = "/usr/local/domio"

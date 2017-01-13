@@ -7,8 +7,8 @@ import (
 )
 
 type AppStatusInfo struct {
-    Buildstamp    string `json:"app_buildstamp"`
     BuildAgo      string `json:"app_buildago"`
+    Buildstamp    string `json:"app_buildstamp"`
     BuildTimeDate string `json:"app_buildtimedate"`
     Hash          string `json:"app_hash"`
     Version       string `json:"app_version"`
@@ -17,6 +17,7 @@ type AppStatusInfo struct {
 func ShowStatusHandler(w http.ResponseWriter, req *http.Request) {
     info := AppStatusInfo{
         Buildstamp:config.AppStatusInfo.Buildstamp,
+        BuildTimeDate:config.AppStatusInfo.GetBuildDateTime(),
         BuildAgo:config.AppStatusInfo.GetBuildAgoValue(),
         Hash:config.AppStatusInfo.Hash,
         Version:config.AppStatusInfo.Version,

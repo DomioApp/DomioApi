@@ -42,7 +42,7 @@ func printHeader() {
     fmt.Println()
     fmt.Println("-----------------------------------------------------")
     fmt.Println("Buildstamp:", config.AppStatusInfo.Buildstamp)
-    fmt.Println("Build:     ", config.AppStatusInfo.GetBuildAgoValue())
+    fmt.Println("Build:     ", config.AppStatusInfo.GetBuildDateTime())
     fmt.Println("Hash:      ", config.AppStatusInfo.Hash)
     fmt.Println("Version:   ", config.AppStatusInfo.Version)
     fmt.Println("-----------------------------------------------------")
