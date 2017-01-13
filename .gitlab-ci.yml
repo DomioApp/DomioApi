@@ -54,6 +54,8 @@ go_build:
         - go get -u github.com/RackSec/srslog
 
         - go build -o bin/domio domio
+  except:
+  - master
 
 deploy_staging:
   stage: deploy
