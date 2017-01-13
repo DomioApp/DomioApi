@@ -8,9 +8,10 @@ import (
     "net/http/httptest"
     . "github.com/franela/goblin"
     "log"
-    //"domio/db"
     //"fmt"
     //"domio/components/server"
+    "domio/components/config"
+    "domio/db"
 )
 
 type UserEmailAndPassword struct {
@@ -31,6 +32,12 @@ func TestLoginUserHandler(t *testing.T) {
     g := Goblin(t)
 
     g.Describe("LoginUserHandler", func() {
+
+        g.Before(func() {
+            config.LoadConfig()
+            domiodb.InitDb()
+        })
+
         g.It("Should login a user with correct email and password", func(done Done) {
             go func() {
                 user := LoginAsUser()
