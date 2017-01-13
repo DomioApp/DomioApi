@@ -63,8 +63,11 @@ deploy_staging:
   environment:
     name: staging
     url: https://domio.in
-#  only:
-#  - master
+
+# Tagged commit is used to build the app, so master branch is not needed
+# http://stackoverflow.com/questions/41628244/how-to-make-gitlab-build-the-commit-only-once
+  except:
+  - master
 
 #go_test:
 #    stage: verify
