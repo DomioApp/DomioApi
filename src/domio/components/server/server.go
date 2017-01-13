@@ -9,6 +9,9 @@ import (
 )
 
 func StartRouter() {
+    log.Print("Starting router...")
+    log.Print("-------------------------------------------")
+    log.Print(config.Config)
     domiorouter := router.NewRouter()
     log.Printf("Web server is running on http://localhost:%d", config.Config.PORT)
     err := http.ListenAndServe(fmt.Sprintf(":%v", config.Config.PORT), domiorouter)
@@ -20,4 +23,5 @@ func StartRouter() {
 }
 func Start() {
     fmt.Print("Starting app...")
+    StartRouter()
 }

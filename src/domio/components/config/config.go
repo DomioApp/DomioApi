@@ -19,14 +19,27 @@ type Configuration struct {
     ENV                   string `json:"ENV"`
 }
 
+type AppStatus struct {
+    Buildstamp string `json:"app_buildstamp"`
+    Hash       string `json:"app_hash"`
+    Version    string `json:"app_version"`
+}
+
+var AppStatusInfo AppStatus
 var Config Configuration
 var ConfigPath = "/usr/local/domio"
 
-func LoadConfig() Configuration {
+func init() {
+    log.Print("Config init...")
+    LoadConfig()
+}
+
+func LoadConfig() error {
     dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 
     defaultConfigFilePath := "config.dev.json"
     configFile := path.Join(dir, defaultConfigFilePath)
+    log.Print(configFile)
     //configFile := "C:\\Users\\sbasharov\\WebstormProjects\\domio\\DomioApi\\bin\\" + defaultConfigFilePath
     //configFile := "/Users/sergeibasharov/WebstormProjects/DomioApiGo/deploy/config/config.json"
     if _, err := os.Stat(configFile); os.IsNotExist(err) {
@@ -37,13 +50,12 @@ func LoadConfig() Configuration {
     file, _ := os.Open(configFile)
 
     decoder := json.NewDecoder(file)
-    config := Configuration{}
-    err := decoder.Decode(&config)
+    err := decoder.Decode(&Config)
     if err != nil {
         logger.Logger.Crit("Config file couldn't be loaded, exitting...")
         //logger.Logger.Crit(file)
         log.Fatalln("error:", err)
     }
-    logger.Logger.Info("Config loaded")
-    return config
+
+    return nil
 }

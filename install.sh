@@ -37,9 +37,11 @@ sh ~/domioapi/deploy/copy_swagger.sh
 sh ~/domioapi/deploy/copy_public_site.sh
 sh ~/domioapi/deploy/copy_domio_service_config.sh
 sh ~/domioapi/deploy/copy_nginx_config_files.sh
-sh ~/domioapi/deploy/create_config_file.sh
 
 sh ~/domioapi/deploy/build.sh
+
+sh ~/domioapi/deploy/create_config_file.sh
+
 service domio restart
 
 cd /

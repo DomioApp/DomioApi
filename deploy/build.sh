@@ -9,8 +9,6 @@ cd ~/domioapi
 
 go build -o /domio/domio domio
 
-sh ~/domioapi/deploy/create_config_file.sh
-
 cd /
 rm -rf ~/domioapi
 

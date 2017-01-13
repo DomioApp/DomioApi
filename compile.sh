@@ -1,2 +1,13 @@
 #!/usr/bin/env bash
-go build -o bin/domio.exe -ldflags "-X main.Buildstamp=`date -u '+%Y-%m-%d_%I:%M:%S%p'` -X main.Hash=`git rev-parse --short HEAD`  -X main.Version=`git tag -l --points-at HEAD`" domio
+
+buildstamp=`date -u '+%Y-%m-%d_%I:%M:%S%p'`
+hash=`git rev-parse --short HEAD`
+version=`git tag -l --points-at HEAD`
+
+echo ------------------------------------------------------
+echo "Buildstamp: ${buildstamp}"
+echo "Hash:       ${hash}"
+echo "Version:    ${version}"
+echo ------------------------------------------------------
+
+go build -o bin/domio -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$hash  -X main.Version=$version" domio

@@ -6,24 +6,32 @@ import (
     "domio/components/arguments"
     "os"
     "github.com/fatih/color"
+    "domio/components/config"
 )
 
 var Version string
+var Hash string
 var Buildstamp string
 
 func init() {
     log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+    config.AppStatusInfo = config.AppStatus{
+        Buildstamp:Buildstamp,
+        Hash:Hash,
+        Version:Version,
+    }
 }
 
 func main() {
     printHeader()
+
     result := arguments.ProcessArguments()
+
     if (result != nil) {
         fmt.Print(result)
         os.Exit(1)
     }
-
-    //server.StartRouter()
 }
 
 func printHeader() {
@@ -31,7 +39,8 @@ func printHeader() {
     fmt.Println()
     fmt.Println("------------------------------------------------------")
     fmt.Println("Buildstamp: ", Buildstamp)
-    fmt.Println("Hash:       ", Version)
+    fmt.Println("Hash:       ", Hash)
+    fmt.Println("Version:    ", Version)
     fmt.Println("------------------------------------------------------")
     fmt.Println()
     color.Unset()
