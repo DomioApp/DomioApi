@@ -26,7 +26,7 @@ func init() {
 
     config.AppStatusInfo = config.AppStatus{
         Buildstamp:Buildstamp,
-        BuildAgo: time.Since(tm),
+        BuildAgo: time.Since(tm).String(),
         Hash:Hash,
         Version:Version,
     }
