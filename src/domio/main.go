@@ -26,10 +26,12 @@ func init() {
 func main() {
     printHeader()
 
-    result := arguments.ProcessArguments()
+    argumentsList, argumentsError := arguments.ProcessArguments()
 
-    if (result != nil) {
-        fmt.Print(result)
+    log.Print(argumentsList.Command)
+
+    if (argumentsError != nil) {
+        fmt.Print(argumentsError)
         os.Exit(1)
     }
 }

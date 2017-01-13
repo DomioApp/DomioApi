@@ -4,12 +4,56 @@ import (
     "flag"
     "os"
     "fmt"
+    "log"
+    //"domio/components/config"
+    //"domio/components/server"
+    //"domio/db"
     "domio/components/config"
-    "domio/components/server"
     "domio/db"
+    "domio/components/server"
 )
 
-func ProcessArguments() error {
+type Arguments struct {
+    Command string
+}
+
+func ProcessArguments() (Arguments, error) {
+    var args = Arguments{}
+
+    if len(os.Args) == 1 {
+        showHelpAndExit()
+    }
+
+    switch os.Args[1] {
+
+    case "init":
+        args = processInitArguments()
+
+    case "start":
+        args = processStartArguments()
+
+    default:
+        fmt.Printf("%q is not valid command.\n", os.Args[1])
+        os.Exit(2)
+    }
+
+    return args, nil
+}
+
+func showHelpAndExit() {
+    fmt.Println("usage: domio <command> [<args>]")
+    fmt.Println("Commands are: ")
+    fmt.Println(" init   Init with new config file")
+    fmt.Println(" start  Start server")
+    os.Exit(1)
+
+}
+
+func processInitArguments() Arguments {
+    var args = Arguments{
+        Command: "init",
+    }
+
     initCommand := flag.NewFlagSet("init", flag.ExitOnError)
     filenameFlag := initCommand.String("file", "config.json", "config file absolute path")
     awsAccessKeyIdFlag := initCommand.String("aws-access-key-id", "", "AWS Access Key ID")
@@ -20,43 +64,42 @@ func ProcessArguments() error {
     webPortFlag := initCommand.Uint("port", 8080, "Port for the HTTP server to run on")
     envFlag := initCommand.String("env", "development", "Environment name: development, testing, production")
 
+    log.Print(*filenameFlag)
+    log.Print(*awsAccessKeyIdFlag)
+    log.Print(*awsSecretAccessKeyFlag)
+    log.Print(*awsSecretAccessKeyFlag)
+    log.Print(*dbNameFlag)
+    log.Print(*dbUserFlag)
+    log.Print(*dbPasswordFlag)
+    log.Print(*dbPasswordFlag)
+    log.Print(*webPortFlag)
+    log.Print(*envFlag)
+
+    initCommand.Parse(os.Args[2:])
+
+    if initCommand.Parsed() {
+        config.InitConfigFile(filenameFlag, awsAccessKeyIdFlag, awsSecretAccessKeyFlag, dbNameFlag, dbUserFlag, dbPasswordFlag, webPortFlag, envFlag)
+    }
+    return args
+}
+
+func processStartArguments() Arguments {
+    var args = Arguments{
+        Command: "start",
+    }
+
     startCommand := flag.NewFlagSet("start", flag.ExitOnError)
     //recipientFlag := sendCommand.String("recipient", "", "Recipient of your message")
     //messageFlag := sendCommand.String("message", "", "Text message")
+    log.Print(*startCommand)
 
-    if len(os.Args) == 1 {
-        fmt.Println("usage: domio <command> [<args>]")
-        fmt.Println("Commands are: ")
-        fmt.Println(" init   Init with new config file")
-        fmt.Println(" start  Start server")
-        os.Exit(1)
+    startCommand.Parse(os.Args[2:])
+
+    config.LoadConfig()
+    domiodb.InitDb()
+
+    if startCommand.Parsed() {
+        server.Start()
     }
-
-    switch os.Args[1] {
-    case "init":
-        initCommand.Parse(os.Args[2:])
-
-        if initCommand.Parsed() {
-            config.InitConfigFile(filenameFlag, awsAccessKeyIdFlag, awsSecretAccessKeyFlag, dbNameFlag, dbUserFlag, dbPasswordFlag, webPortFlag, envFlag)
-        }
-
-        return nil
-    case "start":
-        startCommand.Parse(os.Args[2:])
-
-        config.LoadConfig()
-        domiodb.InitDb()
-
-        if startCommand.Parsed() {
-            server.Start()
-        }
-
-        return nil
-
-    default:
-        fmt.Printf("%q is not valid command.\n", os.Args[1])
-        os.Exit(2)
-    }
-
-    return nil
+    return args
 }
