@@ -50,11 +50,10 @@ func printHeader() {
     fmt.Println()
     fmt.Println("------------------------------------------------------")
     fmt.Println("Buildstamp: ", Buildstamp)
-    fmt.Println("Build:      ", time.Since(tm))
+    fmt.Println("Build:      ", time.Since(tm), " ago")
     fmt.Println("Hash:       ", Hash)
     fmt.Println("Version:    ", Version)
     fmt.Println("------------------------------------------------------")
     fmt.Println()
     color.Unset()
-
 }
