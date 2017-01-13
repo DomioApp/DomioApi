@@ -40,8 +40,6 @@ sh ~/domioapi/deploy/copy_nginx_config_files.sh
 
 sh ~/domioapi/deploy/build.sh
 
-sh ~/domioapi/deploy/create_config_file.sh
-
 service domio restart
 
 cd /
