@@ -62,6 +62,7 @@ func InitConfigFile(filenameFlag *string, awsAccessKeyIdFlag *string, awsSecretA
 
     if _, err := os.Stat(ConfigPath); os.IsNotExist(err) {
         log.Print("Creating config folder...")
+        log.Print(ConfigPath)
         os.MkdirAll(ConfigPath, 0660)
     }
 
@@ -71,6 +72,7 @@ func InitConfigFile(filenameFlag *string, awsAccessKeyIdFlag *string, awsSecretA
         log.Println(err)
         os.Exit(1)
     }
+    fmt.Printf("Config file saved to %s", path.Join(ConfigPath, *filenameFlag))
     return nil
 
 }

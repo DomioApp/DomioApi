@@ -43,6 +43,8 @@ func ProcessArguments() error {
     case "start":
         startCommand.Parse(os.Args[2:])
 
+        config.LoadConfig()
+
         if startCommand.Parsed() {
             server.Start()
         }

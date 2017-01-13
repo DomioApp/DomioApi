@@ -29,11 +29,6 @@ var AppStatusInfo AppStatus
 var Config Configuration
 var ConfigPath = "/usr/local/domio"
 
-func init() {
-    log.Print("Config init...")
-    LoadConfig()
-}
-
 func LoadConfig() error {
     dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 
