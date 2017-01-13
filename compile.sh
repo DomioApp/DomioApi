@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-buildstamp=`date -u '+%Y-%m-%d_%I:%M:%S%p'`
+buildstamp=`date -u '+%Y-%m-%d_%I:%M:%S'`
 hash=`git rev-parse --short HEAD`
 version=`git tag -l --points-at HEAD`
 
