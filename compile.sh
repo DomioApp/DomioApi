@@ -14,12 +14,12 @@ echo ---------------------------
 
 echo
 echo Compiling for Windows...
-set GOARCH=amd64
-set GOOS=windows
+export GOARCH=amd64
+export GOOS=windows
 go build -o /usr/local/bin/domio.exe -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$hash  -X main.Version=$version" domio
 
 
 echo Compiling for Linux...
-set GOARCH=amd64
-set GOOS=linux
+export GOARCH=amd64
+export GOOS=linux
 go build -o /usr/local/bin/domio -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$hash  -X main.Version=$version" domio
