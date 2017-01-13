@@ -30,10 +30,9 @@ var Config Configuration
 var ConfigPath = "/usr/local/domio"
 
 func LoadConfig() error {
-    dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+    //dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 
-    defaultConfigFilePath := "/usr/local/domio/config.json"
-    configFile := path.Join(dir, defaultConfigFilePath)
+    configFile := "/usr/local/domio/config.json"
     log.Print(configFile)
     //configFile := "C:\\Users\\sbasharov\\WebstormProjects\\domio\\DomioApi\\bin\\" + defaultConfigFilePath
     //configFile := "/Users/sergeibasharov/WebstormProjects/DomioApiGo/deploy/config/config.json"

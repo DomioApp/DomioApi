@@ -7,7 +7,22 @@ mkdir /domio
 
 cd ~/domioapi
 
-go build -o /domio/domio domio
+
+#=====================================================================================================================
+
+buildstamp=`date -u '+%Y-%m-%d_%I:%M:%S%p'`
+hash=`git rev-parse --short HEAD`
+version=`git tag -l --points-at HEAD`
+
+echo ------------------------------------------------------
+echo "Buildstamp: ${buildstamp}"
+echo "Hash:       ${hash}"
+echo "Version:    ${version}"
+echo ------------------------------------------------------
+
+go build -o /domio/domio -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$hash  -X main.Version=$version" domio
+
+#=====================================================================================================================
 
 /domio/domio init --aws-access-key-id=$AWS_ACCESS_KEY_ID \
                   --aws-secret-access-key=$AWS_SECRET_ACCESS_KEY \
