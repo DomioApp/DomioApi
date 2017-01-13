@@ -5,6 +5,8 @@ import (
     "os"
     "log"
     "domio/components/logger"
+    "strconv"
+    "time"
 )
 
 type Configuration struct {
@@ -19,9 +21,19 @@ type Configuration struct {
 
 type AppStatus struct {
     Buildstamp string `json:"app_buildstamp"`
-    BuildAgo   string `json:"app_buildago"`
     Hash       string `json:"app_hash"`
     Version    string `json:"app_version"`
+}
+
+func (*AppStatus) GetBuildAgoValue() string {
+
+    i, err := strconv.ParseInt(AppStatusInfo.Buildstamp, 10, 64)
+    if err != nil {
+        panic(err)
+    }
+    tm := time.Unix(i, 0)
+
+    return time.Since(tm).String()
 }
 
 var AppStatusInfo AppStatus

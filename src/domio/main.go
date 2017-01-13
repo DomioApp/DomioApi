@@ -7,8 +7,6 @@ import (
     "os"
     "github.com/fatih/color"
     "domio/components/config"
-    "strconv"
-    "time"
 )
 
 var Version string
@@ -18,15 +16,8 @@ var Buildstamp string
 func init() {
     log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-    i, err := strconv.ParseInt(Buildstamp, 10, 64)
-    if err != nil {
-        panic(err)
-    }
-    tm := time.Unix(i, 0)
-
     config.AppStatusInfo = config.AppStatus{
         Buildstamp:Buildstamp,
-        BuildAgo: time.Since(tm).String(),
         Hash:Hash,
         Version:Version,
     }
@@ -50,10 +41,10 @@ func printHeader() {
     color.Set(color.FgHiCyan)
     fmt.Println()
     fmt.Println("-----------------------------------------------------")
-    fmt.Println("Buildstamp:", Buildstamp)
-    fmt.Println("Build:     ", config.AppStatusInfo.BuildAgo)
-    fmt.Println("Hash:      ", Hash)
-    fmt.Println("Version:   ", Version)
+    fmt.Println("Buildstamp:", config.AppStatusInfo.Buildstamp)
+    fmt.Println("Build:     ", config.AppStatusInfo.GetBuildAgoValue())
+    fmt.Println("Hash:      ", config.AppStatusInfo.Hash)
+    fmt.Println("Version:   ", config.AppStatusInfo.Version)
     fmt.Println("-----------------------------------------------------")
     fmt.Println()
     color.Unset()
