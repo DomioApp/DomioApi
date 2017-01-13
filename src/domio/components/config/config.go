@@ -4,9 +4,7 @@ import (
     "encoding/json"
     "os"
     "log"
-    "path/filepath"
     "domio/components/logger"
-    "path"
 )
 
 type Configuration struct {
