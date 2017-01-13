@@ -19,6 +19,7 @@ type Configuration struct {
 
 type AppStatus struct {
     Buildstamp string `json:"app_buildstamp"`
+    BuildAgo   string `json:"app_buildago"`
     Hash       string `json:"app_hash"`
     Version    string `json:"app_version"`
 }
