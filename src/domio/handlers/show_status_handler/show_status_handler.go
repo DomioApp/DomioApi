@@ -7,11 +7,11 @@ import (
 )
 
 type AppStatusInfo struct {
+    Version       string `json:"app_version"`
     BuildAgo      string `json:"app_buildago"`
     Buildstamp    string `json:"app_buildstamp"`
     BuildTimeDate string `json:"app_buildtimedate"`
     Hash          string `json:"app_hash"`
-    Version       string `json:"app_version"`
 }
 
 func ShowStatusHandler(w http.ResponseWriter, req *http.Request) {
