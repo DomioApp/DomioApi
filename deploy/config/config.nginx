@@ -74,7 +74,9 @@ http {
     #     HTTPS server
 
     server {
-        listen       443 ssl;
+        listen      443 ssl http2;
+        listen [::]:443 ssl http2;
+
         server_name  domio.in www.domio.in;
 
         ssl_certificate      /etc/letsencrypt/live/domio.in/fullchain.pem;
