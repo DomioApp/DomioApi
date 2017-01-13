@@ -10,4 +10,12 @@ echo "Hash:       ${hash}"
 echo "Version:    ${version}"
 echo ------------------------------------------------------
 
-go build -o bin/domio -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$hash  -X main.Version=$version" domio
+echo Compiling for Linux...
+set GOARCH=amd64
+set GOOS=linux
+go build -o /usr/local/bin/domio -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$hash  -X main.Version=$version" domio
+
+echo Compiling for Windows...
+set GOARCH=amd64
+set GOOS=windows
+go build -o /usr/local/bin/domio.exe -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$hash  -X main.Version=$version" domio
