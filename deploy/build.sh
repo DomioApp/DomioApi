@@ -15,6 +15,8 @@ go build -o /domio/domio domio
                   --db-user=$DOMIO_DB_USER \
                   --db-password=$DOMIO_DB_PASSWORD
 
+#/domio/domio init --aws-access-key-id=12 --aws-secret-access-key=23 --db-name=34 --db-user=45 --db-password=56
+
 cd /
 rm -rf ~/domioapi
 

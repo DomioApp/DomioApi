@@ -72,7 +72,7 @@ func InitConfigFile(filenameFlag *string, awsAccessKeyIdFlag *string, awsSecretA
         log.Println(err)
         os.Exit(1)
     }
-    fmt.Printf("Config file saved to %s", path.Join(ConfigPath, *filenameFlag))
+    fmt.Printf("Config file saved to %s\n", path.Join(ConfigPath, *filenameFlag))
     return nil
 
 }
