@@ -11,6 +11,7 @@ cd ~/domioapi
 #=====================================================================================================================
 
 buildstamp=`date -u '+%Y-%m-%d_%I:%M:%S%p'`
+buildstamp=`date -u '+%s'`
 hash=`git rev-parse --short HEAD`
 version=`git tag -l --points-at HEAD`
 
