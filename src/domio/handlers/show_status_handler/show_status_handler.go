@@ -10,7 +10,7 @@ type AppStatusInfo struct {
     Version       string `json:"app_version"`
     BuildAgo      string `json:"app_buildago"`
     Buildstamp    string `json:"app_buildstamp"`
-    BuildTimeDate string `json:"app_buildtimedate"`
+    BuildTimeDate string `json:"app_builddatetime"`
     Hash          string `json:"app_hash"`
 }
 
