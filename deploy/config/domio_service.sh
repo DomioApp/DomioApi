@@ -26,7 +26,7 @@ case "$1" in
 # echo -----------------------------------
 # start-stop-daemon $START_OPTS >> $LOGFILE
  echo "$NAME."
- start-stop-daemon --start --background --make-pidfile --pidfile /var/run/domio.pid --exec /domio/domio
+ start-stop-daemon --start --background --make-pidfile --pidfile /var/run/domio.pid --exec /domio/domio start
  ;;
 stop)
 # echo -----------------------------------
