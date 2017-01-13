@@ -63,8 +63,8 @@ deploy_staging:
   environment:
     name: staging
     url: https://domio.in
-  only:
-  - master
+#  only:
+#  - master
 
 #go_test:
 #    stage: verify
