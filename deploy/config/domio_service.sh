@@ -17,6 +17,7 @@ test -x $DAEMON || exit 0
 
 set -e
 
+
 case "$1" in
  start)
 # echo -----------------------------------
