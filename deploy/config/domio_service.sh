@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-NAME=domio
-DESC="Domio service"
+NAME=domio_api
+DESC="Domio Api service"
 PIDFILE="/var/run/${NAME}.pid"
 LOGFILE="/var/log/${NAME}.log"
 
-DAEMON="/domio/domio"
+DAEMON="/user/local/bin/domio_api"
 
 #start-stop-daemon --start --background --make-pidfile --pidfile /var/run/domio.pid --exec /domio/domio
 #start-stop-daemon --stop --pidfile /var/run/domio.pid
@@ -27,7 +27,7 @@ case "$1" in
 # echo -----------------------------------
 # start-stop-daemon $START_OPTS >> $LOGFILE
  echo "$NAME."
- start-stop-daemon --start --background --make-pidfile --pidfile /var/run/domio.pid --exec /domio/domio start
+ start-stop-daemon --start --background --make-pidfile --pidfile /var/run/domio_api.pid --exec /user/local/bin/domio_api start
  ;;
 stop)
 # echo -----------------------------------
@@ -38,7 +38,7 @@ stop)
 # start-stop-daemon $STOP_OPTS
 # echo "$NAME."
 # rm -f $PIDFILE
- start-stop-daemon --stop --pidfile /var/run/domio.pid
+ start-stop-daemon --stop --pidfile /var/run/domio_api.pid
  ;;
 restart|force-reload)
  echo -n "Restarting $DESC: "

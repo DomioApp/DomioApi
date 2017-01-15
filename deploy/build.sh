@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-echo Building Domio...
-rm -rf /domio
-mkdir /domio
+echo Building Domio Api...
 
 cd ~/domioapi
 
@@ -21,7 +19,7 @@ echo "Hash:       ${hash}"
 echo "Version:    ${version}"
 echo ------------------------------------------------------
 
-go build -o /domio/domio -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$hash  -X main.Version=$version" domio
+go build -o /usr/local/bin/domio_api -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$hash  -X main.Version=$version" domio_api
 
 #=====================================================================================================================
 
@@ -34,17 +32,17 @@ echo --db-user=$DOMIO_DB_USER \
 echo --db-password=$DOMIO_DB_PASSWORD
 echo ------------------------------------------------------
 
-/domio/domio init --aws-access-key-id=$AWS_ACCESS_KEY_ID \
-                  --aws-secret-access-key=$AWS_SECRET_ACCESS_KEY \
-                  --db-name=$DOMIO_DB_NAME \
-                  --db-user=$DOMIO_DB_USER \
-                  --db-password=$DOMIO_DB_PASSWORD
+/usr/local/bin/domio_api init --aws-access-key-id=$AWS_ACCESS_KEY_ID \
+                              --aws-secret-access-key=$AWS_SECRET_ACCESS_KEY \
+                              --db-name=$DOMIO_DB_NAME \
+                              --db-user=$DOMIO_DB_USER \
+                              --db-password=$DOMIO_DB_PASSWORD
 
 #/domio/domio init --aws-access-key-id=12 --aws-secret-access-key=23 --db-name=34 --db-user=45 --db-password=56
 
 cd /
 rm -rf ~/domioapi
 
-echo Domio is built and ready!
+echo Domio Api is built and ready!
 
-logger -n logs5.papertrailapp.com -t deploy -P 18422 -p user.notice "Domio is built and ready!"
+logger -n logs5.papertrailapp.com -t deploy -P 18422 -p user.notice "Domio Api is built and ready!"

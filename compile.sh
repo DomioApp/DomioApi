@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_NAME=domio
+PROJECT_NAME=domio_api
 
 #buildstamp=`date -u '+%Y-%m-%d_%I:%M:%S'`
 buildstamp=`date -u '+%s'`
