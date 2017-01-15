@@ -25,6 +25,15 @@ go build -o /domio/domio -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$
 
 #=====================================================================================================================
 
+echo ------------------------------------------------------
+echo Initializing config file with these variables:
+echo --aws-access-key-id=$AWS_ACCESS_KEY_ID \
+echo --aws-secret-access-key=$AWS_SECRET_ACCESS_KEY \
+echo --db-name=$DOMIO_DB_NAME \
+echo --db-user=$DOMIO_DB_USER \
+echo --db-password=$DOMIO_DB_PASSWORD
+echo ------------------------------------------------------
+
 /domio/domio init --aws-access-key-id=$AWS_ACCESS_KEY_ID \
                   --aws-secret-access-key=$AWS_SECRET_ACCESS_KEY \
                   --db-name=$DOMIO_DB_NAME \
