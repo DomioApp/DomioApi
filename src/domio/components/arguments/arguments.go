@@ -55,6 +55,9 @@ func processInitArguments() Arguments {
     }
 
     initCommand := flag.NewFlagSet("init", flag.ExitOnError)
+
+
+
     filenameFlag := initCommand.String("file", "config.json", "config file absolute path")
     awsAccessKeyIdFlag := initCommand.String("aws-access-key-id", "", "AWS Access Key ID")
     awsSecretAccessKeyFlag := initCommand.String("aws-secret-access-key", "", "AWS Secret Access Key")
@@ -63,6 +66,8 @@ func processInitArguments() Arguments {
     dbPasswordFlag := initCommand.String("db-password", "", "DB password")
     webPortFlag := initCommand.Uint("port", 8080, "Port for the HTTP server to run on")
     envFlag := initCommand.String("env", "development", "Environment name: development, testing, production")
+
+    initCommand.Parse(os.Args[2:])
 
     log.Print(*filenameFlag)
     log.Print(*awsAccessKeyIdFlag)
@@ -75,7 +80,6 @@ func processInitArguments() Arguments {
     log.Print(*webPortFlag)
     log.Print(*envFlag)
 
-    initCommand.Parse(os.Args[2:])
 
     if initCommand.Parsed() {
         config.InitConfigFile(filenameFlag, awsAccessKeyIdFlag, awsSecretAccessKeyFlag, dbNameFlag, dbUserFlag, dbPasswordFlag, webPortFlag, envFlag)
