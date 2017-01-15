@@ -59,7 +59,7 @@ func LoadConfig() error {
     //configFile := "C:\\Users\\sbasharov\\WebstormProjects\\domio\\DomioApi\\bin\\" + defaultConfigFilePath
     //configFile := "/Users/sergeibasharov/WebstormProjects/DomioApiGo/deploy/config/config.json"
     if _, err := os.Stat(configFile); os.IsNotExist(err) {
-        logger.Logger.Crit("Config file doesn't exist, exitting...")
+        logger.Crit("Config file doesn't exist, exitting...")
         log.Fatalln("error:", err)
     }
 
@@ -68,7 +68,7 @@ func LoadConfig() error {
     decoder := json.NewDecoder(file)
     err := decoder.Decode(&Config)
     if err != nil {
-        logger.Logger.Crit("Config file couldn't be loaded, exitting...")
+        logger.Crit("Config file couldn't be loaded, exitting...")
         //logger.Logger.Crit(file)
         log.Fatalln("error:", err)
     }

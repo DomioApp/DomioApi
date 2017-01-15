@@ -14,3 +14,7 @@ func init() {
         log.Fatal("failed to dial syslog")
     }
 }
+
+var Crit = Logger.Crit
+var Info = Logger.Info
+var Err = Logger.Err

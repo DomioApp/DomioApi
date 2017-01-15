@@ -78,12 +78,12 @@ func LoginUser(user EmailAndPasswordPair) (error, *jwt.StandardClaims, string) {
 
     if (loginError != nil) {
         log.Println(loginError)
-        logger.Logger.Err("User login error: " + user.Email)
+        logger.Err("User login error: " + user.Email)
     }
 
     if (newClaims != nil) {
         log.Println(newClaims)
-        logger.Logger.Info("User logged in: " + newClaims.Subject)
+        logger.Info("User logged in: " + newClaims.Subject)
     }
 
     return loginError, newClaims, tokenString

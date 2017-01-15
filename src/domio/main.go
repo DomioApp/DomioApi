@@ -7,6 +7,7 @@ import (
     "os"
     "github.com/fatih/color"
     "domio/components/config"
+    "domio/components/logger"
 )
 
 var Version string
@@ -32,6 +33,7 @@ func main() {
 
     if (argumentsError != nil) {
         fmt.Print(argumentsError)
+        logger.Crit(argumentsError.Error())
         os.Exit(1)
     }
 }
