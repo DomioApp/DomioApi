@@ -49,12 +49,12 @@ func (*AppStatus) GetBuildDateTime() string {
 
 var AppStatusInfo AppStatus
 var Config Configuration
-var ConfigPath = "/usr/local/domio"
+var ConfigPath = "/usr/local/domio_api"
 
 func LoadConfig() error {
     //dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 
-    configFile := "/usr/local/domio/config.json"
+    configFile := "/usr/local/domio_api/config.json"
     log.Print(configFile)
     //configFile := "C:\\Users\\sbasharov\\WebstormProjects\\domio\\DomioApi\\bin\\" + defaultConfigFilePath
     //configFile := "/Users/sergeibasharov/WebstormProjects/DomioApiGo/deploy/config/config.json"
