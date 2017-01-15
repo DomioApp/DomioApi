@@ -53,7 +53,7 @@ go_build:
         - go get -u golang.org/x/crypto/bcrypt
         - go get -u github.com/RackSec/srslog
 
-        - go build -o bin/domio domio
+        - go build -o /dev/null domio_public
     only:
     - tags
 
@@ -64,7 +64,7 @@ deploy_staging:
       - ssh root@$DEPLOY_STAGING_IP "rm -rf ~/domioapi; git clone git@gitlab.com:basharov/DomioApi.git ~/domioapi; cd ~/domioapi; export DOMIO_DB_USER=$DOMIO_DB_USER; export DOMIO_DB_PASSWORD=$DOMIO_DB_PASSWORD; export DOMIO_DB_NAME=$DOMIO_DB_NAME; export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID; export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY; export PORT=$PORT; ./install.sh"
     environment:
       name: staging
-      url: https://domio.in
+      url: https://api.domio.in
 
   # Tagged commit is used to build the app, so master branch is not needed
   # http://stackoverflow.com/questions/41628244/how-to-make-gitlab-build-the-commit-only-once
