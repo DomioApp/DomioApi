@@ -33,7 +33,7 @@ func main() {
 
     if (argumentsError != nil) {
         fmt.Print(argumentsError)
-        logger.Crit(argumentsError.Error())
+        logger.Logger.Crit(argumentsError.Error())
         os.Exit(1)
     }
 }

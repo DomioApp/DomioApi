@@ -46,5 +46,5 @@ func InitDb() {
         log.Fatalln("Couldn't connect to Database:\n", err)
     }
 
-    logger.Info("Database Initialized")
+    logger.Logger.Info("Database Initialized")
 }
