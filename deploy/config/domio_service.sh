@@ -5,7 +5,7 @@ DESC="Domio Api service"
 PIDFILE="/var/run/${NAME}.pid"
 LOGFILE="/var/log/${NAME}.log"
 
-DAEMON="/user/local/bin/domio_api"
+DAEMON="/usr/local/bin/domio_api"
 
 #start-stop-daemon --start --background --make-pidfile --pidfile /var/run/domio.pid --exec /domio/domio
 #start-stop-daemon --stop --pidfile /var/run/domio.pid
