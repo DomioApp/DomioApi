@@ -1,7 +1,7 @@
 image: golang:1.7.4
 
-variables:
-  BIN_PATH: "/domio"
+#variables:
+#  BIN_PATH: "/domio"
 
 before_script:
   #https://docs.gitlab.com/ee/ci/ssh_keys/README.html
@@ -53,7 +53,7 @@ go_build:
         - go get -u golang.org/x/crypto/bcrypt
         - go get -u github.com/RackSec/srslog
 
-        - go build -o /dev/null domio_public
+        - go build -o bin/domio_public domio_public
     only:
     - tags
 
