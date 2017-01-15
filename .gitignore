@@ -3,5 +3,5 @@ bin
 pkg
 src/*
 .idea/**/**
-!src/domio
+!src/domio_api
 !.idea/codeStyleSettings.xml
