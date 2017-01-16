@@ -16,11 +16,13 @@ echo ---------------------------
 echo
 
 platform='unknown'
-unamestr=`uname`
+unamestr=`uname -s`
 if [[ "$unamestr" == 'CYGWIN_NT-10.0' ]]; then
    platform='cygwin'
-elif [[ "$unamestr" == 'FreeBSD' ]]; then
-   platform='freebsd'
+elif [[ "$unamestr" == 'Darwin' ]]; then
+   platform='mac'
+elif [[ "$unamestr" == 'Linux' ]]; then
+   platform='linux'
 fi
 
 if [ $platform == "cygwin" ]
