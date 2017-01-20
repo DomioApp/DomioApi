@@ -28,6 +28,7 @@ fi
 if [ $platform == "cygwin" ]
     then
         echo Compiling for Windows...
+        export GOPATH=C:/Users/sbasharov/WebstormProjects/DomioApi
         export GOARCH=amd64
         export GOOS=windows
         go build -o /usr/local/bin/${PROJECT_NAME}_win.exe -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$hash  -X main.Version=$version" ${PROJECT_NAME}
