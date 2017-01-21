@@ -6,9 +6,6 @@ logger -n logs5.papertrailapp.com -t deploy -P 18422 -p user.notice "Domio deplo
 
 cd ~/domioapi
 export GOPATH=$PWD
-echo ==========================================
-echo GOPATH IS $GOPATH
-echo ==========================================
 
 sh ~/domioapi/deploy/apt_update.sh
 

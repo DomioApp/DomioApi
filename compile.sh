@@ -17,6 +17,7 @@ echo
 
 platform='unknown'
 unamestr=`uname -s`
+
 if [[ "$unamestr" == 'CYGWIN_NT-10.0' ]]; then
    platform='cygwin'
 elif [[ "$unamestr" == 'Darwin' ]]; then
@@ -37,6 +38,7 @@ fi
 if [ $platform == "mac" ]
     then
         echo Compiling for Mac...
+        export GOPATH=$PWD
         export GOARCH=amd64
         export GOOS=darwin
         go build -o /usr/local/bin/${PROJECT_NAME}_mac -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$hash  -X main.Version=$version" ${PROJECT_NAME}
