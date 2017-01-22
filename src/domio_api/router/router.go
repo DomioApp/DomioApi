@@ -7,6 +7,7 @@ import (
     //"path/filepath"
     //"os"
     "domio_api/components/config"
+    "log"
 )
 
 func NewRouter() *mux.Router {
@@ -16,7 +17,8 @@ func NewRouter() *mux.Router {
     router := mux.NewRouter().StrictSlash(true)
 
     if (conf.ENV == "development") {
-        router.PathPrefix("/swagger").Handler(http.FileServer(http.Dir("/usr/local/domio/www")))
+        log.Print("Development environment, handling static files by Go...")
+        router.PathPrefix("/swagger").Handler(http.FileServer(http.Dir("/usr/local/domio_api/www")))
     }
 
     for _, route := range routes.RoutesList {

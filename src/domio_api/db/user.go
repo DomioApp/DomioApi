@@ -35,6 +35,7 @@ type UserInfo struct {
     Email    string `json:"email" db:"email"`
     Password string `json:"password" db:"password"`
     Id       string `json:"id" db:"id"`
+    Role     string `json:"role" db:"role"`
 }
 
 func CreateUser(customer NewCustomer) (sql.Result, *pq.Error) {

@@ -10,10 +10,12 @@ import (
     "log"
     "domio_api/components/requests"
     "domio_api/messages"
-    "github.com/fatih/color"
+    //"github.com/fatih/color"
 )
 
 func CreateUserHandler(w http.ResponseWriter, req *http.Request) {
+    //colorRed := color.New(color.FgRed)
+
     var user domiodb.EmailAndPasswordPair
 
     err := requests.DecodeJsonRequestBody(req, &user)
@@ -25,15 +27,12 @@ func CreateUserHandler(w http.ResponseWriter, req *http.Request) {
 
     if (user.Email == "" || user.Password == "") {
         responses.ReturnErrorResponseWithCustomCode(w, domioerrors.UserEmailOrPasswordEmpty, http.StatusUnprocessableEntity)
+        return
     }
 
     existingUser := domiodb.GetUser(user.Email)
+
     if (existingUser != domiodb.UserInfo{}) {
-        color.Set(color.FgRed)
-        log.Print("===================")
-        log.Print("User already exists")
-        log.Print("===================")
-        color.Unset()
         responses.ReturnErrorResponseWithCustomCode(w, domioerrors.UserEmailExists, http.StatusUnprocessableEntity)
         return
     }
