@@ -5,7 +5,6 @@ import (
     "golang.org/x/crypto/bcrypt"
     "github.com/dgrijalva/jwt-go"
     "github.com/lib/pq"
-    "database/sql"
     "time"
     "log"
     "domio_api/components/logger"
@@ -38,20 +37,21 @@ type UserInfo struct {
     Role     string `json:"role" db:"role"`
 }
 
-func CreateUser(customer NewCustomer) (sql.Result, *pq.Error) {
+func CreateUser(customer NewCustomer) (*jwt.StandardClaims, string, error) {
     encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(customer.Password), bcrypt.DefaultCost)
-    result, creationError := Db.Exec("INSERT INTO users (id, email, password, role) VALUES ($1, $2, $3, $4)", customer.Id, customer.Email, string(encryptedPassword), "user")
+    _, creationError := Db.Exec("INSERT INTO users (id, email, password, role) VALUES ($1, $2, $3, $4)", customer.Id, customer.Email, string(encryptedPassword), "user")
 
     if (creationError != nil) {
         pqErr := creationError.(*pq.Error)
         log.Println(pqErr)
-        return result, pqErr
+        return nil, "", pqErr
     }
-    return result, nil
+    userToLogin := EmailAndPasswordPair{Email:customer.Email, Password:customer.Password}
 
+    return LoginUser(userToLogin)
 }
 
-func LoginUser(user EmailAndPasswordPair) (error, *jwt.StandardClaims, string) {
+func LoginUser(user EmailAndPasswordPair) (*jwt.StandardClaims, string, error) {
 
     userDb := NewCustomer{}
 
@@ -59,7 +59,7 @@ func LoginUser(user EmailAndPasswordPair) (error, *jwt.StandardClaims, string) {
 
     if err != nil {
         /*if err == sql.ErrNoRows {}*/
-        return err, nil, ""
+        return nil, "", err
     }
 
     log.Print("*********************************")
@@ -87,7 +87,7 @@ func LoginUser(user EmailAndPasswordPair) (error, *jwt.StandardClaims, string) {
         logger.Logger.Info("User logged in: " + newClaims.Subject)
     }
 
-    return loginError, newClaims, tokenString
+    return newClaims, tokenString, loginError
 }
 
 func GetUser(email string) UserInfo {

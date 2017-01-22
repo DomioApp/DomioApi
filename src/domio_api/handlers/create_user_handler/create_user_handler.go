@@ -9,8 +9,7 @@ import (
     "github.com/stripe/stripe-go"
     "log"
     "domio_api/components/requests"
-    "domio_api/messages"
-    //"github.com/fatih/color"
+    "domio_api/handlers/login_user_handler"
 )
 
 func CreateUserHandler(w http.ResponseWriter, req *http.Request) {
@@ -50,17 +49,29 @@ func CreateUserHandler(w http.ResponseWriter, req *http.Request) {
     new_customer := domiodb.NewCustomer{Id:newlyCreatedCustomer.ID, Email:newlyCreatedCustomer.Email, Password:user.Password}
 
     log.Print(new_customer)
-    newUser, userCreationError := domiodb.CreateUser(new_customer)
-    log.Print(newUser)
+    newUser, token, userCreationError := domiodb.CreateUser(new_customer)
 
     if (userCreationError != nil) {
-        if (userCreationError.Code.Name() == "unique_violation") {
-            responses.ReturnErrorResponseWithCustomCode(w, domioerrors.UserEmailExists, http.StatusUnprocessableEntity)
-            return
-        }
+        //TODO manage the error properly
+        //if (userCreationError.Code.Name() == "unique_violation") {
+        responses.ReturnErrorResponseWithCustomCode(w, domioerrors.UserEmailExists, http.StatusUnprocessableEntity)
+        return
+        //}
     }
 
-    responses.ReturnMessageResponse(w, messages.UserCreated)
+    log.Print("--------------------------------------")
+    log.Print(newUser)
+    log.Print(token)
+    log.Print(userCreationError)
+    log.Print("--------------------------------------")
+
+    loggedInUser := login_user_handler.UserLoggedinObject{
+        Email:newUser.Subject,
+        Id:newUser.Id,
+        TokenString:token,
+    }
+
+    responses.ReturnObjectResponse(w, loggedInUser)
     defer req.Body.Close()
 }
 

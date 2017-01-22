@@ -30,7 +30,7 @@ func LoginUserHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    loginError, userClaims, tokenString := domiodb.LoginUser(emailAndPasswordPair)
+    userClaims, tokenString, loginError := domiodb.LoginUser(emailAndPasswordPair)
 
     if (loginError != nil) {
         responses.ReturnErrorResponse(w, domioerrors.WrongEmailOrPassword)
