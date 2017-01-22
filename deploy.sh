@@ -39,7 +39,7 @@ sh ~/domioapi/deploy/copy_nginx_config_files.sh
 
 sh ~/domioapi/deploy/build.sh
 
-service domio stop
-service domio start
+service domio_api stop
+service domio_api start
 
 cd /
