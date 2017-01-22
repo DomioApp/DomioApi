@@ -27,6 +27,7 @@ var DomainCheckViolation = DomioError{2050, "Domain fields check violation. Chec
 var RentableDomainNotExist = DomioError{2060, "Domain requested for rent doesn't exist in the database"}
 var DomainNotFound = DomioError{2070, "Domain not found"}
 var UserEmailExists = DomioError{2080, "User email already exists and can't be used for a new registration"}
+var UserEmailOrPasswordEmpty = DomioError{2080, "User email or password for registration is empty"}
 
 var StripeCustomerCreationError = DomioError{3010, "Stripe customer creation error"}
 

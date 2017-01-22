@@ -23,6 +23,10 @@ func CreateUserHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
+    if (user.Email == "" || user.Password == "") {
+        responses.ReturnErrorResponseWithCustomCode(w, domioerrors.UserEmailOrPasswordEmpty, http.StatusUnprocessableEntity)
+    }
+
     existingUser := domiodb.GetUser(user.Email)
     if (existingUser != domiodb.UserInfo{}) {
         color.Set(color.FgRed)
