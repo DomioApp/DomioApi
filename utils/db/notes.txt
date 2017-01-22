@@ -1,1 +1,2 @@
 http://stackoverflow.com/questions/12720967/how-to-change-postgresql-user-password
+sudo -u <user_name> psql -c "ALTER USER <user_name> PASSWORD '<new_password>';"
