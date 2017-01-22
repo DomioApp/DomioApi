@@ -1,0 +1,1 @@
+http://stackoverflow.com/questions/12720967/how-to-change-postgresql-user-password
