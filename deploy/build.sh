@@ -38,6 +38,7 @@ echo ------------------------------------------------------
                               --db-name=$DOMIO_DB_NAME \
                               --db-user=$DOMIO_DB_USER \
                               --db-password=$DOMIO_DB_PASSWORD
+                              --env=staging
 
 #/domio/domio init --aws-access-key-id=12 --aws-secret-access-key=23 --db-name=34 --db-user=45 --db-password=56
 
