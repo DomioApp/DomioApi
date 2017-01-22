@@ -68,7 +68,8 @@ http {
         }
 
         location / {
-            add_header 'Access-Control-Allow-Origin' "https://domio.in";
+#            add_header 'Access-Control-Allow-Origin' "https://domio.in";
+            add_header 'Access-Control-Allow-Origin' "*";
             proxy_pass   http://127.0.0.1:8080;
         }
     }
