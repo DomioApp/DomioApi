@@ -25,6 +25,13 @@ if ! [ -x "$(command -v psql)" ]; then
    echo "Postgres is already installed!" >&2
 fi
 
+if ! [ -x "$(command -v letsencrypt)" ]; then
+   echo 'Letsencrypt is not installed.' >&2
+   sh ~/domioapi/deploy/install_letsencrypt.sh
+  else
+   echo "Letsencrypt is already installed!" >&2
+fi
+
 if ! [ -x "$(command -v nginx)" ]; then
    echo 'nginx is not installed.' >&2
    sh ~/domioapi/deploy/install_nginx.sh
