@@ -21,8 +21,9 @@ func StartRouter() {
         corsObj := handlers.AllowedOrigins([]string{"*"})
         corsObj2 := handlers.AllowedHeaders([]string{"Content-Type", "Access-Control-Allow-Credentials", "Authorization"})
         corsObj3 := handlers.AllowCredentials()
+        corsObj4 := handlers.AllowedMethods([]string{"GET", "PUT", "POST", "DELETE", "OPTIONS"}, )
 
-        rt = handlers.CORS(corsObj, corsObj2, corsObj3)(domiorouter)
+        rt = handlers.CORS(corsObj, corsObj2, corsObj3, corsObj4)(domiorouter)
     } else {
         rt = domiorouter
     }
