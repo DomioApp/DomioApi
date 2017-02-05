@@ -70,7 +70,6 @@ func processInitArguments() Arguments {
     log.Print(*filenameFlag)
     log.Print(*awsAccessKeyIdFlag)
     log.Print(*awsSecretAccessKeyFlag)
-    log.Print(*awsSecretAccessKeyFlag)
     log.Print(*dbNameFlag)
     log.Print(*dbUserFlag)
     log.Print(*dbPasswordFlag)
