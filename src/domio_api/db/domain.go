@@ -28,6 +28,7 @@ type Domain struct {
     NS3           sql.NullString `json:"ns3" db:"ns3"`
     NS4           sql.NullString `json:"ns4" db:"ns4"`
 }
+
 type DomainJson struct {
     Name          string `json:"name" db:"name"`
     Owner         string `json:"owner" db:"owner"`
