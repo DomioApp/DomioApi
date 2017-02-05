@@ -19,9 +19,10 @@ func StartRouter() {
         log.Println("CORS is managed by Gorilla...")
 
         corsObj := handlers.AllowedOrigins([]string{"*"})
-        corsObj2 := handlers.AllowedHeaders([]string{"Content-Type"})
+        corsObj2 := handlers.AllowedHeaders([]string{"Content-Type", "Access-Control-Allow-Credentials"})
+        corsObj3 := handlers.AllowCredentials()
 
-        rt = handlers.CORS(corsObj, corsObj2)(domiorouter)
+        rt = handlers.CORS(corsObj, corsObj2, corsObj3)(domiorouter)
     } else {
         rt = domiorouter
     }
