@@ -68,22 +68,13 @@ http {
         }
 
         location / {
+
+            add_header 'Access-Control-Allow-Origin' 'https://domio.in';
+            add_header 'Access-Control-Allow-Credentials' 'true';
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Accept,Authorization';
+
             if ($request_method = 'OPTIONS') {
-
-                add_header 'Access-Control-Allow-Origin' 'https://domio.in';
-
-                #
-                # cookies
-                #
-
-                add_header 'Access-Control-Allow-Credentials' 'true';
-                add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
-
-                #
-                # Custom headers and headers various browsers *should* be OK with but aren't
-                #
-
-                add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Accept,Authorization';
 
                 #
                 # Tell client that this pre-flight info is valid for 20 days
@@ -94,33 +85,6 @@ http {
                 add_header 'Content-Length' 0;
 
                 return 204;
-            }
-
-            if ($request_method = 'POST') {
-
-                add_header 'Access-Control-Allow-Origin' 'https://domio.in';
-                add_header 'Access-Control-Allow-Credentials' 'true';
-                add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
-                add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Accept,Authorization';
-
-            }
-
-            if ($request_method = 'GET') {
-
-                add_header 'Access-Control-Allow-Origin' 'https://domio.in';
-                add_header 'Access-Control-Allow-Credentials' 'true';
-                add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
-                add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Accept,Authorization';
-
-            }
-
-            if ($request_method = 'DELETE') {
-
-                add_header 'Access-Control-Allow-Origin' 'https://domio.in';
-                add_header 'Access-Control-Allow-Credentials' 'true';
-                add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
-                add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Accept,Authorization';
-
             }
 
             ###
