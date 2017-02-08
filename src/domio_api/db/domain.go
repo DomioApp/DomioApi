@@ -178,6 +178,7 @@ func createDomainZone(domain *Domain) {
 
     log.Println(resp)
 }
+
 func deleteDomainZone(domain *Domain) {
     conf := config.Config
     token := ""
