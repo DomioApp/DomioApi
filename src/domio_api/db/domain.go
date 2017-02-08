@@ -152,6 +152,17 @@ func CreateDomain(domain Domain, ownerEmail string) (DomainJson, *pq.Error) {
     return formatDomain(domainResultAws), nil
 }
 
+func UpdateDomain(domainName string, pricePerMonth uint64) error {
+
+    _, err := Db.Exec("UPDATE domains SET price_per_month=$1 WHERE name=$2", pricePerMonth, domainName)
+
+    if (err != nil) {
+        log.Print(err)
+    }
+
+    return nil
+}
+
 func formatDomain(domain Domain) DomainJson {
     return DomainJson{
         Name:domain.Name,
