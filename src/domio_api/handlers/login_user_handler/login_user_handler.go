@@ -33,7 +33,7 @@ func LoginUserHandler(w http.ResponseWriter, req *http.Request) {
     userClaims, tokenString, loginError := domiodb.LoginUser(emailAndPasswordPair)
 
     if (loginError != nil) {
-        responses.ReturnErrorResponse(w, domioerrors.WrongEmailOrPassword)
+        responses.ReturnErrorResponseWithCustomCode(w, domioerrors.WrongEmailOrPassword, http.StatusUnauthorized)
         return
     }
 
