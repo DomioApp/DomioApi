@@ -34,7 +34,7 @@ func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    domainInfo, domainError := domiodb.GetDomain(newSubscription.Domain)
+    domainInfo, domainError := domiodb.GetDomainInfo(newSubscription.Domain)
 
     if (domainError != nil) {
         responses.ReturnErrorResponseWithCustomCode(w, domainError, http.StatusUnprocessableEntity)

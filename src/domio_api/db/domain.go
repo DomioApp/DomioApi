@@ -72,7 +72,7 @@ func GetUserDomains(userEmail string) []Domain {
     return domains
 }
 
-func GetDomain(domainName string) (Domain, *domioerrors.DomioError) {
+func GetDomainInfo(domainName string) (Domain, *domioerrors.DomioError) {
     var domain Domain
 
     domainError := Db.QueryRowx("SELECT * FROM domains where name=$1", domainName).StructScan(&domain)
@@ -85,7 +85,7 @@ func GetDomain(domainName string) (Domain, *domioerrors.DomioError) {
 }
 
 func DeleteDomain(domainName string, ownerEmail string) domioerrors.DomioError {
-    domain, domainError := GetDomain(domainName)
+    domain, domainError := GetDomainInfo(domainName)
     if (domainError != nil) {
         log.Print(domainError)
         return domioerrors.DomainNotFound
@@ -143,7 +143,7 @@ func CreateDomain(domain Domain, ownerEmail string) (DomainJson, *pq.Error) {
 
     createDomainZone(&domainResultDb)
 
-    domainResultAws, getDomainError := GetDomain(domainResultDb.Name)
+    domainResultAws, getDomainError := GetDomainInfo(domainResultDb.Name)
 
     if (getDomainError != nil) {
         log.Println(getDomainError)
