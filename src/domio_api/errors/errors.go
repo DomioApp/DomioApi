@@ -26,8 +26,11 @@ var DomainAlreadyExists = DomioError{2040, "Domain with given name is already cr
 var DomainCheckViolation = DomioError{2050, "Domain fields check violation. Check correctness of price and name fields"}
 var RentableDomainNotExist = DomioError{2060, "Domain requested for rent doesn't exist in the database"}
 var DomainNotFound = DomioError{2070, "Domain not found"}
+
 var UserEmailExists = DomioError{2080, "User email already exists and can't be used for a new registration"}
-var UserEmailOrPasswordEmpty = DomioError{2080, "User email or password for registration is empty"}
+var UserEmailOrPasswordEmpty = DomioError{2090, "User email or password for registration is empty"}
+var UserNotFound = DomioError{2091, "User not found"}
+var UserHasDomains = DomioError{2092, "User has domains which must be deleted before user can be deleted"}
 
 var StripeCustomerCreationError = DomioError{3010, "Stripe customer creation error"}
 

@@ -15,6 +15,7 @@ import (
     "domio_api/handlers/delete_subscription_handler"
     "domio_api/handlers/get_user_subscriptions_handler"
     "domio_api/handlers/show_status_handler"
+    "domio_api/handlers/delete_user_handler"
 )
 
 type Route struct {
@@ -38,6 +39,12 @@ var RoutesList = Routes{
         "POST",
         "/users",
         create_user_handler.CreateUserHandler,
+    },
+    Route{
+        "DeleteUser",
+        "DELETE",
+        "/user",
+        delete_user_handler.DeleteUserHandler,
     },
     Route{
         "LoginUser",

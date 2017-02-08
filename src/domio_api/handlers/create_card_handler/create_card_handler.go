@@ -34,7 +34,7 @@ func CreateCardHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    existingUser := domiodb.GetUser(userProfile.Email)
+    existingUser, _ := domiodb.GetUser(userProfile.Email)
 
     newCard, cardCreationError := domiodb.CreateCard(&cardRequest, &existingUser)
 

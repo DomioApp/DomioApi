@@ -543,6 +543,32 @@
         }
       }
     },
+    "/user": {
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Delete user",
+        "description": "Method to delete an existing user.",
+        "operationId": "deleteUser",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          },
+          "422": {
+            "description": "User with this email doesn't exist"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      }
+    },
     "/users/login": {
       "post": {
         "tags": [
@@ -578,7 +604,7 @@
         }
       }
     },
-    "/users/logout": {
+    "/user/logout": {
       "get": {
         "tags": [
           "user"

@@ -8,6 +8,8 @@ import (
     "time"
     "log"
     "domio_api/components/logger"
+    "github.com/fatih/color"
+    domioerrors  "domio_api/errors"
 )
 
 type EmailAndPasswordPair struct {
@@ -62,10 +64,6 @@ func LoginUser(user EmailAndPasswordPair) (*jwt.StandardClaims, string, error) {
         return nil, "", err
     }
 
-    log.Print("*********************************")
-    log.Print(userDb)
-    log.Print("*********************************")
-
     loginError := bcrypt.CompareHashAndPassword([]byte(userDb.Password), []byte(user.Password))
 
     newClaims := &jwt.StandardClaims{
@@ -90,13 +88,51 @@ func LoginUser(user EmailAndPasswordPair) (*jwt.StandardClaims, string, error) {
     return newClaims, tokenString, loginError
 }
 
-func GetUser(email string) UserInfo {
+func DeleteUser(userEmail string) (UserInfo, *domioerrors.DomioError) {
+    user, userError := GetUser(userEmail)
+
+    if (userError != nil) {
+        log.Print(userError)
+        return UserInfo{}, &domioerrors.UserNotFound
+    }
+
+    userDomains := GetUserDomains(userEmail);
+
+    if (len(userDomains) != 0) {
+        return UserInfo{}, &domioerrors.UserHasDomains
+    }
+
+    result := Db.MustExec("DELETE FROM users where email=$1", userEmail)
+
+    rowsAffected, err := result.RowsAffected()
+
+    if (err != nil) {
+        color.Set(color.FgHiRed)
+        log.Print(err)
+        color.Unset()
+        return UserInfo{}, &domioerrors.UserNotFound
+    }
+
+    color.Set(color.FgHiCyan)
+    log.Print(rowsAffected)
+    color.Unset()
+
+    if (rowsAffected == 0) {
+        return UserInfo{}, &domioerrors.UserNotFound
+    }
+
+    return user, nil
+}
+
+func GetUser(email string) (UserInfo, *domioerrors.DomioError) {
     user := UserInfo{}
     err := Db.QueryRowx("SELECT * FROM users where email=$1", email).StructScan(&user)
+
     if (err != nil) {
         log.Println(err)
+        return UserInfo{}, &domioerrors.UserNotFound
     }
-    return user
+    return user, nil
 }
 
 func GetUsers() []UserInfo {

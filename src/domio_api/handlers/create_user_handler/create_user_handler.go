@@ -29,7 +29,7 @@ func CreateUserHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    existingUser := domiodb.GetUser(user.Email)
+    existingUser, _ := domiodb.GetUser(user.Email)
 
     if (existingUser != domiodb.UserInfo{}) {
         responses.ReturnErrorResponseWithCustomCode(w, domioerrors.UserEmailExists, http.StatusUnprocessableEntity)
