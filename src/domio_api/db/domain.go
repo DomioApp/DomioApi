@@ -29,6 +29,11 @@ type Domain struct {
     NS4           sql.NullString `json:"ns4" db:"ns4"`
 }
 
+type AvailableDomainJson struct {
+    Name          string `json:"name" db:"name"`
+    PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
+}
+
 type DomainJson struct {
     Name          string `json:"name" db:"name"`
     Owner         string `json:"owner" db:"owner"`
@@ -40,9 +45,24 @@ type DomainJson struct {
     NS4           string `json:"ns4" db:"ns4"`
 }
 
-func GetAvailableDomains() []Domain {
-    var domains []Domain = make([]Domain, 0)
+func GetAvailableDomains() []AvailableDomainJson {
+    var domains = make([]AvailableDomainJson, 0)
     Db.Select(&domains, "SELECT name, price_per_month FROM domains WHERE is_rented=false ORDER BY price_per_month")
+
+    /*
+    var domainsJson []AvailableDomainJson = make([]AvailableDomainJson, 0)
+
+    for i := range domains {
+        currentDomain := domains[i]
+
+        domain := AvailableDomainJson{
+            Name:currentDomain.Name,
+            PricePerMonth:currentDomain.PricePerMonth,
+        }
+        domainsJson = append(domainsJson, domain)
+    }
+    log.Print(domains)
+    */
     return domains
 }
 
