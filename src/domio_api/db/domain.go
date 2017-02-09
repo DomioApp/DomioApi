@@ -49,7 +49,7 @@ type DomainJson struct {
 
 func GetAvailableDomains() []AvailableDomainJson {
     var domains = make([]AvailableDomainJson, 0)
-    Db.Select(&domains, "SELECT name, price_per_month FROM domains WHERE is_rented=false ORDER BY price_per_month")
+    Db.Select(&domains, "SELECT name, price_per_month FROM domains WHERE is_rented=false  AND is_visible=true ORDER BY price_per_month")
 
     /*
     var domainsJson []AvailableDomainJson = make([]AvailableDomainJson, 0)
