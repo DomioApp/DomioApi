@@ -37,8 +37,10 @@ type AvailableDomainJson struct {
 type DomainJson struct {
     Name          string `json:"name" db:"name"`
     Owner         string `json:"owner" db:"owner"`
+    IsRented      bool   `json:"is_rented" db:"is_rented"`
+    RentedBy      string `json:"rented_by,omitempty" db:"rented_by"`
     PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
-    ZoneId        string `json:"zone_id" db:"zone_id"`
+    ZoneId        string `json:"zone_id,omitempty" db:"zone_id"`
     NS1           string `json:"ns1" db:"ns1"`
     NS2           string `json:"ns2" db:"ns2"`
     NS3           string `json:"ns3" db:"ns3"`
@@ -239,7 +241,7 @@ func deleteDomainZone(domain *Domain) {
     log.Print("Domain zone removed from Route 53")
 }
 
-func GetHostedZone(domain *Domain) {
+func GetHostedZone(domain *Domain) interface{} {
     conf := config.Config
     token := ""
     creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
@@ -247,7 +249,7 @@ func GetHostedZone(domain *Domain) {
 
     if err != nil {
         fmt.Println("failed to create session,", err)
-        return
+        return nil
     }
 
     svc := route53.New(sess)
@@ -259,8 +261,8 @@ func GetHostedZone(domain *Domain) {
 
     if err != nil {
         fmt.Println(err.Error())
-        return
+        return nil
     }
 
-    fmt.Println(resp)
+    return resp
 }
