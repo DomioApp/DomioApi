@@ -57,6 +57,7 @@ func processInitArguments() Arguments {
     awsAccessKeyIdFlag := initCommand.String("aws-access-key-id", "", "AWS Access Key ID")
     awsSecretAccessKeyFlag := initCommand.String("aws-secret-access-key", "", "AWS Secret Access Key")
     dbNameFlag := initCommand.String("db-name", "", "DB name")
+    dbHostFlag := initCommand.String("db-host", "127.0.0.1", "DB host")
     dbUserFlag := initCommand.String("db-user", "", "DB user name")
     dbPasswordFlag := initCommand.String("db-password", "", "DB password")
     webPortFlag := initCommand.Uint("port", 8080, "Port for the HTTP server to run on")
@@ -67,6 +68,7 @@ func processInitArguments() Arguments {
     log.Print(*filenameFlag)
     log.Print(*awsAccessKeyIdFlag)
     log.Print(*awsSecretAccessKeyFlag)
+    log.Print(*dbHostFlag)
     log.Print(*dbNameFlag)
     log.Print(*dbUserFlag)
     log.Print(*dbPasswordFlag)
@@ -76,7 +78,10 @@ func processInitArguments() Arguments {
 
 
     if initCommand.Parsed() {
-        config.InitConfigFile(filenameFlag, awsAccessKeyIdFlag, awsSecretAccessKeyFlag, dbNameFlag, dbUserFlag, dbPasswordFlag, webPortFlag, envFlag)
+        config.InitConfigFile(filenameFlag,
+                              awsAccessKeyIdFlag, awsSecretAccessKeyFlag,
+                              dbHostFlag, dbNameFlag, dbUserFlag, dbPasswordFlag,
+                              webPortFlag, envFlag)
     }
     return args
 }

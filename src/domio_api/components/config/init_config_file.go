@@ -9,7 +9,10 @@ import (
     "path"
 )
 
-func InitConfigFile(filenameFlag *string, awsAccessKeyIdFlag *string, awsSecretAccessKeyFlag *string, dbNameFlag *string, dbUserFlag *string, dbPasswordFlag *string, webPortFlag *uint, envFlag *string) error {
+func InitConfigFile(filenameFlag *string,
+                    awsAccessKeyIdFlag *string, awsSecretAccessKeyFlag *string,
+                    dbHostFlag *string, dbNameFlag *string, dbUserFlag *string, dbPasswordFlag *string,
+                    webPortFlag *uint, envFlag *string) error {
 
     argsErr := false
 
@@ -19,12 +22,17 @@ func InitConfigFile(filenameFlag *string, awsAccessKeyIdFlag *string, awsSecretA
     }
 
     if *awsAccessKeyIdFlag == "" {
-        fmt.Println("Please supply the --aws-access-key-id option.")
+        fmt.Println("Please supply the --db-host option.")
         argsErr = true
     }
 
     if *awsSecretAccessKeyFlag == "" {
         fmt.Println("Please supply the --aws-secret-access-key option.")
+        argsErr = true
+    }
+
+    if *dbHostFlag == "" {
+        fmt.Println("Please supply the DB name --db-name option.")
         argsErr = true
     }
 
@@ -54,6 +62,7 @@ func InitConfigFile(filenameFlag *string, awsAccessKeyIdFlag *string, awsSecretA
         AWS_ACCESS_KEY_ID: *awsAccessKeyIdFlag,
         AWS_SECRET_ACCESS_KEY:*awsSecretAccessKeyFlag,
         DOMIO_DB_NAME: *dbNameFlag,
+        DOMIO_DB_HOST: *dbHostFlag,
         DOMIO_DB_USER: *dbUserFlag,
         DOMIO_DB_PASSWORD: *dbPasswordFlag,
         PORT: *webPortFlag,
