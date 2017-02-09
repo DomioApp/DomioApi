@@ -51,6 +51,7 @@ func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request) {
             PricePerMonth:domainInfo.PricePerMonth,
             Owner:domainInfo.Owner,
             IsRented:domainInfo.IsRented,
+            IsVisible:domainInfo.IsVisible,
         }
 
         if (domainInfo.RentedBy.Valid) {

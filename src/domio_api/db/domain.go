@@ -20,7 +20,7 @@ type Domain struct {
     Name          string `json:"name" db:"name"`
     Owner         string `json:"owner" db:"owner"`
     PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
-    IsVisible      bool `json:"is_visible" db:"is_visible"`
+    IsVisible     bool `json:"is_visible" db:"is_visible"`
     IsRented      bool `json:"is_rented" db:"is_rented"`
     RentedBy      sql.NullString `json:"rented_by" db:"rented_by"`
     ZoneId        sql.NullString `json:"zone_id" db:"zone_id"`
@@ -35,10 +35,16 @@ type AvailableDomainJson struct {
     PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
 }
 
+type DomainToEdit struct {
+    IsVisible     bool `json:"is_visible" db:"is_visible"`
+    PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
+}
+
 type DomainJson struct {
     Name          string `json:"name" db:"name"`
     Owner         string `json:"owner" db:"owner"`
     IsRented      bool   `json:"is_rented" db:"is_rented"`
+    IsVisible     bool `json:"is_visible" db:"is_visible"`
     RentedBy      string `json:"rented_by,omitempty" db:"rented_by"`
     PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
     ZoneId        string `json:"zone_id,omitempty" db:"zone_id"`
@@ -88,6 +94,7 @@ func GetDomainInfo(domainName string) (Domain, *domioerrors.DomioError) {
         log.Print(domainError)
         return Domain{}, &domioerrors.DomainNotFound
     }
+
     return domain, nil
 }
 
@@ -159,9 +166,10 @@ func CreateDomain(domain Domain, ownerEmail string) (DomainJson, *pq.Error) {
     return formatDomain(domainResultAws), nil
 }
 
-func UpdateDomain(domainName string, pricePerMonth uint64) error {
+func UpdateDomain(domainName string, domainToEdit DomainToEdit) error {
+    log.Print(domainToEdit.IsVisible)
 
-    _, err := Db.Exec("UPDATE domains SET price_per_month=$1 WHERE name=$2", pricePerMonth, domainName)
+    _, err := Db.Exec("UPDATE domains SET price_per_month=$2, is_visible=$3 WHERE name=$1", domainName, domainToEdit.PricePerMonth, domainToEdit.IsVisible)
 
     if (err != nil) {
         log.Print(err)

@@ -13,7 +13,7 @@ import (
 
 func UpdateDomainHandler(w http.ResponseWriter, req *http.Request) {
 
-    var domainToEdit domiodb.AvailableDomainJson
+    var domainToEdit domiodb.DomainToEdit
     var updatedDomain domiodb.DomainJson
 
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
@@ -31,17 +31,12 @@ func UpdateDomainHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    log.Print("====================================================================================================================")
-    log.Print(domainToEdit.PricePerMonth)
-    log.Print("====================================================================================================================")
-    log.Print(userProfile)
-
     requestVars := mux.Vars(req)
     domainName := requestVars["name"]
 
     log.Print(domainName)
 
-    domainUpdateError := domiodb.UpdateDomain(domainName, domainToEdit.PricePerMonth)
+    domainUpdateError := domiodb.UpdateDomain(domainName, domainToEdit)
 
     if (domainUpdateError != nil) {
         log.Print(domainUpdateError)
