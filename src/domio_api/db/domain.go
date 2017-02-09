@@ -20,6 +20,7 @@ type Domain struct {
     Name          string `json:"name" db:"name"`
     Owner         string `json:"owner" db:"owner"`
     PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
+    IsVisible      bool `json:"is_visible" db:"is_visible"`
     IsRented      bool `json:"is_rented" db:"is_rented"`
     RentedBy      sql.NullString `json:"rented_by" db:"rented_by"`
     ZoneId        sql.NullString `json:"zone_id" db:"zone_id"`
@@ -70,7 +71,11 @@ func GetAvailableDomains() []AvailableDomainJson {
 
 func GetUserDomains(userEmail string) []Domain {
     var domains []Domain = make([]Domain, 0)
-    Db.Select(&domains, "SELECT * FROM domains WHERE owner=$1 ORDER BY price_per_month", userEmail)
+    log.Print(userEmail)
+    selectErr := Db.Select(&domains, "SELECT * FROM domains WHERE owner=$1 ORDER BY price_per_month", userEmail)
+    if (selectErr != nil) {
+        log.Print(selectErr)
+    }
     return domains
 }
 
