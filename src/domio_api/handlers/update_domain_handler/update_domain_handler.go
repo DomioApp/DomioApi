@@ -34,6 +34,7 @@ func UpdateDomainHandler(w http.ResponseWriter, req *http.Request) {
     requestVars := mux.Vars(req)
     domainName := requestVars["name"]
 
+    log.Print(userProfile)
     log.Print(domainName)
 
     domainUpdateError := domiodb.UpdateDomain(domainName, domainToEdit)
