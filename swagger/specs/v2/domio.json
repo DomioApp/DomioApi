@@ -215,6 +215,41 @@
         ]
       }
     },
+    "/cards/{id}": {
+      "get": {
+        "tags": [
+          "card"
+        ],
+        "summary": "Get user card by its Stripe ID",
+        "description": "",
+        "operationId": "getCard",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Stripe ID of the card",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      }
+    },
     "/domains": {
       "post": {
         "tags": [

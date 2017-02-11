@@ -70,3 +70,30 @@ func GetCards(userEmail string) ([]stripe.Card, *domioerrors.DomioError) {
 
     return cardsList, nil
 }
+
+func GetCard(userEmail string, id string) (*stripe.Card, *domioerrors.DomioError) {
+    userInfo, _ := GetUser(userEmail);
+
+    stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
+
+    userCard, cardError := card.Get(id, &stripe.CardParams{Customer: userInfo.Id})
+
+    if (cardError != nil) {
+        log.Print(cardError)
+    }
+
+    return userCard, nil
+}
+
+func DeleteCard(userId string, id string) (*stripe.Card, *domioerrors.DomioError) {
+
+    stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
+
+    userCard, cardError := card.Del(id, &stripe.CardParams{Customer: userId})
+
+    if (cardError != nil) {
+        log.Print(cardError)
+    }
+
+    return userCard, nil
+}

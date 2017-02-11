@@ -7,7 +7,7 @@ import (
     "github.com/stripe/stripe-go/sub"
 )
 
-func GetUserSubscriptions(userId string) (*stripe.SubList, error) {
+func GetUserSubscriptions(userId string) ([]*stripe.Sub, error) {
     stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
 
     customer, err := customer.Get(userId, nil)
@@ -15,7 +15,8 @@ func GetUserSubscriptions(userId string) (*stripe.SubList, error) {
         log.Print(err)
         return nil, err
     }
-    return customer.Subs, err
+
+    return customer.Subs.Values, err
 
 }
 
