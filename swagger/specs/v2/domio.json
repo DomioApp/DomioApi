@@ -120,6 +120,39 @@
       }
     },
     "/subscriptions/{id}": {
+      "get": {
+        "tags": [
+          "subscription"
+        ],
+        "summary": "Get a subscription",
+        "description": "",
+        "operationId": "getSubscription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Subscription id to get",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid sub value"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      },
       "delete": {
         "tags": [
           "subscription"

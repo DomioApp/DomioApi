@@ -105,6 +105,17 @@ func DeleteDomain(domainName string, ownerEmail string) domioerrors.DomioError {
         return domioerrors.DomainNotFound
     }
 
+    domain, domainGetErr := GetDomainInfo(domainName);
+
+
+    if (domainGetErr != nil) {
+        log.Print(domainGetErr)
+    }
+
+    if (domain.IsRented) {
+        return domioerrors.DomainInRent
+    }
+
     result := Db.MustExec("DELETE FROM domains where name=$1 AND owner=$2 AND is_rented=false", domainName, ownerEmail)
 
     rowsAffected, err := result.RowsAffected()

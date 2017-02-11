@@ -29,11 +29,13 @@ func GetUserSubscription(subscriptionId string) *stripe.Sub {
 func DeleteUserSubscription(userId string, subscriptionId string) {
     stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
 
-    sub, err := sub.Cancel(
+    userSub, err := sub.Cancel(
         subscriptionId,
         &stripe.SubParams{Customer: userId},
     )
 
-    log.Print(err)
-    log.Print(sub)
+    if (err != nil) {
+        log.Print(userSub)
+        log.Print(nil)
+    }
 }

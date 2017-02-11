@@ -20,6 +20,7 @@ import (
     "domio_api/handlers/get_user_cards_handler"
     "domio_api/handlers/get_user_card_handler"
     "domio_api/handlers/delete_card_handler"
+    "domio_api/handlers/get_subscription_handler"
 )
 
 type Route struct {
@@ -121,6 +122,12 @@ var RoutesList = Routes{
         "POST",
         "/subscriptions",
         create_subscription_handler.CreateSubscriptionHandler,
+    },
+    Route{
+        "GetSubscription",
+        "GET",
+        "/subscriptions/{id}",
+        get_subscription_handler.GetSubscriptionHandler,
     },
     Route{
         "DeleteSubscription",
