@@ -17,6 +17,7 @@ import (
     "domio_api/handlers/show_status_handler"
     "domio_api/handlers/delete_user_handler"
     "domio_api/handlers/update_domain_handler"
+    "domio_api/handlers/get_user_cards_handler"
 )
 
 type Route struct {
@@ -70,6 +71,12 @@ var RoutesList = Routes{
         "GET",
         "/domains/user",
         get_user_domains_handler.GetUserDomainsHandler,
+    },
+    Route{
+        "GetUserCards",
+        "GET",
+        "/cards",
+        get_user_cards_handler.GetUserCardsHandler,
     },
     Route{
         "CreateDomain",

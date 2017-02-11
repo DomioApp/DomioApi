@@ -189,6 +189,30 @@
             "jwt_key": []
           }
         ]
+      },
+      "get": {
+        "tags": [
+          "card"
+        ],
+        "summary": "Get user cards",
+        "description": "",
+        "operationId": "listCards",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
       }
     },
     "/domains": {
@@ -866,20 +890,24 @@
           "example": "John Doe"
         },
         "month": {
-          "type": "string",
-          "example": "12"
+          "type": "integer",
+          "format": "int64",
+          "example": 12
         },
         "year": {
-          "type": "string",
-          "example": "2018"
+          "type": "integer",
+          "format": "int64",
+          "example": 2018
         },
         "cvc": {
-          "type": "string",
-          "example": "123"
+          "type": "integer",
+          "format": "int64",
+          "example": 123
         },
         "number": {
-          "type": "string",
-          "example": "4242424242424242"
+          "type": "integer",
+          "format": "int64",
+          "example": 4242424242424242
         }
       }
     },
