@@ -14,6 +14,7 @@ import (
     "github.com/aws/aws-sdk-go/aws/credentials"
     "domio_api/components/config"
     "database/sql"
+    "strings"
 )
 
 type Domain struct {
@@ -159,7 +160,7 @@ func SetDomainNameServers(domain *Domain, ns1 *string, ns2 *string, ns3 *string,
 func CreateDomain(domain Domain, ownerEmail string) (DomainJson, *pq.Error) {
     var domainResultDb Domain
 
-    insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner", domain.Name, domain.PricePerMonth, ownerEmail).StructScan(&domainResultDb)
+    insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner", strings.ToLower(domain.Name), domain.PricePerMonth, ownerEmail).StructScan(&domainResultDb)
 
     if (insertErr != nil) {
         log.Println(insertErr)
