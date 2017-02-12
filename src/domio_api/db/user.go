@@ -10,6 +10,7 @@ import (
     "domio_api/components/logger"
     "github.com/fatih/color"
     domioerrors  "domio_api/errors"
+    "strings"
 )
 
 type EmailAndPasswordPair struct {
@@ -41,7 +42,7 @@ type UserInfo struct {
 
 func CreateUser(customer NewCustomer) (*jwt.StandardClaims, string, error) {
     encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(customer.Password), bcrypt.DefaultCost)
-    _, creationError := Db.Exec("INSERT INTO users (id, email, password, role) VALUES ($1, $2, $3, $4)", customer.Id, customer.Email, string(encryptedPassword), "user")
+    _, creationError := Db.Exec("INSERT INTO users (id, email, password, role) VALUES ($1, $2, $3, $4)", strings.ToLower(customer.Id), strings.ToLower(customer.Email), string(encryptedPassword), "user")
 
     if (creationError != nil) {
         pqErr := creationError.(*pq.Error)
@@ -57,7 +58,7 @@ func LoginUser(user EmailAndPasswordPair) (*jwt.StandardClaims, string, error) {
 
     userDb := NewCustomer{}
 
-    err := Db.Get(&userDb, "SELECT * FROM users WHERE email=$1", user.Email)
+    err := Db.Get(&userDb, "SELECT * FROM users WHERE email=$1", strings.ToLower(user.Email))
 
     if err != nil {
         /*if err == sql.ErrNoRows {}*/
@@ -102,7 +103,7 @@ func DeleteUser(userEmail string) (UserInfo, *domioerrors.DomioError) {
         return UserInfo{}, &domioerrors.UserHasDomains
     }
 
-    result := Db.MustExec("DELETE FROM users where email=$1", userEmail)
+    result := Db.MustExec("DELETE FROM users where email=$1", strings.ToLower(userEmail))
 
     rowsAffected, err := result.RowsAffected()
 
@@ -126,7 +127,7 @@ func DeleteUser(userEmail string) (UserInfo, *domioerrors.DomioError) {
 
 func GetUser(email string) (UserInfo, *domioerrors.DomioError) {
     user := UserInfo{}
-    err := Db.QueryRowx("SELECT * FROM users where email=$1", email).StructScan(&user)
+    err := Db.QueryRowx("SELECT * FROM users where email=$1", strings.ToLower(email)).StructScan(&user)
 
     if (err != nil) {
         log.Println(err)
