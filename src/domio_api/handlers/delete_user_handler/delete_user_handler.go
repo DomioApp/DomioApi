@@ -29,7 +29,7 @@ func DeleteUserHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    deleteStripeCustomer(deletedUser.Id)
+    deleteStripeCustomer(deletedUser.StripeId)
 
     responses.ReturnObjectResponse(w, messages.UserDeleted)
 

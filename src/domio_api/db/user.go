@@ -36,13 +36,13 @@ type UserToken struct {
 type UserInfo struct {
     Email    string `json:"email" db:"email"`
     Password string `json:"password" db:"password"`
-    Id       string `json:"id" db:"id"`
+    StripeId string `json:"id" db:"id"`
     Role     string `json:"role" db:"role"`
 }
 
 func CreateUser(customer NewCustomer) (*jwt.StandardClaims, string, error) {
     encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(customer.Password), bcrypt.DefaultCost)
-    _, creationError := Db.Exec("INSERT INTO users (id, email, password, role) VALUES ($1, $2, $3, $4)", strings.ToLower(customer.Id), strings.ToLower(customer.Email), string(encryptedPassword), "user")
+    _, creationError := Db.Exec("INSERT INTO users (id, email, password, role) VALUES ($1, $2, $3, $4)", customer.Id, strings.ToLower(customer.Email), string(encryptedPassword), "user")
 
     if (creationError != nil) {
         pqErr := creationError.(*pq.Error)

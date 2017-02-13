@@ -35,7 +35,7 @@ func CreateCard(cardRequest *CardRequest, user *UserInfo) (Card, *domioerrors.Do
     stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
 
     cardParams := stripe.CardParams{
-        Customer: user.Id,
+        Customer: user.StripeId,
         Currency: "USD",
 
         Name: cardRequest.Name,
@@ -59,7 +59,7 @@ func GetCards(userEmail string) ([]stripe.Card, *domioerrors.DomioError) {
     userInfo, _ := GetUser(userEmail);
 
     stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
-    cards := card.List(&stripe.CardListParams{Customer: userInfo.Id})
+    cards := card.List(&stripe.CardListParams{Customer: userInfo.StripeId})
 
     cardsList := make([]stripe.Card, 0)
 
@@ -76,7 +76,7 @@ func GetCard(userEmail string, id string) (*stripe.Card, *domioerrors.DomioError
 
     stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
 
-    userCard, cardError := card.Get(id, &stripe.CardParams{Customer: userInfo.Id})
+    userCard, cardError := card.Get(id, &stripe.CardParams{Customer: userInfo.StripeId})
 
     if (cardError != nil) {
         log.Print(cardError)
