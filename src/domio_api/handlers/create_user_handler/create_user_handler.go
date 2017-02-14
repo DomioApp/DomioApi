@@ -10,6 +10,7 @@ import (
     "log"
     "domio_api/components/requests"
     "domio_api/handlers/login_user_handler"
+    "domio_api/components/config"
 )
 
 func CreateUserHandler(w http.ResponseWriter, req *http.Request) {
@@ -77,7 +78,7 @@ func CreateUserHandler(w http.ResponseWriter, req *http.Request) {
 
 func createStripeCustomer(email string) (*stripe.Customer, error) {
 
-    stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
+    stripe.Key = config.Config.STRIPE_KEY
     customerParams := &stripe.CustomerParams{
         Desc: "Customer for " + email,
         Email: email,

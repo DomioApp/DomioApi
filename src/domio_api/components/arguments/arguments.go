@@ -56,10 +56,14 @@ func processInitArguments() Arguments {
     filenameFlag := initCommand.String("file", "config.json", "config file absolute path")
     awsAccessKeyIdFlag := initCommand.String("aws-access-key-id", "", "AWS Access Key ID")
     awsSecretAccessKeyFlag := initCommand.String("aws-secret-access-key", "", "AWS Secret Access Key")
+
     dbNameFlag := initCommand.String("db-name", "", "DB name")
     dbHostFlag := initCommand.String("db-host", "127.0.0.1", "DB host")
     dbUserFlag := initCommand.String("db-user", "", "DB user name")
     dbPasswordFlag := initCommand.String("db-password", "", "DB password")
+
+    stripeKey := initCommand.String("stripe-key", "", "Stripe Key")
+
     webPortFlag := initCommand.Uint("port", 8080, "Port for the HTTP server to run on")
     envFlag := initCommand.String("env", "development", "Environment name: development, testing, production")
 
@@ -73,6 +77,7 @@ func processInitArguments() Arguments {
     log.Print(*dbUserFlag)
     log.Print(*dbPasswordFlag)
     log.Print(*dbPasswordFlag)
+    log.Print(*stripeKey)
     log.Print(*webPortFlag)
     log.Print(*envFlag)
 
@@ -81,6 +86,7 @@ func processInitArguments() Arguments {
         config.InitConfigFile(filenameFlag,
                               awsAccessKeyIdFlag, awsSecretAccessKeyFlag,
                               dbHostFlag, dbNameFlag, dbUserFlag, dbPasswordFlag,
+                              stripeKey,
                               webPortFlag, envFlag)
     }
     return args

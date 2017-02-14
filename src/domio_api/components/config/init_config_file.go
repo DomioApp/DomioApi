@@ -12,6 +12,7 @@ import (
 func InitConfigFile(filenameFlag *string,
                     awsAccessKeyIdFlag *string, awsSecretAccessKeyFlag *string,
                     dbHostFlag *string, dbNameFlag *string, dbUserFlag *string, dbPasswordFlag *string,
+                    stripeKeyFlag *string,
                     webPortFlag *uint, envFlag *string) error {
 
     argsErr := false
@@ -51,6 +52,11 @@ func InitConfigFile(filenameFlag *string,
         argsErr = true
     }
 
+    if *stripeKeyFlag == "" {
+        fmt.Println("Please supply the Stripe Key --stripe-key option.")
+        argsErr = true
+    }
+
     if argsErr {
         fmt.Println("-----------------------------------------")
         fmt.Println("Please provide required options.")
@@ -65,6 +71,7 @@ func InitConfigFile(filenameFlag *string,
         DOMIO_DB_HOST: *dbHostFlag,
         DOMIO_DB_USER: *dbUserFlag,
         DOMIO_DB_PASSWORD: *dbPasswordFlag,
+        STRIPE_KEY: *stripeKeyFlag,
         PORT: *webPortFlag,
         ENV: *envFlag,
     }

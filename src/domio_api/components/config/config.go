@@ -12,6 +12,7 @@ import (
 type Configuration struct {
     AWS_ACCESS_KEY_ID     string `json:"AWS_ACCESS_KEY_ID"`
     AWS_SECRET_ACCESS_KEY string `json:"AWS_SECRET_ACCESS_KEY"`
+    STRIPE_KEY            string `json:"STRIPE_KEY"`
     DOMIO_DB_NAME         string `json:"DOMIO_DB_NAME"`
     DOMIO_DB_HOST         string `json:"DOMIO_DB_HOST"`
     DOMIO_DB_USER         string `json:"DOMIO_DB_USER"`

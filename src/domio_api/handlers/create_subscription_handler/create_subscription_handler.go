@@ -63,7 +63,7 @@ func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func createSubscription(newSubscription *NewSubscription, domainInfo *domiodb.Domain) (stripe.Sub, error) {
-    stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
+    stripe.Key = config.Config.STRIPE_KEY
     subParams := &stripe.SubParams{
         Customer: newSubscription.CustomerId,
         Plan: "month-1",

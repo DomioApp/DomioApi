@@ -7,6 +7,7 @@ import (
     "github.com/stripe/stripe-go"
     "github.com/stripe/stripe-go/card"
     "strconv"
+    "domio_api/components/config"
 )
 
 type CardRequest struct {
@@ -32,7 +33,7 @@ func CreateCard(cardRequest *CardRequest, user *UserInfo) (Card, *domioerrors.Do
     log.Print(user)
     log.Print("******************************************")
 
-    stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
+    stripe.Key = config.Config.STRIPE_KEY
 
     cardParams := stripe.CardParams{
         Customer: user.StripeId,
@@ -58,7 +59,7 @@ func CreateCard(cardRequest *CardRequest, user *UserInfo) (Card, *domioerrors.Do
 func GetCards(userEmail string) ([]stripe.Card, *domioerrors.DomioError) {
     userInfo, _ := GetUser(userEmail);
 
-    stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
+    stripe.Key = config.Config.STRIPE_KEY
     cards := card.List(&stripe.CardListParams{Customer: userInfo.StripeId})
 
     cardsList := make([]stripe.Card, 0)
@@ -74,7 +75,7 @@ func GetCards(userEmail string) ([]stripe.Card, *domioerrors.DomioError) {
 func GetCard(userEmail string, id string) (*stripe.Card, *domioerrors.DomioError) {
     userInfo, _ := GetUser(userEmail);
 
-    stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
+    stripe.Key = config.Config.STRIPE_KEY
 
     userCard, cardError := card.Get(id, &stripe.CardParams{Customer: userInfo.StripeId})
 
@@ -87,7 +88,7 @@ func GetCard(userEmail string, id string) (*stripe.Card, *domioerrors.DomioError
 
 func DeleteCard(userId string, id string) (*stripe.Card, *domioerrors.DomioError) {
 
-    stripe.Key = "sk_test_83T7gLMq9VQ4YLmWwBylJMS7"
+    stripe.Key = config.Config.STRIPE_KEY
 
     userCard, cardError := card.Del(id, &stripe.CardParams{Customer: userId})
 
