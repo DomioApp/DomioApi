@@ -65,15 +65,15 @@ func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
 
 func createSubscription(newSubscription *NewSubscription, domainInfo *domiodb.Domain) (stripe.Sub, error) {
     stripe.Key = config.Config.STRIPE_KEY
+
     subParams := &stripe.SubParams{
         Customer: newSubscription.CustomerId,
         Plan: "month-1",
-
+        Quantity : domainInfo.PricePerMonth,
     }
 
     subParams.AddMeta("domain", newSubscription.Domain)
 
-    subParams.Quantity = domainInfo.PricePerMonth;
     s, err := sub.New(subParams)
     return *s, err
 }
