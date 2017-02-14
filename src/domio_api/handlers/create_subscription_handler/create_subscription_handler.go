@@ -9,6 +9,7 @@ import (
     "github.com/stripe/stripe-go"
     "github.com/stripe/stripe-go/sub"
     "domio_api/db"
+    "domio_api/components/config"
 )
 
 type NewSubscription struct {

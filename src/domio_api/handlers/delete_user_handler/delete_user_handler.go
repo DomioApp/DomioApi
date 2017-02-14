@@ -10,6 +10,7 @@ import (
     "log"
     "github.com/stripe/stripe-go"
     "github.com/stripe/stripe-go/customer"
+    "domio_api/components/config"
 )
 
 func DeleteUserHandler(w http.ResponseWriter, req *http.Request) {
