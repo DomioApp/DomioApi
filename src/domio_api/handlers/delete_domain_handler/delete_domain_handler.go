@@ -24,7 +24,8 @@ func DeleteDomainHandler(w http.ResponseWriter, req *http.Request) {
     }
 
     deleteError := domiodb.DeleteDomain(domainName, userProfile.Email)
-
+    //TODO how to properly remove domain
+    //r53.DeleteDomainZone(&domain)
     if (deleteError != domioerrors.DomioError{}) {
         log.Println(deleteError)
         responses.ReturnErrorResponse(w, deleteError)

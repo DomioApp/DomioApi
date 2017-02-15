@@ -2,7 +2,6 @@ package domiodb
 
 import (
     domioerrors  "domio_api/errors"
-    r53 "domio_api/external_api/route53"
     "github.com/lib/pq"
     "log"
     "github.com/fatih/color"
@@ -129,7 +128,6 @@ func DeleteDomain(domainName string, ownerEmail string) domioerrors.DomioError {
         return domioerrors.DomainNotFound
     }
 
-    r53.DeleteDomainZone(&domain)
 
     log.Print("Domain removed from local database")
     return domioerrors.DomioError{}

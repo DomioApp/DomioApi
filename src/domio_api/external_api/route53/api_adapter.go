@@ -7,10 +7,10 @@ import (
     "github.com/aws/aws-sdk-go/aws"
     "github.com/aws/aws-sdk-go/service/route53"
     "github.com/fatih/color"
-    "domio_api/db"
     "time"
     "log"
     "fmt"
+    "domio_api/db"
 )
 
 func CreateDomainZone(domain *domiodb.Domain) (*route53.CreateHostedZoneOutput, error) {
