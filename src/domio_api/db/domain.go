@@ -2,17 +2,11 @@ package domiodb
 
 import (
     domioerrors  "domio_api/errors"
+    r53 "domio_api/external_api/route53"
     "github.com/lib/pq"
     "log"
-    "github.com/aws/aws-sdk-go/aws/session"
-    "fmt"
-    "github.com/aws/aws-sdk-go/service/route53"
-    "github.com/aws/aws-sdk-go/aws"
     "github.com/fatih/color"
-    "time"
     "domio_api/components/tokens"
-    "github.com/aws/aws-sdk-go/aws/credentials"
-    "domio_api/components/config"
     "database/sql"
     "strings"
 )
@@ -135,7 +129,7 @@ func DeleteDomain(domainName string, ownerEmail string) domioerrors.DomioError {
         return domioerrors.DomainNotFound
     }
 
-    deleteDomainZone(&domain)
+    r53.DeleteDomainZone(&domain)
 
     log.Print("Domain removed from local database")
     return domioerrors.DomioError{}
@@ -160,14 +154,19 @@ func SetDomainNameServers(domain *Domain, ns1 *string, ns2 *string, ns3 *string,
 func CreateDomain(domain Domain, ownerEmail string) (DomainJson, *pq.Error) {
     var domainResultDb Domain
 
-    insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner", strings.ToLower(domain.Name), domain.PricePerMonth, ownerEmail).StructScan(&domainResultDb)
+    insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner",
+        strings.ToLower(domain.Name), domain.PricePerMonth, ownerEmail).
+        StructScan(&domainResultDb)
 
     if (insertErr != nil) {
         log.Println(insertErr)
         return DomainJson{}, insertErr.(*pq.Error)
     }
 
-    createDomainZone(&domainResultDb)
+    resp, _ := r53.CreateDomainZone(&domainResultDb)
+
+    SetDomainZoneId(domain, resp.HostedZone.Id)
+    SetDomainNameServers(domain, resp.DelegationSet.NameServers[0], resp.DelegationSet.NameServers[1], resp.DelegationSet.NameServers[2], resp.DelegationSet.NameServers[3])
 
     domainResultAws, getDomainError := GetDomainInfo(domainResultDb.Name)
 
@@ -201,93 +200,4 @@ func formatDomain(domain Domain) DomainJson {
         NS3:domain.NS3.String,
         NS4:domain.NS4.String,
     }
-}
-
-func createDomainZone(domain *Domain) {
-    conf := config.Config
-    token := ""
-    creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
-    sess, err := session.NewSession(&aws.Config{Credentials: creds})
-    if err != nil {
-        fmt.Println("failed to create session,", err)
-        return
-    }
-
-    svc := route53.New(sess)
-    id := time.Now().Format(time.RFC850);
-
-    params := &route53.CreateHostedZoneInput{
-        CallerReference: &id,
-        Name:            aws.String(domain.Name),
-    }
-    resp, err := svc.CreateHostedZone(params)
-
-    if err != nil {
-        color.Set(color.FgRed)
-        log.Println(params.CallerReference)
-        log.Println(id)
-        log.Println(err)
-        color.Unset()
-        return
-    }
-
-    SetDomainZoneId(domain, resp.HostedZone.Id)
-    SetDomainNameServers(domain, resp.DelegationSet.NameServers[0], resp.DelegationSet.NameServers[1], resp.DelegationSet.NameServers[2], resp.DelegationSet.NameServers[3])
-
-    log.Println(resp)
-}
-
-func deleteDomainZone(domain *Domain) {
-    conf := config.Config
-    token := ""
-    creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
-    sess, err := session.NewSession(&aws.Config{Credentials: creds})
-
-    if err != nil {
-        fmt.Println("failed to create session,", err)
-        return
-    }
-
-    svc := route53.New(sess)
-
-    params := &route53.DeleteHostedZoneInput{
-        Id: &domain.ZoneId.String,
-    }
-    //resp, err := svc.DeleteHostedZone(params)
-    resp, err := svc.DeleteHostedZone(params)
-
-    if err != nil {
-        color.Set(color.FgRed)
-        log.Println(err)
-        color.Unset()
-        return
-    }
-    log.Println(resp)
-    log.Print("Domain zone removed from Route 53")
-}
-
-func GetHostedZone(domain *Domain) interface{} {
-    conf := config.Config
-    token := ""
-    creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
-    sess, err := session.NewSession(&aws.Config{Credentials: creds})
-
-    if err != nil {
-        fmt.Println("failed to create session,", err)
-        return nil
-    }
-
-    svc := route53.New(sess)
-
-    params := &route53.GetHostedZoneInput{
-        Id: aws.String(domain.ZoneId.String), // Required
-    }
-    resp, err := svc.GetHostedZone(params)
-
-    if err != nil {
-        fmt.Println(err.Error())
-        return nil
-    }
-
-    return resp
 }
