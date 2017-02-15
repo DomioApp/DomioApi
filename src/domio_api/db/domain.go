@@ -161,10 +161,12 @@ func CreateDomain(domain Domain, ownerEmail string) (DomainJson, *pq.Error) {
         return DomainJson{}, insertErr.(*pq.Error)
     }
 
-    resp, _ := r53.CreateDomainZone(&domainResultDb)
-
-    SetDomainZoneId(domain, resp.HostedZone.Id)
-    SetDomainNameServers(domain, resp.DelegationSet.NameServers[0], resp.DelegationSet.NameServers[1], resp.DelegationSet.NameServers[2], resp.DelegationSet.NameServers[3])
+    //TODO refactor
+    //resp, _ := r53.CreateDomainZone(&domainResultDb)
+    //
+    //SetDomainZoneId(domain, resp.HostedZone.Id)
+    //SetDomainNameServers(domain, resp.DelegationSet.NameServers[0], resp.DelegationSet.NameServers[1], resp.DelegationSet.NameServers[2], resp.DelegationSet.NameServers[3])
+    //
 
     domainResultAws, getDomainError := GetDomainInfo(domainResultDb.Name)
 
