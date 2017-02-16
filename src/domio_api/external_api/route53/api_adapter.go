@@ -6,71 +6,27 @@ import (
     "github.com/aws/aws-sdk-go/aws/session"
     "github.com/aws/aws-sdk-go/aws"
     "github.com/aws/aws-sdk-go/service/route53"
-    "github.com/fatih/color"
-    "time"
-    "log"
     "fmt"
     "domio_api/db"
 )
 
-func CreateDomainZone(domain *domiodb.Domain) (*route53.CreateHostedZoneOutput, error) {
-    conf := config.Config
-    token := ""
-    creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
-    sess, err := session.NewSession(&aws.Config{Credentials: creds})
-    if err != nil {
-        fmt.Println("failed to create session,", err)
-        return &route53.CreateHostedZoneOutput{}, err
+func DeleteDomainZone(domain *domiodb.Domain) error {
+    var useRealR53 = false
+
+    if (useRealR53) {
+        return DeleteDomainZoneReal(domain)
+    } else {
+        return DeleteDomainZoneMock(domain)
     }
-
-    r53Service := route53.New(sess)
-    id := time.Now().Format(time.RFC850);
-
-    params := &route53.CreateHostedZoneInput{
-        CallerReference: &id,
-        Name:            aws.String(domain.Name),
-    }
-    resp, err := r53Service.CreateHostedZone(params)
-
-    if err != nil {
-        color.Set(color.FgRed)
-        log.Println(params.CallerReference)
-        log.Println(id)
-        log.Println(err)
-        color.Unset()
-        return nil, err
-    }
-
-    return resp, nil
 }
+func CreateDomainZone(domain *domiodb.Domain) (*route53.CreateHostedZoneOutput, error) {
+    var useRealR53 = false
 
-func DeleteDomainZone(domain *domiodb.Domain) {
-    conf := config.Config
-    token := ""
-    creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
-    sess, err := session.NewSession(&aws.Config{Credentials: creds})
-
-    if err != nil {
-        fmt.Println("failed to create session,", err)
-        return
+    if (useRealR53) {
+        return CreateDomainZoneReal(domain)
+    } else {
+        return CreateDomainZoneMock(domain)
     }
-
-    svc := route53.New(sess)
-
-    params := &route53.DeleteHostedZoneInput{
-        Id: &domain.ZoneId.String,
-    }
-    //resp, err := svc.DeleteHostedZone(params)
-    resp, err := svc.DeleteHostedZone(params)
-
-    if err != nil {
-        color.Set(color.FgRed)
-        log.Println(err)
-        color.Unset()
-        return
-    }
-    log.Println(resp)
-    log.Print("Domain zone removed from Route 53")
 }
 
 func GetHostedZone(domain *domiodb.Domain) interface{} {
