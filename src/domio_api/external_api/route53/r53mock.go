@@ -11,9 +11,9 @@ func DeleteDomainZoneMock(domain *domiodb.Domain) error {
 }
 
 func CreateDomainZoneMock(domain *domiodb.Domain) (*route53.CreateHostedZoneOutput, error) {
-    resp := route53.CreateHostedZoneOutput{}
-
-    resp.HostedZone.Id = "hosted_zone_id"
+    resp := route53.CreateHostedZoneOutput{
+        HostedZone:route53.HostedZone{Name:string("dummy_hosted_zone")},
+    }
     resp.DelegationSet.NameServers = &[]route53domains.Nameserver{
         *route53domains.Nameserver{Name:"1"},
         *route53domains.Nameserver{Name:"2"},
