@@ -8,12 +8,13 @@ import (
     "domio_api/components/responses"
     "domio_api/components/requests"
     "log"
+    r53 "domio_api/external_api/route53"
 )
 
 func CreateDomainHandler(w http.ResponseWriter, req *http.Request) {
 
     var newDomain domiodb.Domain
-    var createdDomain domiodb.DomainJson
+    var createdDomain domiodb.Domain
 
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 
@@ -48,6 +49,11 @@ func CreateDomainHandler(w http.ResponseWriter, req *http.Request) {
         responses.ReturnErrorResponseWithCustomCode(w, domainCreationError, http.StatusUnprocessableEntity)
         return
     }
+
+    resp, _ := r53.CreateDomainZone(&createdDomain)
+
+    domiodb.SetDomainZoneId(&createdDomain, resp.HostedZone.Id)
+    domiodb.SetDomainNameServers(&createdDomain, resp.DelegationSet.NameServers[0], resp.DelegationSet.NameServers[1], resp.DelegationSet.NameServers[2], resp.DelegationSet.NameServers[3])
 
     responses.ReturnObjectResponse(w, createdDomain)
 

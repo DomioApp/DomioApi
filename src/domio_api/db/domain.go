@@ -148,7 +148,7 @@ func SetDomainNameServers(domain *Domain, ns1 *string, ns2 *string, ns3 *string,
     Db.MustExec("UPDATE domains SET ns1=$2, ns2=$3, ns3=$4, ns4=$5 WHERE name=$1", domain.Name, ns1, ns2, ns3, ns4, )
 }
 
-func CreateDomain(domain Domain, ownerEmail string) (DomainJson, *pq.Error) {
+func CreateDomain(domain Domain, ownerEmail string) (Domain, *pq.Error) {
     var domainResultDb Domain
 
     insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner",
@@ -157,15 +157,8 @@ func CreateDomain(domain Domain, ownerEmail string) (DomainJson, *pq.Error) {
 
     if (insertErr != nil) {
         log.Println(insertErr)
-        return DomainJson{}, insertErr.(*pq.Error)
+        return Domain{}, insertErr.(*pq.Error)
     }
-
-    //TODO refactor
-    //resp, _ := r53.CreateDomainZone(&domainResultDb)
-    //
-    //SetDomainZoneId(domain, resp.HostedZone.Id)
-    //SetDomainNameServers(domain, resp.DelegationSet.NameServers[0], resp.DelegationSet.NameServers[1], resp.DelegationSet.NameServers[2], resp.DelegationSet.NameServers[3])
-    //
 
     domainResultAws, getDomainError := GetDomainInfo(domainResultDb.Name)
 
@@ -173,7 +166,7 @@ func CreateDomain(domain Domain, ownerEmail string) (DomainJson, *pq.Error) {
         log.Println(getDomainError)
     }
 
-    return formatDomain(domainResultAws), nil
+    return domainResultAws, nil
 }
 
 func UpdateDomain(domainName string, domainToEdit DomainToEdit) error {
