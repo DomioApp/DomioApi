@@ -4,6 +4,7 @@ import (
     "net/http"
     "domio_api/db"
     domioerrors  "domio_api/errors"
+    r53 "domio_api/external_api/route53"
     "domio_api/components/tokens"
     "domio_api/components/responses"
     "github.com/gorilla/mux"
@@ -24,8 +25,7 @@ func DeleteDomainHandler(w http.ResponseWriter, req *http.Request) {
     }
 
     deleteError := domiodb.DeleteDomain(domainName, userProfile.Email)
-    //TODO how to properly remove domain
-    //r53.DeleteDomainZone(&domain)
+    r53.DeleteDomainZone(&domain)
     if (deleteError != domioerrors.DomioError{}) {
         log.Println(deleteError)
         responses.ReturnErrorResponse(w, deleteError)

@@ -92,11 +92,11 @@ func GetDomainInfo(domainName string) (Domain, *domioerrors.DomioError) {
     return domain, nil
 }
 
-func DeleteDomain(domainName string, ownerEmail string) domioerrors.DomioError {
+func DeleteDomain(domainName string, ownerEmail string) (Domain, domioerrors.DomioError) {
     domain, domainError := GetDomainInfo(domainName)
     if (domainError != nil) {
         log.Print(domainError)
-        return domioerrors.DomainNotFound
+        return Domain{}, domioerrors.DomainNotFound
     }
 
     domain, domainGetErr := GetDomainInfo(domainName);
@@ -107,7 +107,7 @@ func DeleteDomain(domainName string, ownerEmail string) domioerrors.DomioError {
     }
 
     if (domain.IsRented) {
-        return domioerrors.DomainInRent
+        return Domain{}, domioerrors.DomainInRent
     }
 
     result := Db.MustExec("DELETE FROM domains where name=$1 AND owner=$2 AND is_rented=false", domainName, ownerEmail)
@@ -117,7 +117,7 @@ func DeleteDomain(domainName string, ownerEmail string) domioerrors.DomioError {
         color.Set(color.FgHiRed)
         log.Print(err)
         color.Unset()
-        return domioerrors.DomainNotFound
+        return Domain{}, domioerrors.DomainNotFound
     }
 
     color.Set(color.FgHiCyan)
@@ -125,12 +125,11 @@ func DeleteDomain(domainName string, ownerEmail string) domioerrors.DomioError {
     color.Unset()
 
     if (rowsAffected == 0) {
-        return domioerrors.DomainNotFound
+        return Domain{}, domioerrors.DomainNotFound
     }
 
-
     log.Print("Domain removed from local database")
-    return domioerrors.DomioError{}
+    return domain, domioerrors.DomioError{}
 }
 
 func SetDomainAsRented(domainName string, userProfile *tokens.UserTokenWithClaims) {

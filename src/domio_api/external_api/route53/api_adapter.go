@@ -20,7 +20,7 @@ func CreateDomainZone(domain *domiodb.Domain) (*route53.CreateHostedZoneOutput, 
     sess, err := session.NewSession(&aws.Config{Credentials: creds})
     if err != nil {
         fmt.Println("failed to create session,", err)
-        return
+        return &route53.CreateHostedZoneOutput{}, err
     }
 
     r53Service := route53.New(sess)
