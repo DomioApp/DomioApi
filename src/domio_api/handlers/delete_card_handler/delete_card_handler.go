@@ -2,13 +2,13 @@ package delete_card_handler
 
 import (
     "net/http"
-    "domio_api/db"
     domioerrors  "domio_api/errors"
     "domio_api/components/tokens"
     "domio_api/components/responses"
     "github.com/gorilla/mux"
     "domio_api/messages"
     "log"
+    "domio_api/external_api/stripe/card"
 )
 
 func DeleteCardHandler(w http.ResponseWriter, req *http.Request) {
@@ -26,7 +26,7 @@ func DeleteCardHandler(w http.ResponseWriter, req *http.Request) {
     log.Print("==============================================")
     log.Print(userProfile.Id)
     log.Print("==============================================")
-    domiodb.DeleteCard(userProfile.Id, cardId)
+    stripe_card_adapter.DeleteCard(userProfile.Id, cardId)
 
     responses.ReturnObjectResponse(w, messages.CardDeleted)
 

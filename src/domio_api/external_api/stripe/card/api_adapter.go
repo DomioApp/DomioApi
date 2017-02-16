@@ -1,13 +1,13 @@
-package domiodb
+package stripe_card_adapter
 
 import (
-    _ "github.com/lib/pq"
-    domioerrors "domio_api/errors"
-    "log"
     "github.com/stripe/stripe-go"
-    "github.com/stripe/stripe-go/card"
-    "strconv"
     "domio_api/components/config"
+    "github.com/stripe/stripe-go/card"
+    "log"
+    "strconv"
+    "domio_api/db"
+    domioerrors  "domio_api/errors"
 )
 
 type CardRequest struct {
@@ -25,7 +25,7 @@ type Card struct {
     Name string `json:"name" db:"name"`
 }
 
-func CreateCard(cardRequest *CardRequest, user *UserInfo) (Card, *domioerrors.DomioError) {
+func CreateCard(cardRequest *CardRequest, user *domiodb.UserInfo) (Card, *domioerrors.DomioError) {
     var cardResult Card
     log.Print("******************************************")
     log.Print(cardRequest)
@@ -57,7 +57,7 @@ func CreateCard(cardRequest *CardRequest, user *UserInfo) (Card, *domioerrors.Do
 }
 
 func GetCards(userEmail string) ([]stripe.Card, *domioerrors.DomioError) {
-    userInfo, _ := GetUser(userEmail);
+    userInfo, _ := domiodb.GetUser(userEmail);
 
     stripe.Key = config.Config.STRIPE_KEY
     cards := card.List(&stripe.CardListParams{Customer: userInfo.StripeId})
@@ -71,9 +71,8 @@ func GetCards(userEmail string) ([]stripe.Card, *domioerrors.DomioError) {
 
     return cardsList, nil
 }
-
 func GetCard(userEmail string, id string) (*stripe.Card, *domioerrors.DomioError) {
-    userInfo, _ := GetUser(userEmail);
+    userInfo, _ := domiodb.GetUser(userEmail);
 
     stripe.Key = config.Config.STRIPE_KEY
 

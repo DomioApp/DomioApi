@@ -7,7 +7,7 @@ import (
     "domio_api/components/responses"
     "log"
     "github.com/fatih/color"
-    "domio_api/external_api/stripe"
+    "domio_api/external_api/stripe/subscription"
 )
 
 func GetUserSubscriptionsHandler(w http.ResponseWriter, req *http.Request) {
@@ -18,7 +18,7 @@ func GetUserSubscriptionsHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    userSubscriptions, _ := stripe_adapter.GetUserSubscriptions(userProfile.Id)
+    userSubscriptions, _ := stripe_subscription_adapter.GetUserSubscriptions(userProfile.Id)
 
     color.Set(color.FgHiCyan)
     log.Print(userSubscriptions)

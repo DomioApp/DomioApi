@@ -9,10 +9,11 @@ import (
     "domio_api/components/requests"
     "log"
     "github.com/fatih/color"
+    "domio_api/external_api/stripe/card"
 )
 
 func CreateCardHandler(w http.ResponseWriter, req *http.Request) {
-    var cardRequest domiodb.CardRequest
+    var cardRequest stripe_card_adapter.CardRequest
 
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
     log.Print(userProfile)
@@ -36,7 +37,7 @@ func CreateCardHandler(w http.ResponseWriter, req *http.Request) {
 
     existingUser, _ := domiodb.GetUser(userProfile.Email)
 
-    newCard, cardCreationError := domiodb.CreateCard(&cardRequest, &existingUser)
+    newCard, cardCreationError := stripe_card_adapter.CreateCard(&cardRequest, &existingUser)
 
     if cardCreationError != nil {
         log.Print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")

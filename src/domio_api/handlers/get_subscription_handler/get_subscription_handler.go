@@ -7,7 +7,7 @@ import (
     "domio_api/components/responses"
     "github.com/gorilla/mux"
     "log"
-    "domio_api/external_api/stripe"
+    "domio_api/external_api/stripe/subscription"
 )
 
 func GetSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
@@ -26,7 +26,7 @@ func GetSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
     userEmail := userProfile.Email
     log.Print(userEmail)
 
-    subscription := stripe_adapter.GetUserSubscription(subscriptionId)
+    subscription := stripe_subscription_adapter.GetUserSubscription(subscriptionId)
 
     log.Print("===========================================================")
     log.Print(subscription)

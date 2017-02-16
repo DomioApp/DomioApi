@@ -1,4 +1,4 @@
-package stripe_adapter
+package stripe_subscription_adapter
 
 import (
     "github.com/stripe/stripe-go"

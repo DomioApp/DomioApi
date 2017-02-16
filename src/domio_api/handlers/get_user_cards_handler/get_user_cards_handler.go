@@ -5,7 +5,7 @@ import (
     domioerrors  "domio_api/errors"
     "domio_api/components/tokens"
     "domio_api/components/responses"
-    "domio_api/db"
+    "domio_api/external_api/stripe/card"
 )
 
 func GetUserCardsHandler(w http.ResponseWriter, req *http.Request) {
@@ -17,7 +17,7 @@ func GetUserCardsHandler(w http.ResponseWriter, req *http.Request) {
     }
 
     userEmail := userProfile.Email
-    userCards, _ := domiodb.GetCards(userEmail)
+    userCards, _ := stripe_card_adapter.GetCards(userEmail)
 
     responses.ReturnObjectResponse(w, userCards)
 

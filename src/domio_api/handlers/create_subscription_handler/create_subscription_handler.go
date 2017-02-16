@@ -7,11 +7,11 @@ import (
     "domio_api/components/responses"
     "domio_api/components/requests"
     "domio_api/db"
-    "domio_api/external_api/stripe"
+    "domio_api/external_api/stripe/subscription"
 )
 
 func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
-    var newSubscription stripe_adapter.NewSubscription
+    var newSubscription stripe_subscription_adapter.NewSubscription
 
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 
@@ -41,7 +41,7 @@ func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
 
     newSubscription.CustomerId = userProfile.Id
 
-    stripeSubscription, subscriptionCreationError := stripe_adapter.CreateSubscription(&newSubscription, &domainInfo)
+    stripeSubscription, subscriptionCreationError := stripe_subscription_adapter.CreateSubscription(&newSubscription, &domainInfo)
 
     if (subscriptionCreationError != nil) {
         responses.ReturnErrorResponseWithCustomCode(w, subscriptionCreationError, http.StatusUnprocessableEntity)

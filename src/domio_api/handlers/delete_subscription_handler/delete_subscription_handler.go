@@ -8,7 +8,7 @@ import (
     "domio_api/components/responses"
     "github.com/gorilla/mux"
     "domio_api/messages"
-    "domio_api/external_api/stripe"
+    "domio_api/external_api/stripe/subscription"
 )
 
 func DeleteSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
@@ -22,9 +22,9 @@ func DeleteSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
         responses.ReturnErrorResponse(w, domioerrors.JwtTokenParseError)
         return
     }
-    sub := stripe_adapter.GetUserSubscription(subscriptionId)
+    sub := stripe_subscription_adapter.GetUserSubscription(subscriptionId)
 
-    stripe_adapter.DeleteUserSubscription(userProfile.Id, subscriptionId)
+    stripe_subscription_adapter.DeleteUserSubscription(userProfile.Id, subscriptionId)
 
     domiodb.SetDomainAsAvailable(sub.Meta["domain"], &userProfile)
 
