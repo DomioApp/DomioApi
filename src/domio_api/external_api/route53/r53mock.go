@@ -14,32 +14,6 @@ import (
 )
 
 func DeleteDomainZoneMock(domain *domiodb.Domain) error {
-    conf := config.Config
-    token := ""
-    creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
-    sess, err := session.NewSession(&aws.Config{Credentials: creds})
-
-    if err != nil {
-        fmt.Println("failed to create session,", err)
-        return err
-    }
-
-    svc := route53.New(sess)
-
-    params := &route53.DeleteHostedZoneInput{
-        Id: &domain.ZoneId.String,
-    }
-    //resp, err := svc.DeleteHostedZone(params)
-    resp, err := svc.DeleteHostedZone(params)
-
-    if err != nil {
-        color.Set(color.FgRed)
-        log.Println(err)
-        color.Unset()
-        return err
-    }
-    log.Println(resp)
-    log.Print("Domain zone removed from Route 53")
     return nil
 }
 
