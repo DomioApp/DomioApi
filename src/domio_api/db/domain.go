@@ -140,15 +140,15 @@ func SetDomainAsAvailable(domainName string, userProfile *tokens.UserTokenWithCl
     Db.MustExec("UPDATE domains SET is_rented=false, rented_by=$3 WHERE rented_by=$1 AND name=$2", userProfile.Email, domainName, nil)
 }
 
-func SetDomainZoneId(domain *Domain, id *string) {
-    Db.MustExec("UPDATE domains SET zone_id=$1 WHERE name=$2", id, domain.Name)
+func SetDomainZoneId(domain *Domain, hostedZoneId *string) {
+    Db.MustExec("UPDATE domains SET zone_id=$2 WHERE name=$1", domain.Name, hostedZoneId)
 }
 
 func SetDomainNameServers(domain *Domain, ns1 *string, ns2 *string, ns3 *string, ns4 *string) {
     Db.MustExec("UPDATE domains SET ns1=$2, ns2=$3, ns3=$4, ns4=$5 WHERE name=$1", domain.Name, ns1, ns2, ns3, ns4, )
 }
 
-func CreateDomain(domain Domain, ownerEmail string) (Domain, *pq.Error) {
+func CreateDomain(domain Domain, ownerEmail string) (*Domain, *pq.Error) {
     var domainResultDb Domain
 
     insertErr := Db.QueryRowx("INSERT INTO domains (name, price_per_month, owner) VALUES ($1, $2, $3) RETURNING name, price_per_month, owner",
@@ -157,16 +157,16 @@ func CreateDomain(domain Domain, ownerEmail string) (Domain, *pq.Error) {
 
     if (insertErr != nil) {
         log.Println(insertErr)
-        return Domain{}, insertErr.(*pq.Error)
+        return nil, insertErr.(*pq.Error)
     }
 
-    domainResultAws, getDomainError := GetDomainInfo(domainResultDb.Name)
+    domainInfo, getDomainError := GetDomainInfo(domainResultDb.Name)
 
     if (getDomainError != nil) {
         log.Println(getDomainError)
     }
 
-    return domainResultAws, nil
+    return &domainInfo, nil
 }
 
 func UpdateDomain(domainName string, domainToEdit DomainToEdit) error {
@@ -179,17 +179,4 @@ func UpdateDomain(domainName string, domainToEdit DomainToEdit) error {
     }
 
     return nil
-}
-
-func formatDomain(domain Domain) DomainJson {
-    return DomainJson{
-        Name:domain.Name,
-        Owner:domain.Owner,
-        PricePerMonth:domain.PricePerMonth,
-        ZoneId:domain.ZoneId.String,
-        NS1:domain.NS1.String,
-        NS2:domain.NS2.String,
-        NS3:domain.NS3.String,
-        NS4:domain.NS4.String,
-    }
 }
