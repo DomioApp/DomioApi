@@ -50,10 +50,10 @@ func CreateDomainHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    resp, _ := r53.CreateDomainZone(&createdDomain)
+    createdDomainZone, _ := r53.CreateDomainZone(&createdDomain)
 
-    domiodb.SetDomainZoneId(&createdDomain, resp.HostedZone.Id)
-    domiodb.SetDomainNameServers(&createdDomain, resp.DelegationSet.NameServers[0], resp.DelegationSet.NameServers[1], resp.DelegationSet.NameServers[2], resp.DelegationSet.NameServers[3])
+    domiodb.SetDomainZoneId(&createdDomain, createdDomainZone.HostedZone.Id)
+    domiodb.SetDomainNameServers(&createdDomain, createdDomainZone.DelegationSet.NameServers[0], createdDomainZone.DelegationSet.NameServers[1], createdDomainZone.DelegationSet.NameServers[2], createdDomainZone.DelegationSet.NameServers[3])
 
     responses.ReturnObjectResponse(w, createdDomain)
 
