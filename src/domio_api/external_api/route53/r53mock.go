@@ -3,7 +3,6 @@ package route53
 import (
     "domio_api/db"
     "github.com/aws/aws-sdk-go/service/route53"
-    "github.com/aws/aws-sdk-go/service/route53domains"
 )
 
 func DeleteDomainZoneMock(domain *domiodb.Domain) error {
@@ -11,24 +10,25 @@ func DeleteDomainZoneMock(domain *domiodb.Domain) error {
 }
 
 func CreateDomainZoneMock(domain *domiodb.Domain) (*route53.CreateHostedZoneOutput, error) {
-    a := "dummy_hosted_zone";
+    hostedZoneName := "dummy_hosted_zone";
     ns1 := "dummy_hosted_zone";
     ns2 := "dummy_hosted_zone";
     ns3 := "dummy_hosted_zone";
     ns4 := "dummy_hosted_zone";
 
-    resp := route53.CreateHostedZoneOutput{
-        HostedZone:&route53.HostedZone{Name:&a},
+    delSet := route53.DelegationSet{
+        NameServers:[]*string{
+            &ns1,
+            &ns2,
+            &ns3,
+            &ns4,
+        }}
+
+    hostedZone := route53.CreateHostedZoneOutput{
+        HostedZone:&route53.HostedZone{Name:&hostedZoneName},
+        DelegationSet:&delSet,
     }
 
-    var delSet=
-    resp.DelegationSet.NameServers = []route53domains.Nameserver{
-        {Name:&ns1},
-        {Name:&ns2},
-        {Name:&ns3},
-        {Name:&ns4},
-    }
-
-    return &resp, nil
+    return &hostedZone, nil
 
 }
