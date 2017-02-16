@@ -11,16 +11,24 @@ func DeleteDomainZoneMock(domain *domiodb.Domain) error {
 }
 
 func CreateDomainZoneMock(domain *domiodb.Domain) (*route53.CreateHostedZoneOutput, error) {
+    a := "dummy_hosted_zone";
+    ns1 := "dummy_hosted_zone";
+    ns2 := "dummy_hosted_zone";
+    ns3 := "dummy_hosted_zone";
+    ns4 := "dummy_hosted_zone";
+
     resp := route53.CreateHostedZoneOutput{
-        HostedZone:route53.HostedZone{Name:string("dummy_hosted_zone")},
-    }
-    resp.DelegationSet.NameServers = &[]route53domains.Nameserver{
-        *route53domains.Nameserver{Name:"1"},
-        *route53domains.Nameserver{Name:"2"},
-        *route53domains.Nameserver{Name:"3"},
-        *route53domains.Nameserver{Name:"4"},
+        HostedZone:&route53.HostedZone{Name:&a},
     }
 
-    return resp, nil
+    var delSet=
+    resp.DelegationSet.NameServers = []route53domains.Nameserver{
+        {Name:&ns1},
+        {Name:&ns2},
+        {Name:&ns3},
+        {Name:&ns4},
+    }
+
+    return &resp, nil
 
 }
