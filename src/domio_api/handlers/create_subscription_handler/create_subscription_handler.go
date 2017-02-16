@@ -6,20 +6,12 @@ import (
     "domio_api/components/tokens"
     "domio_api/components/responses"
     "domio_api/components/requests"
-    "github.com/stripe/stripe-go"
-    "github.com/stripe/stripe-go/sub"
     "domio_api/db"
-    "domio_api/components/config"
+    "domio_api/external_api/stripe"
 )
 
-type NewSubscription struct {
-    Name       string `json:"name"`
-    Domain     string `json:"domain"`
-    CustomerId string `json:"customer_id"`
-}
-
 func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
-    var newSubscription NewSubscription
+    var newSubscription stripe_adapter.NewSubscription
 
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 
@@ -49,7 +41,7 @@ func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
 
     newSubscription.CustomerId = userProfile.Id
 
-    stripeSubscription, subscriptionCreationError := createSubscription(&newSubscription, &domainInfo)
+    stripeSubscription, subscriptionCreationError := stripe_adapter.CreateSubscription(&newSubscription, &domainInfo)
 
     if (subscriptionCreationError != nil) {
         responses.ReturnErrorResponseWithCustomCode(w, subscriptionCreationError, http.StatusUnprocessableEntity)
@@ -61,19 +53,4 @@ func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
     responses.ReturnObjectResponse(w, stripeSubscription)
 
     defer req.Body.Close()
-}
-
-func createSubscription(newSubscription *NewSubscription, domainInfo *domiodb.Domain) (stripe.Sub, error) {
-    stripe.Key = config.Config.STRIPE_KEY
-
-    subParams := &stripe.SubParams{
-        Customer: newSubscription.CustomerId,
-        Plan: "month-1",
-        Quantity : domainInfo.PricePerMonth,
-    }
-
-    subParams.AddMeta("domain", newSubscription.Domain)
-
-    s, err := sub.New(subParams)
-    return *s, err
 }
