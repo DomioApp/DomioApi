@@ -38,7 +38,7 @@ func CreateDomainZone(domain *domiodb.Domain) (*route53.CreateHostedZoneOutput, 
         log.Println(id)
         log.Println(err)
         color.Unset()
-        return
+        return nil, err
     }
 
     return resp, nil
