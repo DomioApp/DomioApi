@@ -10,8 +10,9 @@ import (
     "domio_api/db"
 )
 
+var useRealR53 = true
+
 func DeleteDomainZone(domain *domiodb.Domain) error {
-    var useRealR53 = false
 
     if (useRealR53) {
         return DeleteDomainZoneReal(domain)
@@ -20,7 +21,6 @@ func DeleteDomainZone(domain *domiodb.Domain) error {
     }
 }
 func CreateDomainZone(domain *domiodb.Domain) (*route53.CreateHostedZoneOutput, error) {
-    var useRealR53 = false
 
     if (useRealR53) {
         return CreateDomainZoneReal(domain)
