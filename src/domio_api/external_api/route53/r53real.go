@@ -60,6 +60,7 @@ func CreateDomainZoneReal(domain *domiodb.Domain) (*route53.CreateHostedZoneOutp
         CallerReference: &id,
         Name:            aws.String(domain.Name),
     }
+
     resp, err := r53Service.CreateHostedZone(params)
 
     if err != nil {
