@@ -5,7 +5,7 @@ import (
     "github.com/aws/aws-sdk-go/aws"
 )
 
-func CreateCNAME(svc *route53.Route53, zoneId string, name string, target string, TTL uint64, weight uint64) {
+func CreateCNAME(svc *route53.Route53, zoneId string, name string, target string, TTL int64, weight int64) (*route53.ChangeResourceRecordSetsOutput, error) {
     recordSet := &route53.ResourceRecordSet{// Required
         Name: aws.String(name), // Required
         Type: aws.String("CNAME"), // Required
