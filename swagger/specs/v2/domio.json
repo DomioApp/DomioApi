@@ -153,6 +153,48 @@
           }
         ]
       },
+      "put": {
+        "tags": [
+          "subscription"
+        ],
+        "summary": "Update a subscription",
+        "description": "",
+        "operationId": "updateSubscription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Subscription id to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "plan",
+            "description": "Subscription",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/NewSubscription"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid sub value"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      },
       "delete": {
         "tags": [
           "subscription"
