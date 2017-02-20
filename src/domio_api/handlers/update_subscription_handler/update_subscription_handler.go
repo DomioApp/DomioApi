@@ -41,8 +41,8 @@ func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
     zoneId := ""
     domainName := ""
     value := ""
-    TTL := 3600
-    weight := 100
+    var TTL int64 = 3600
+    var weight int64 = 100
 
     result, domainUpdateError := r53.UpdateCNAME(zoneId, domainName, value, TTL, weight)
 

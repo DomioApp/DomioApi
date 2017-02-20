@@ -18,7 +18,7 @@ func UpdateCNAME(zoneId string, domainName string, value string, TTL int64, weig
 
     if err != nil {
         fmt.Println("failed to create session,", err)
-        return err
+        return nil, err
     }
 
     svc := route53.New(sess)

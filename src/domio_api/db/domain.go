@@ -11,17 +11,18 @@ import (
 )
 
 type Domain struct {
-    Name          string `json:"name" db:"name"`
-    Owner         string `json:"owner" db:"owner"`
-    PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
-    IsVisible     bool `json:"is_visible" db:"is_visible"`
-    IsRented      bool `json:"is_rented" db:"is_rented"`
-    RentedBy      sql.NullString `json:"rented_by" db:"rented_by"`
-    ZoneId        sql.NullString `json:"zone_id" db:"zone_id"`
-    NS1           sql.NullString `json:"ns1" db:"ns1"`
-    NS2           sql.NullString `json:"ns2" db:"ns2"`
-    NS3           sql.NullString `json:"ns3" db:"ns3"`
-    NS4           sql.NullString `json:"ns4" db:"ns4"`
+    Name           string `json:"name" db:"name"`
+    Owner          string `json:"owner" db:"owner"`
+    PricePerMonth  uint64 `json:"price_per_month" db:"price_per_month"`
+    IsVisible      bool `json:"is_visible" db:"is_visible"`
+    IsRented       bool `json:"is_rented" db:"is_rented"`
+    RentedBy       sql.NullString `json:"rented_by" db:"rented_by"`
+    SubscriptionId sql.NullString `json:"subscription_id" db:"subscription_id"`
+    ZoneId         sql.NullString `json:"zone_id" db:"zone_id"`
+    NS1            sql.NullString `json:"ns1" db:"ns1"`
+    NS2            sql.NullString `json:"ns2" db:"ns2"`
+    NS3            sql.NullString `json:"ns3" db:"ns3"`
+    NS4            sql.NullString `json:"ns4" db:"ns4"`
 }
 
 type AvailableDomainJson struct {
