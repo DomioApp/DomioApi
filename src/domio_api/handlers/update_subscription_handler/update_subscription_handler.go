@@ -35,6 +35,8 @@ func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
     requestVars := mux.Vars(req)
     subId := requestVars["id"]
 
+
+
     log.Print(userProfile)
     log.Print(subId)
 

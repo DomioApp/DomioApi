@@ -93,6 +93,19 @@ func GetDomainInfo(domainName string) (Domain, *domioerrors.DomioError) {
     return domain, nil
 }
 
+func GetDomainInfoBySubscriptionId(subId string) (Domain, *domioerrors.DomioError) {
+    var domain Domain
+
+    domainError := Db.QueryRowx("SELECT * FROM domains where subscription_id=$1", subId).StructScan(&domain)
+
+    if domainError != nil {
+        log.Print(domainError)
+        return Domain{}, &domioerrors.DomainNotFound
+    }
+
+    return domain, nil
+}
+
 func DeleteDomain(domainName string, ownerEmail string) (Domain, domioerrors.DomioError) {
     domain, domainError := GetDomainInfo(domainName)
     if (domainError != nil) {

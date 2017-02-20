@@ -8,6 +8,7 @@ import (
     "domio_api/components/tokens"
     domioerrors  "domio_api/errors"
     "fmt"
+    "log"
 )
 
 type DomainInfo struct {
@@ -18,7 +19,15 @@ type DomainInfo struct {
 func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request) {
 
     requestVars := mux.Vars(req)
-    domainName := requestVars["name"]
+    key := requestVars["key"]
+    value := requestVars["value"]
+
+
+
+    log.Print("============================================")
+    log.Print(key)
+    log.Print(value)
+    log.Print("============================================")
 
     var isAuthenticated = false
 
@@ -34,7 +43,15 @@ func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request) {
 
     fmt.Printf("isAuthenticated: %s", isAuthenticated)
 
-    domainInfo, err := domiodb.GetDomainInfo(domainName)
+    var domainInfo domiodb.Domain
+    var err error
+
+    if (key == "name") {
+        domainInfo, err = domiodb.GetDomainInfo(value)
+    } else if (key == "sub") {
+        domainInfo, err = domiodb.GetDomainInfoBySubscriptionId(value)
+    }
+
     if (err != nil) {
         responses.ReturnErrorResponse(w, err)
         return

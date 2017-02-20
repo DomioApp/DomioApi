@@ -34,6 +34,16 @@ type Route struct {
 type Routes []Route
 
 var RoutesList = Routes{
+
+    Route{
+        "GetDomainInfo",
+        "GET",
+        "/domains/{key}/{value}",
+        get_domain_info_handler.GetDomainInfoHandler,
+    },
+
+
+
     Route{
         "ShowStatus",
         "GET",
@@ -103,15 +113,16 @@ var RoutesList = Routes{
     Route{
         "UpdateDomain",
         "PUT",
-        "/domains/{name}",
+        "/domains/name/{name}",
         update_domain_handler.UpdateDomainHandler,
     },
     Route{
         "DeleteDomain",
         "DELETE",
-        "/domains/{name}",
+        "/domains/name/{name}",
         delete_domain_handler.DeleteDomainHandler,
     },
+
     Route{
         "GetUserSubscriptions",
         "GET",
@@ -147,11 +158,5 @@ var RoutesList = Routes{
         "POST",
         "/cards",
         create_card_handler.CreateCardHandler,
-    },
-    Route{
-        "GetDomainInfo",
-        "GET",
-        "/domains/{name}",
-        get_domain_info_handler.GetDomainInfoHandler,
     },
 }
