@@ -132,12 +132,12 @@ func DeleteDomain(domainName string, ownerEmail string) (Domain, domioerrors.Dom
     return domain, domioerrors.DomioError{}
 }
 
-func SetDomainAsRented(domainName string, userProfile *tokens.UserTokenWithClaims) {
-    Db.MustExec("UPDATE domains SET is_rented=true, rented_by=$1 WHERE name=$2", userProfile.Email, domainName)
+func SetDomainAsRented(domainName string, subId string, userProfile *tokens.UserTokenWithClaims) {
+    Db.MustExec("UPDATE domains SET is_rented=true, rented_by=$2, subscription_id=$3 WHERE name=$1", domainName, userProfile.Email, subId)
 }
 
 func SetDomainAsAvailable(domainName string, userProfile *tokens.UserTokenWithClaims) {
-    Db.MustExec("UPDATE domains SET is_rented=false, rented_by=$3 WHERE rented_by=$1 AND name=$2", userProfile.Email, domainName, nil)
+    Db.MustExec("UPDATE domains SET is_rented=false, rented_by=$3, subscription_id=$3 WHERE rented_by=$1 AND name=$2", userProfile.Email, domainName, nil)
 }
 
 func SetDomainZoneId(domain *Domain, hostedZoneId *string) {

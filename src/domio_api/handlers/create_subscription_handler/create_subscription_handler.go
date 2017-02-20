@@ -48,7 +48,7 @@ func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    domiodb.SetDomainAsRented(domainInfo.Name, &userProfile)
+    domiodb.SetDomainAsRented(domainInfo.Name, stripeSubscription.ID, &userProfile)
 
     responses.ReturnObjectResponse(w, stripeSubscription)
 
