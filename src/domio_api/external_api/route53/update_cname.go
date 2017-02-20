@@ -3,15 +3,32 @@ package route53
 import (
     "github.com/aws/aws-sdk-go/service/route53"
     "github.com/aws/aws-sdk-go/aws"
+    "domio_api/components/config"
+    "github.com/aws/aws-sdk-go/aws/credentials"
+    "github.com/aws/aws-sdk-go/aws/session"
+    "fmt"
 )
 
-func UpdateCNAME(svc *route53.Route53, zoneId string, name string, target string, TTL int64, weight int64) (*route53.ChangeResourceRecordSetsOutput, error) {
+func UpdateCNAME(zoneId string, domainName string, value string, TTL int64, weight int64) (*route53.ChangeResourceRecordSetsOutput, error) {
+
+    conf := config.Config
+    token := ""
+    creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
+    sess, err := session.NewSession(&aws.Config{Credentials: creds})
+
+    if err != nil {
+        fmt.Println("failed to create session,", err)
+        return err
+    }
+
+    svc := route53.New(sess)
+
     recordSet := &route53.ResourceRecordSet{// Required
-        Name: aws.String(name), // Required
+        Name: aws.String(domainName), // Required
         Type: aws.String("CNAME"), // Required
         ResourceRecords: []*route53.ResourceRecord{
             {// Required
-                Value: aws.String(target), // Required
+                Value: aws.String(value), // Required
             },
         },
         TTL:            aws.Int64(TTL),
