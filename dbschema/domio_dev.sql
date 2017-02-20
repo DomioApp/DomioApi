@@ -44,6 +44,7 @@ CREATE TABLE domains (
     price_per_month integer NOT NULL,
     subscription_id character varying(30),
     zone_id character varying(26),
+    is_visible boolean DEFAULT false NOT NULL,
     is_rented boolean DEFAULT false NOT NULL,
     rented_by character varying,
     ns1 character varying,
