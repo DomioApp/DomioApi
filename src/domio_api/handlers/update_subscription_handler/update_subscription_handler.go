@@ -38,9 +38,9 @@ func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
     log.Print(userProfile)
     log.Print(subId)
 
-    zoneId := ""
-    domainName := ""
-    value := ""
+    zoneId := "/hostedzone/Z2PJOVV67RBWSS"
+    domainName := "www.john.com"
+    value := "heyho"
     var TTL int64 = 3600
     var weight int64 = 100
 
