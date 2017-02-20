@@ -180,7 +180,14 @@
             "description": "Subscription",
             "required": false,
             "schema": {
-              "$ref": "#/definitions/NewSubscription"
+              "properties": {
+                "entries": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/NewSubscription"
+                  }
+                }
+              }
             }
           }
         ],
