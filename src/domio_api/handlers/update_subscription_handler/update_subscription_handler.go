@@ -38,7 +38,13 @@ func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
     log.Print(userProfile)
     log.Print(subId)
 
-    result, domainUpdateError := r53.UpdateCNAME(subId, domainToEdit)
+    zoneId := ""
+    domainName := ""
+    value := ""
+    TTL := 3600
+    weight := 100
+
+    result, domainUpdateError := r53.UpdateCNAME(zoneId, domainName, value, TTL, weight)
 
     log.Print(result);
 
