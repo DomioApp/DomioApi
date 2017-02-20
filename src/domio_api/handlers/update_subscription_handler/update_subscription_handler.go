@@ -9,6 +9,7 @@ import (
     "domio_api/components/requests"
     "log"
     "github.com/gorilla/mux"
+    r53 "domio_api/external_api/route53"
 )
 
 func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
@@ -32,12 +33,14 @@ func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
     }
 
     requestVars := mux.Vars(req)
-    domainName := requestVars["name"]
+    subId := requestVars["id"]
 
     log.Print(userProfile)
-    log.Print(domainName)
+    log.Print(subId)
 
-    domainUpdateError := domiodb.UpdateDomain(domainName, domainToEdit)
+    result, domainUpdateError := r53.UpdateCNAME(subId, domainToEdit)
+
+    log.Print(result);
 
     if (domainUpdateError != nil) {
         log.Print(domainUpdateError)
