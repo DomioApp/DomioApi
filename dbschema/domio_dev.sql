@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.1
--- Dumped by pg_dump version 9.6.1
+-- Dumped from database version 9.6.2
+-- Dumped by pg_dump version 9.6.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -42,6 +42,7 @@ CREATE TABLE domains (
     name character varying NOT NULL,
     owner character varying NOT NULL,
     price_per_month integer NOT NULL,
+    subscription_id character varying(30),
     zone_id character varying(26),
     is_rented boolean DEFAULT false NOT NULL,
     rented_by character varying,
