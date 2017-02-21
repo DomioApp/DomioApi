@@ -34,11 +34,24 @@ type Route struct {
 type Routes []Route
 
 var RoutesList = Routes{
+    Route{
+        "CreateUser",
+        "POST",
+        "/users",
+        create_user_handler.CreateUserHandler,
+    },
+
+    Route{
+        "LoginUser",
+        "POST",
+        "/user/login",
+        login_user_handler.LoginUserHandler,
+    },
 
     Route{
         "GetDomainInfo",
         "GET",
-        "/domains/{key}/{value}",
+        "/domain/{name}",
         get_domain_info_handler.GetDomainInfoHandler,
     },
 
@@ -51,22 +64,10 @@ var RoutesList = Routes{
         show_status_handler.ShowStatusHandler,
     },
     Route{
-        "CreateUser",
-        "POST",
-        "/users",
-        create_user_handler.CreateUserHandler,
-    },
-    Route{
         "DeleteUser",
         "DELETE",
         "/user",
         delete_user_handler.DeleteUserHandler,
-    },
-    Route{
-        "LoginUser",
-        "POST",
-        "/users/login",
-        login_user_handler.LoginUserHandler,
     },
     Route{
         "VerifyToken",
@@ -119,7 +120,7 @@ var RoutesList = Routes{
     Route{
         "DeleteDomain",
         "DELETE",
-        "/domains/name/{name}",
+        "/domain/{name}",
         delete_domain_handler.DeleteDomainHandler,
     },
 

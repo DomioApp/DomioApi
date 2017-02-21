@@ -486,49 +486,6 @@
         ]
       }
     },
-    "/domain/{name}": {
-      "put": {
-        "tags": [
-          "domain"
-        ],
-        "summary": "Update an existing domain",
-        "description": "",
-        "operationId": "updatePet",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Pet object that needs to be added to the store",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/Domain"
-            }
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Validation exception"
-          },
-          "404": {
-            "description": "Pet not found"
-          },
-          "400": {
-            "description": "Invalid ID supplied"
-          }
-        },
-        "security": [
-          {
-            "jwt_key": []
-          }
-        ]
-      }
-    },
     "/domains/available": {
       "get": {
         "tags": [
@@ -619,7 +576,7 @@
         ]
       }
     },
-    "/domains/{name}": {
+    "/domain/{name}": {
       "get": {
         "tags": [
           "domain"
@@ -654,6 +611,47 @@
             "schema": {
               "$ref": "#/definitions/DomainInfo"
             }
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "domain"
+        ],
+        "summary": "Update an existing domain",
+        "description": "",
+        "operationId": "updatePet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pet object that needs to be added to the store",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Domain"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Validation exception"
+          },
+          "404": {
+            "description": "Pet not found"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
           }
         },
         "security": [

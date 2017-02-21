@@ -19,17 +19,9 @@ type DomainInfo struct {
 func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request) {
 
     requestVars := mux.Vars(req)
-    key := requestVars["key"]
-    value := requestVars["value"]
+    domainName := requestVars["name"]
 
-
-
-    log.Print("============================================")
-    log.Print(key)
-    log.Print(value)
-    log.Print("============================================")
-
-    var isAuthenticated = false
+    var isAuthenticated bool = false
 
     defer req.Body.Close()
 
@@ -41,19 +33,17 @@ func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request) {
         isAuthenticated = false
     }
 
-    fmt.Printf("isAuthenticated: %s", isAuthenticated)
+    fmt.Printf("isAuthenticated: %t\n", isAuthenticated)
 
-    var domainInfo domiodb.Domain
-    var err error
+    var domainInfo *domiodb.Domain
+    var domainInfoError *domioerrors.DomioError
 
-    if (key == "name") {
-        domainInfo, err = domiodb.GetDomainInfo(value)
-    } else if (key == "sub") {
-        domainInfo, err = domiodb.GetDomainInfoBySubscriptionId(value)
-    }
+    domainInfo, domainInfoError = domiodb.GetDomainInfo(domainName)
 
-    if (err != nil) {
-        responses.ReturnErrorResponse(w, err)
+    if (domainInfoError != nil) {
+
+        log.Print(domainInfoError)
+        responses.ReturnErrorResponse(w, domainInfoError)
         return
     }
 

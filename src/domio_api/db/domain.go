@@ -80,17 +80,17 @@ func GetUserDomains(userEmail string) []Domain {
     return domains
 }
 
-func GetDomainInfo(domainName string) (Domain, *domioerrors.DomioError) {
+func GetDomainInfo(domainName string) (*Domain, *domioerrors.DomioError) {
     var domain Domain
 
     domainError := Db.QueryRowx("SELECT * FROM domains where name=$1", domainName).StructScan(&domain)
 
     if domainError != nil {
         log.Print(domainError)
-        return Domain{}, &domioerrors.DomainNotFound
+        return nil, &domioerrors.DomainNotFound
     }
 
-    return domain, nil
+    return &domain, nil
 }
 
 func GetDomainInfoBySubscriptionId(subId string) (Domain, *domioerrors.DomioError) {
@@ -106,11 +106,11 @@ func GetDomainInfoBySubscriptionId(subId string) (Domain, *domioerrors.DomioErro
     return domain, nil
 }
 
-func DeleteDomain(domainName string, ownerEmail string) (Domain, domioerrors.DomioError) {
+func DeleteDomain(domainName string, ownerEmail string) (*Domain, domioerrors.DomioError) {
     domain, domainError := GetDomainInfo(domainName)
     if (domainError != nil) {
         log.Print(domainError)
-        return Domain{}, domioerrors.DomainNotFound
+        return nil, domioerrors.DomainNotFound
     }
 
     domain, domainGetErr := GetDomainInfo(domainName);
@@ -121,7 +121,7 @@ func DeleteDomain(domainName string, ownerEmail string) (Domain, domioerrors.Dom
     }
 
     if (domain.IsRented) {
-        return Domain{}, domioerrors.DomainInRent
+        return nil, domioerrors.DomainInRent
     }
 
     result := Db.MustExec("DELETE FROM domains where name=$1 AND owner=$2 AND is_rented=false", domainName, ownerEmail)
@@ -131,7 +131,7 @@ func DeleteDomain(domainName string, ownerEmail string) (Domain, domioerrors.Dom
         color.Set(color.FgHiRed)
         log.Print(err)
         color.Unset()
-        return Domain{}, domioerrors.DomainNotFound
+        return nil, domioerrors.DomainNotFound
     }
 
     color.Set(color.FgHiCyan)
@@ -139,7 +139,7 @@ func DeleteDomain(domainName string, ownerEmail string) (Domain, domioerrors.Dom
     color.Unset()
 
     if (rowsAffected == 0) {
-        return Domain{}, domioerrors.DomainNotFound
+        return nil, domioerrors.DomainNotFound
     }
 
     log.Print("Domain removed from local database")
@@ -180,7 +180,7 @@ func CreateDomain(domain Domain, ownerEmail string) (*Domain, *pq.Error) {
         log.Println(getDomainError)
     }
 
-    return &domainInfo, nil
+    return domainInfo, nil
 }
 
 func UpdateDomain(domainName string, domainToEdit DomainToEdit) error {

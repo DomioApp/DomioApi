@@ -34,14 +34,14 @@ func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    if (domainInfo != domiodb.Domain{} && domainInfo.IsRented) {
+    if (domainInfo != nil && domainInfo.IsRented) {
         responses.ReturnErrorResponseWithCustomCode(w, domioerrors.DomainIsAlreadyRented, http.StatusUnprocessableEntity)
         return
     }
 
     newSubscription.CustomerId = userProfile.Id
 
-    stripeSubscription, subscriptionCreationError := stripe_subscription_adapter.CreateSubscription(&newSubscription, &domainInfo)
+    stripeSubscription, subscriptionCreationError := stripe_subscription_adapter.CreateSubscription(&newSubscription, domainInfo)
 
     if (subscriptionCreationError != nil) {
         responses.ReturnErrorResponseWithCustomCode(w, subscriptionCreationError, http.StatusUnprocessableEntity)
