@@ -17,6 +17,7 @@ type Configuration struct {
     DOMIO_DB_HOST         string `json:"DOMIO_DB_HOST"`
     DOMIO_DB_USER         string `json:"DOMIO_DB_USER"`
     DOMIO_DB_PASSWORD     string `json:"DOMIO_DB_PASSWORD"`
+    SWAGGER_SCHEMA_PATH   string `json:"SWAGGER_SCHEMA_PATH"`
     PORT                  uint    `json:"PORT"`
     ENV                   string `json:"ENV"`
 }

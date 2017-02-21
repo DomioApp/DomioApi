@@ -10,10 +10,11 @@ import (
 )
 
 func InitConfigFile(filenameFlag *string,
-                    awsAccessKeyIdFlag *string, awsSecretAccessKeyFlag *string,
-                    dbHostFlag *string, dbNameFlag *string, dbUserFlag *string, dbPasswordFlag *string,
-                    stripeKeyFlag *string,
-                    webPortFlag *uint, envFlag *string) error {
+awsAccessKeyIdFlag *string, awsSecretAccessKeyFlag *string,
+dbHostFlag *string, dbNameFlag *string, dbUserFlag *string, dbPasswordFlag *string,
+stripeKeyFlag *string,
+swaggerSchemaPathFlag *string,
+webPortFlag *uint, envFlag *string) error {
 
     argsErr := false
 
@@ -57,6 +58,11 @@ func InitConfigFile(filenameFlag *string,
         argsErr = true
     }
 
+    if *swaggerSchemaPathFlag == "" {
+        fmt.Println("Please supply the Swagger Schema Path --swagger-schema-path option.")
+        argsErr = true
+    }
+
     if argsErr {
         fmt.Println("-----------------------------------------")
         fmt.Println("Please provide required options.")
@@ -73,6 +79,7 @@ func InitConfigFile(filenameFlag *string,
         DOMIO_DB_PASSWORD: *dbPasswordFlag,
         STRIPE_KEY: *stripeKeyFlag,
         PORT: *webPortFlag,
+        SWAGGER_SCHEMA_PATH: *swaggerSchemaPathFlag,
         ENV: *envFlag,
     }
 

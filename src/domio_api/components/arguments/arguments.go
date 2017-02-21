@@ -63,6 +63,7 @@ func processInitArguments() Arguments {
     dbPasswordFlag := initCommand.String("db-password", "", "DB password")
 
     stripeKey := initCommand.String("stripe-key", "", "Stripe Key")
+    swaggerSchemaPathFlag := initCommand.String("swagger-schema-path", "/usr/loca/domio_api/domio_api.json", "Swagger Schema Path")
 
     webPortFlag := initCommand.Uint("port", 8080, "Port for the HTTP server to run on")
     envFlag := initCommand.String("env", "development", "Environment name: development, testing, production")
@@ -78,6 +79,7 @@ func processInitArguments() Arguments {
     log.Print(*dbPasswordFlag)
     log.Print(*dbPasswordFlag)
     log.Print(*stripeKey)
+    log.Print(*swaggerSchemaPathFlag)
     log.Print(*webPortFlag)
     log.Print(*envFlag)
 
@@ -87,6 +89,7 @@ func processInitArguments() Arguments {
                               awsAccessKeyIdFlag, awsSecretAccessKeyFlag,
                               dbHostFlag, dbNameFlag, dbUserFlag, dbPasswordFlag,
                               stripeKey,
+                              swaggerSchemaPathFlag,
                               webPortFlag, envFlag)
     }
     return args
