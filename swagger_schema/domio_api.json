@@ -35,7 +35,7 @@
     },
     {
       "name": "subscription",
-      "description": "Subscribe to domain rentals",
+      "description": "Create, edit, cancel subscriptions",
       "externalDocs": {
         "description": "Find out more",
         "url": "http://swagger.io"
