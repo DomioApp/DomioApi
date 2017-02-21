@@ -9,9 +9,19 @@ import (
     "log"
     "domio_api/db"
     "domio_api/external_api/r53"
+    "domio_api/components/requests"
 )
 
+type Record struct {
+    Key    string `json:"key"`
+    Value  string `json:"value"`
+    TTL    int64 `json:"ttl"`
+    Weight int64 `json:"weight"`
+}
+
 func UpdateSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request) {
+
+    var record Record
 
     requestVars := mux.Vars(req)
     subscriptionId := requestVars["id"]
@@ -24,11 +34,24 @@ func UpdateSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request) 
         return
     }
 
+    decodeErr := requests.DecodeJsonRequestBody(req, &record)
+
+    log.Print("******************************************")
+    log.Print(record)
+    log.Print("******************************************")
+
+    if decodeErr != nil {
+        log.Print(decodeErr)
+        responses.ReturnErrorResponse(w, domioerrors.JsonDecodeError)
+        return
+    }
+
     userEmail := userProfile.Email
     log.Print(userEmail)
 
     domain, err := domiodb.GetDomainInfoBySubscriptionId(subscriptionId)
-    r53.UpdateCNAME(domain.ZoneId.String, "www." + domain.Name, "heyho100", 3600, 200)
+
+    r53.UpdateCNAME(domain.ZoneId.String, "www." + domain.Name, record.Value, record.TTL, record.Weight)
 
     if (err != nil) {
         log.Print(err)
