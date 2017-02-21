@@ -115,7 +115,7 @@ var RoutesList = Routes{
     Route{
         "UpdateDomain",
         "PUT",
-        "/domains/name/{name}",
+        "/domain/{name}",
         update_domain_handler.UpdateDomainHandler,
     },
     Route{

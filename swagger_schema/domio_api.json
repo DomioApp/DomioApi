@@ -298,11 +298,9 @@
             "required": false,
             "schema": {
               "properties": {
-                "entries": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/NewSubscription"
-                  }
+                "record": {
+                  "type": "object",
+                  "$ref": "#/definitions/SubscriptionRecord"
                 }
               }
             }
@@ -1090,6 +1088,32 @@
         "domain": {
           "type": "string",
           "example": "john.com"
+        }
+      }
+    },
+    "SubscriptionRecord": {
+      "required": [
+        "key",
+        "value",
+        "ttl",
+        "weight"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "example": "heyho"
+        },
+        "value": {
+          "type": "string",
+          "example": "heyho"
+        },
+        "ttl": {
+          "type": "integer",
+          "example": 3600
+        },
+        "weight": {
+          "type": "integer",
+          "example": 100
         }
       }
     },
