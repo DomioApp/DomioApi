@@ -236,6 +236,123 @@
         ]
       }
     },
+    "/subscriptions/{id}/records": {
+      "get": {
+        "tags": [
+          "subscription"
+        ],
+        "summary": "Get the Route53 records associated with the subscription",
+        "description": "",
+        "operationId": "getSubscriptionRecords",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Subscription id to get records for",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid sub value"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "subscription"
+        ],
+        "summary": "Update a subscription",
+        "description": "",
+        "operationId": "updateSubscription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Subscription id to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "plan",
+            "description": "Subscription",
+            "required": false,
+            "schema": {
+              "properties": {
+                "entries": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/NewSubscription"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid sub value"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "subscription"
+        ],
+        "summary": "Remove subscription Route53 records",
+        "description": "",
+        "operationId": "deleteSubscription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Subscription id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid pet value"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      }
+    },
     "/cards": {
       "post": {
         "tags": [
@@ -367,7 +484,9 @@
             "jwt_key": []
           }
         ]
-      },
+      }
+    },
+    "/domain/{name}": {
       "put": {
         "tags": [
           "domain"
@@ -500,85 +619,7 @@
         ]
       }
     },
-    "/domains/user": {
-      "get": {
-        "tags": [
-          "domain"
-        ],
-        "summary": "Get domains that are owned by the current authenticated user",
-        "description": "Multiple status values can be provided with comma seperated strings",
-        "operationId": "getOwnedDomains",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Domain"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid status value"
-          }
-        },
-        "security": [
-          {
-            "jwt_key": []
-          }
-        ]
-      }
-    },
-    "/domains/findByTags": {
-      "get": {
-        "tags": [
-          "domain"
-        ],
-        "summary": "Finds Domains by tags",
-        "description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
-        "operationId": "findPetsByTags",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "tags",
-            "description": "Tags to filter by",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Domain"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid tag value"
-          }
-        },
-        "security": [
-          {
-            "jwt_key": []
-          }
-        ]
-      }
-    },
-    "/domains/name/{name}": {
+    "/domains/{name}": {
       "get": {
         "tags": [
           "domain"
@@ -652,50 +693,6 @@
         ]
       }
     },
-    "/domains/sub/{id}": {
-      "get": {
-        "tags": [
-          "domain"
-        ],
-        "summary": "Find domain by subscription ID",
-        "description": "Returns a domain with name provided",
-        "operationId": "getDomainBySubId",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "description": "ID of subscription that domain is associated with",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "404": {
-            "description": "Domain not found",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/DomainInfo"
-            }
-          }
-        },
-        "security": [
-          {
-            "jwt_key": []
-          }
-        ]
-      }
-    },
     "/users": {
       "post": {
         "tags": [
@@ -754,7 +751,7 @@
         ]
       }
     },
-    "/users/login": {
+    "/user/login": {
       "post": {
         "tags": [
           "user"
@@ -789,25 +786,40 @@
         }
       }
     },
-    "/user/logout": {
+    "/user/domains": {
       "get": {
         "tags": [
           "user"
         ],
-        "summary": "Logs out current logged in user session",
-        "description": "",
-        "operationId": "logoutUser",
+        "summary": "Get domains that are owned by the current authenticated user",
+        "description": "Multiple status values can be provided with comma seperated strings",
+        "operationId": "getOwnedDomains",
         "produces": [
           "application/json"
         ],
+        "parameters": [],
         "responses": {
-          "default": {
-            "description": "User with a legit JWT token is logged out successfully"
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Domain"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
           }
-        }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
       }
     },
-    "/user/{username}": {
+    "/users/{username}": {
       "get": {
         "tags": [
           "user"
@@ -846,7 +858,7 @@
         "tags": [
           "user"
         ],
-        "summary": "Updated user",
+        "summary": "Update user",
         "description": "This can only be done by the logged in user.",
         "operationId": "updateUser",
         "produces": [
@@ -863,7 +875,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Updated user object",
+            "description": "Update user object",
             "required": false,
             "schema": {
               "$ref": "#/definitions/User"
