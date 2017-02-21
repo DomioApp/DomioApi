@@ -2,7 +2,7 @@ package get_user_domains_handler
 
 import (
 	"net/http"
-	domioerrors  "domio_api/errors"
+	domioerrors "domio_api/errors"
 	"domio_api/components/tokens"
 	"domio_api/components/responses"
 	"domio_api/db"

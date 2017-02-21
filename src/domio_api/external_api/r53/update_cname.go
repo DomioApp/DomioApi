@@ -1,4 +1,4 @@
-package route53
+package r53
 
 import (
     "github.com/aws/aws-sdk-go/service/route53"

@@ -4,8 +4,6 @@ import (
     "net/http"
     "github.com/gorilla/mux"
     "domio_api/routes"
-    //"path/filepath"
-    //"os"
     "domio_api/components/config"
     "log"
 )

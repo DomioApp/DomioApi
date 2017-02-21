@@ -9,7 +9,7 @@ import (
     "domio_api/components/requests"
     "log"
     "github.com/gorilla/mux"
-    r53 "domio_api/external_api/route53"
+    "domio_api/external_api/r53"
 )
 
 func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {

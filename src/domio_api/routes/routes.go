@@ -22,6 +22,8 @@ import (
     "domio_api/handlers/delete_card_handler"
     "domio_api/handlers/get_subscription_handler"
     "domio_api/handlers/update_subscription_handler"
+    "domio_api/handlers/get_subscription_records_handler"
+    "domio_api/handlers/update_subscription_records_handler"
 )
 
 type Route struct {
@@ -56,7 +58,6 @@ var RoutesList = Routes{
     },
 
 
-
     Route{
         "ShowStatus",
         "GET",
@@ -84,7 +85,7 @@ var RoutesList = Routes{
     Route{
         "GetUserDomains",
         "GET",
-        "/domains/user",
+        "/user/domains",
         get_user_domains_handler.GetUserDomainsHandler,
     },
     Route{
@@ -159,5 +160,17 @@ var RoutesList = Routes{
         "POST",
         "/cards",
         create_card_handler.CreateCardHandler,
+    },
+    Route{
+        "GetSubscriptionRecords",
+        "GET",
+        "/subscriptions/{id}/records",
+        get_subscription_records_handler.GetSubscriptionRecordsHandler,
+    },
+    Route{
+        "UpdateSubscriptionRecords",
+        "PUT",
+        "/subscriptions/{id}/records",
+        update_subscription_records_handler.UpdateSubscriptionRecordsHandler,
     },
 }

@@ -8,7 +8,7 @@ import (
     "domio_api/components/responses"
     "domio_api/components/requests"
     "log"
-    r53 "domio_api/external_api/route53"
+    "domio_api/external_api/r53"
 )
 
 func CreateDomainHandler(w http.ResponseWriter, req *http.Request) {

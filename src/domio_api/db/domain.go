@@ -1,7 +1,7 @@
 package domiodb
 
 import (
-    domioerrors  "domio_api/errors"
+    domioerrors "domio_api/errors"
     "github.com/lib/pq"
     "log"
     "github.com/fatih/color"

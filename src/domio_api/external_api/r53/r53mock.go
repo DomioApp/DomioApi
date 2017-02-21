@@ -1,4 +1,4 @@
-package route53
+package r53
 
 import (
     "domio_api/db"
