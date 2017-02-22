@@ -36,9 +36,9 @@ func UpdateSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request) 
 
     decodeErr := requests.DecodeJsonRequestBody(req, &record)
 
-    log.Print("******************************************")
+    log.Print("============================================")
     log.Print(record)
-    log.Print("******************************************")
+    log.Print("============================================")
 
     if decodeErr != nil {
         log.Print(decodeErr)

@@ -170,7 +170,7 @@ var RoutesList = Routes{
     Route{
         "UpdateSubscriptionRecords",
         "PUT",
-        "/subscriptions/{id}/records",
+        "/subscription/{id}/records",
         update_subscription_records_handler.UpdateSubscriptionRecordsHandler,
     },
 }
