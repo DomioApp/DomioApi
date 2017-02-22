@@ -48,7 +48,7 @@ func GetHostedZone(domain *domiodb.Domain) interface{} {
     resp, err := svc.GetHostedZone(params)
 
     if err != nil {
-        fmt.Println(err.Error())
+        fmt.Println(err)
         return nil
     }
 

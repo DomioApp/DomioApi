@@ -10,6 +10,7 @@ import (
     "domio_api/messages"
     "log"
     "domio_api/external_api/r53"
+    "github.com/fatih/color"
 )
 
 func DeleteDomainHandler(w http.ResponseWriter, req *http.Request) {
@@ -27,8 +28,10 @@ func DeleteDomainHandler(w http.ResponseWriter, req *http.Request) {
     domain, deleteError := domiodb.DeleteDomain(domainName, userProfile.Email)
 
     r53.DeleteDomainZone(domain)
-    if (deleteError != domioerrors.DomioError{}) {
+    if (deleteError != nil) {
+        color.Set(color.FgRed)
         log.Println(deleteError)
+        color.Unset()
         responses.ReturnErrorResponse(w, deleteError)
         return
     }

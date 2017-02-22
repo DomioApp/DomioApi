@@ -86,7 +86,11 @@ func GetDomainInfo(domainName string) (*Domain, *domioerrors.DomioError) {
     domainError := Db.QueryRowx("SELECT * FROM domains where name=$1", domainName).StructScan(&domain)
 
     if domainError != nil {
+
+        color.Set(color.FgRed)
         log.Print(domainError)
+        color.Unset()
+
         return nil, &domioerrors.DomainNotFound
     }
 
@@ -106,22 +110,19 @@ func GetDomainInfoBySubscriptionId(subId string) (Domain, *domioerrors.DomioErro
     return domain, nil
 }
 
-func DeleteDomain(domainName string, ownerEmail string) (*Domain, domioerrors.DomioError) {
+func DeleteDomain(domainName string, ownerEmail string) (*Domain, *domioerrors.DomioError) {
     domain, domainError := GetDomainInfo(domainName)
+
     if (domainError != nil) {
+        color.Set(color.FgHiRed)
         log.Print(domainError)
-        return nil, domioerrors.DomainNotFound
-    }
+        color.Unset()
 
-    domain, domainGetErr := GetDomainInfo(domainName);
-
-
-    if (domainGetErr != nil) {
-        log.Print(domainGetErr)
+        return nil, &domioerrors.DomainNotFound
     }
 
     if (domain.IsRented) {
-        return nil, domioerrors.DomainInRent
+        return nil, &domioerrors.DomainInRent
     }
 
     result := Db.MustExec("DELETE FROM domains where name=$1 AND owner=$2 AND is_rented=false", domainName, ownerEmail)
@@ -131,7 +132,7 @@ func DeleteDomain(domainName string, ownerEmail string) (*Domain, domioerrors.Do
         color.Set(color.FgHiRed)
         log.Print(err)
         color.Unset()
-        return nil, domioerrors.DomainNotFound
+        return nil, &domioerrors.DomainNotFound
     }
 
     color.Set(color.FgHiCyan)
@@ -139,11 +140,11 @@ func DeleteDomain(domainName string, ownerEmail string) (*Domain, domioerrors.Do
     color.Unset()
 
     if (rowsAffected == 0) {
-        return nil, domioerrors.DomainNotFound
+        return nil, &domioerrors.DomainNotFound
     }
 
     log.Print("Domain removed from local database")
-    return domain, domioerrors.DomioError{}
+    return domain, nil
 }
 
 func SetDomainAsRented(domainName string, subId string, userProfile *tokens.UserTokenWithClaims) {
