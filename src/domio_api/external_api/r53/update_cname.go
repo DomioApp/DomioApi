@@ -7,7 +7,9 @@ import (
     "github.com/aws/aws-sdk-go/aws/credentials"
     "github.com/aws/aws-sdk-go/aws/session"
     "fmt"
+    "log"
     "strings"
+    "github.com/fatih/color"
 )
 
 func UpdateRecord(zoneId string, domainName string, key string, value string, TTL int64, weight int64) (*route53.ChangeResourceRecordSetsOutput, error) {
@@ -52,6 +54,14 @@ func UpdateRecord(zoneId string, domainName string, key string, value string, TT
     }
 
     resp, err := svc.ChangeResourceRecordSets(params)
+
+    if (err != nil) {
+        color.Set(color.FgRed)
+        log.Print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        log.Print(err)
+        log.Print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        color.Unset()
+    }
 
     return resp, err
 }
