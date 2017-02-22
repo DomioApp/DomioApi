@@ -38,6 +38,7 @@ func UpdateSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request) 
 
     log.Print("============================================")
     log.Print(record)
+    log.Print(record.Key)
     log.Print("============================================")
 
     if decodeErr != nil {
@@ -51,7 +52,7 @@ func UpdateSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request) 
 
     domain, err := domiodb.GetDomainInfoBySubscriptionId(subscriptionId)
 
-    r53.UpdateCNAME(domain.ZoneId.String, "www." + domain.Name, record.Value, record.TTL, record.Weight)
+    r53.UpdateRecord(domain.ZoneId.String, "www." + domain.Name, record.Key, record.Value, record.TTL, record.Weight)
 
     if (err != nil) {
         log.Print(err)

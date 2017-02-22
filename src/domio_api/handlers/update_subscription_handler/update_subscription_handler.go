@@ -35,18 +35,17 @@ func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
     requestVars := mux.Vars(req)
     subId := requestVars["id"]
 
-
-
     log.Print(userProfile)
     log.Print(subId)
 
     zoneId := "/hostedzone/Z2PJOVV67RBWSS"
     domainName := "www.john.com"
+    key := "a"
     value := "heyho"
     var TTL int64 = 3600
     var weight int64 = 100
 
-    result, domainUpdateError := r53.UpdateCNAME(zoneId, domainName, value, TTL, weight)
+    result, domainUpdateError := r53.UpdateRecord(zoneId, domainName, key, value, TTL, weight)
 
     log.Print(result);
 

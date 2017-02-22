@@ -7,9 +7,10 @@ import (
     "github.com/aws/aws-sdk-go/aws/credentials"
     "github.com/aws/aws-sdk-go/aws/session"
     "fmt"
+    "strings"
 )
 
-func UpdateCNAME(zoneId string, domainName string, value string, TTL int64, weight int64) (*route53.ChangeResourceRecordSetsOutput, error) {
+func UpdateRecord(zoneId string, domainName string, key string, value string, TTL int64, weight int64) (*route53.ChangeResourceRecordSetsOutput, error) {
 
     conf := config.Config
     token := ""
@@ -25,7 +26,7 @@ func UpdateCNAME(zoneId string, domainName string, value string, TTL int64, weig
 
     recordSet := &route53.ResourceRecordSet{// Required
         Name: aws.String(domainName), // Required
-        Type: aws.String("CNAME"), // Required
+        Type: aws.String(strings.ToUpper(key)), // Required
         ResourceRecords: []*route53.ResourceRecord{
             {// Required
                 Value: aws.String(value), // Required
