@@ -31,11 +31,10 @@ func GetSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request) {
 
     if (err != nil) {
         log.Print(err)
-
     }
 
     log.Print("===========================================================")
-    log.Print(domain)
+    log.Print(domain.ZoneId)
     log.Print("===========================================================")
     responses.ReturnObjectResponse(w, domain)
 
