@@ -1,14 +1,14 @@
-package update_subscription_records_handler
+package delete_record_handler
 
 import (
     "net/http"
+    "log"
     domioerrors  "domio_api/errors"
     "domio_api/components/tokens"
     "domio_api/components/responses"
     "github.com/gorilla/mux"
-    "log"
-    "domio_api/db"
     "domio_api/external_api/r53"
+    "domio_api/db"
     "domio_api/components/requests"
 )
 
@@ -19,7 +19,7 @@ type Record struct {
     Weight int64 `json:"weight"`
 }
 
-func UpdateSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request) {
+func DeleteRecordHandler(w http.ResponseWriter, req *http.Request) {
 
     var record Record
 
@@ -52,7 +52,7 @@ func UpdateSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request) 
 
     domain, err := domiodb.GetDomainInfoBySubscriptionId(subId)
 
-    r53.UpdateRecord(domain.ZoneId.String, "www." + domain.Name, record.Key, record.Value, record.TTL, record.Weight)
+    r53.DeleteRecord(domain.ZoneId.String, "www." + domain.Name, record.Key, record.Value)
 
     if (err != nil) {
         log.Print(err)

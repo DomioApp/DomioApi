@@ -42,6 +42,14 @@
       }
     },
     {
+      "name": "record",
+      "description": "Create, edit, delete subscription records",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    },
+    {
       "name": "card",
       "description": "Add cards to customers for payments",
       "externalDocs": {
@@ -239,7 +247,7 @@
     "/subscriptions/{id}/records": {
       "get": {
         "tags": [
-          "subscription"
+          "record"
         ],
         "summary": "Get the Route53 records associated with the subscription",
         "description": "",
@@ -272,7 +280,7 @@
       },
       "put": {
         "tags": [
-          "subscription"
+          "record"
         ],
         "summary": "Update a subscription",
         "description": "",
@@ -319,7 +327,7 @@
       },
       "delete": {
         "tags": [
-          "subscription"
+          "record"
         ],
         "summary": "Remove subscription Route53 records",
         "description": "",

@@ -8,7 +8,9 @@ import (
     "github.com/gorilla/mux"
     "log"
     "domio_api/db"
+    "domio_api/external_api/r53"
 )
+
 
 func GetSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request) {
 
@@ -27,16 +29,17 @@ func GetSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request) {
     log.Print(userEmail)
 
     //subscription := stripe_subscription_adapter.GetUserSubscription(subscriptionId)
-    domain, err := domiodb.GetDomainInfoBySubscriptionId(subscriptionId)
+    domainInfo, err := domiodb.GetDomainInfoBySubscriptionId(subscriptionId)
 
     if (err != nil) {
         log.Print(err)
     }
 
-    log.Print("===========================================================")
-    log.Print(domain.ZoneId)
-    log.Print("===========================================================")
-    responses.ReturnObjectResponse(w, domain)
+    records := r53.GetHostedZoneRecords(&domainInfo)
+
+    log.Print(records)
+
+    responses.ReturnObjectResponse(w, records.ResourceRecordSets)
 
     defer req.Body.Close()
 }

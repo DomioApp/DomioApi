@@ -24,6 +24,7 @@ import (
     "domio_api/handlers/update_subscription_handler"
     "domio_api/handlers/get_subscription_records_handler"
     "domio_api/handlers/update_subscription_records_handler"
+    "domio_api/handlers/delete_record_handler"
 )
 
 type Route struct {
@@ -154,6 +155,12 @@ var RoutesList = Routes{
         "DELETE",
         "/subscriptions/{id}",
         delete_subscription_handler.DeleteSubscriptionHandler,
+    },
+    Route{
+        "DeleteRecord",
+        "DELETE",
+        "/subscription/{subId}/record/{recId}",
+        delete_record_handler.DeleteRecordHandler,
     },
     Route{
         "CreateCard",

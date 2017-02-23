@@ -8,8 +8,6 @@ import (
     "github.com/gorilla/mux"
     "log"
     "domio_api/external_api/stripe/subscription"
-    "domio_api/db"
-    "domio_api/external_api/r53"
 )
 
 func GetSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
@@ -33,18 +31,6 @@ func GetSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
     //log.Print("===========================================================")
     //log.Print(subscription)
     //log.Print("===========================================================")
-
-    domain, err := domiodb.GetDomainInfoBySubscriptionId(subscriptionId)
-
-    if (err != nil) {
-        log.Print(err)
-    }
-
-    hostedZone := r53.GetHostedZoneRecords(&domain)
-
-    log.Print("/////////////////////////////////////////////////////////////")
-    log.Print(len(hostedZone.ResourceRecordSets))
-    log.Print("/////////////////////////////////////////////////////////////")
 
     responses.ReturnObjectResponse(w, subscription)
 

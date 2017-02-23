@@ -10,6 +10,7 @@ import (
     "log"
     "strings"
     "github.com/fatih/color"
+    "domio_api/utils"
 )
 
 func UpdateRecord(zoneId string, domainName string, key string, value string, TTL int64, weight int64) (*route53.ChangeResourceRecordSetsOutput, error) {
@@ -36,7 +37,7 @@ func UpdateRecord(zoneId string, domainName string, key string, value string, TT
         },
         TTL:            aws.Int64(TTL),
         Weight:         aws.Int64(weight),
-        SetIdentifier:  aws.String("Arbitrary Id describing this change set"),
+        SetIdentifier:  aws.String("rec_" + utils.RandSeq(14)),
     }
 
     params := &route53.ChangeResourceRecordSetsInput{
