@@ -153,13 +153,13 @@ var RoutesList = Routes{
     Route{
         "DeleteSubscription",
         "DELETE",
-        "/subscriptions/{id}",
+        "/subscriptions/{subId}",
         delete_subscription_handler.DeleteSubscriptionHandler,
     },
     Route{
         "DeleteRecord",
         "DELETE",
-        "/subscription/{subId}/record/{recId}",
+        "/subscription/{subId}/records",
         delete_record_handler.DeleteRecordHandler,
     },
     Route{

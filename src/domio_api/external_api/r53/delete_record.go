@@ -8,7 +8,6 @@ import (
     "github.com/aws/aws-sdk-go/aws/session"
     "fmt"
     "log"
-    "strings"
     "github.com/fatih/color"
 )
 
@@ -25,15 +24,15 @@ func DeleteRecord(zoneId string, domainName string, key string, value string) (*
     }
 
     svc := route53.New(sess)
-
-    recordSet := &route53.ResourceRecordSet{// Required
+    recordSet:=&route53.ResourceRecordSet{// Required
         Name: aws.String(domainName), // Required
-        Type: aws.String(strings.ToUpper(key)), // Required
+        Type: aws.String(key), // Required,
         ResourceRecords: []*route53.ResourceRecord{
             {// Required
                 Value: aws.String(value), // Required
             },
         },
+        TTL:aws.Int64(3600),
     }
 
     params := &route53.ChangeResourceRecordSetsInput{
@@ -53,7 +52,7 @@ func DeleteRecord(zoneId string, domainName string, key string, value string) (*
     resp, err := svc.ChangeResourceRecordSets(params)
 
     if (err != nil) {
-        color.Set(color.FgRed)
+        color.Set(color.FgYellow)
         log.Print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         log.Print(err)
         log.Print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")

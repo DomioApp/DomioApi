@@ -24,7 +24,7 @@ func DeleteRecordHandler(w http.ResponseWriter, req *http.Request) {
     var record Record
 
     requestVars := mux.Vars(req)
-    subId := requestVars["id"]
+    subId := requestVars["subId"]
 
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
     log.Print(req.Header.Get("Authorization"))
@@ -50,18 +50,16 @@ func DeleteRecordHandler(w http.ResponseWriter, req *http.Request) {
     userEmail := userProfile.Email
     log.Print(userEmail)
 
-    domain, err := domiodb.GetDomainInfoBySubscriptionId(subId)
+    domain, domainErr := domiodb.GetDomainInfoBySubscriptionId(subId)
+
+    if domainErr != nil {
+        log.Print(domainErr)
+        responses.ReturnErrorResponse(w, domioerrors.JsonDecodeError)
+        return
+    }
 
     r53.DeleteRecord(domain.ZoneId.String, "www." + domain.Name, record.Key, record.Value)
 
-    if (err != nil) {
-        log.Print(err)
-
-    }
-
-    log.Print("===========================================================")
-    log.Print(domain)
-    log.Print("===========================================================")
     responses.ReturnObjectResponse(w, domain)
 
     defer req.Body.Close()
