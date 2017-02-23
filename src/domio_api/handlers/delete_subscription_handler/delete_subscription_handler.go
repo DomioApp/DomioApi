@@ -14,7 +14,7 @@ import (
 func DeleteSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
 
     requestVars := mux.Vars(req)
-    subscriptionId := requestVars["id"]
+    subscriptionId := requestVars["subId"]
 
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 

@@ -8,9 +8,8 @@ import (
     "domio_api/components/responses"
     "github.com/gorilla/mux"
     "domio_api/messages"
-    "log"
     "domio_api/external_api/r53"
-    "github.com/fatih/color"
+    "domio_api/utils"
 )
 
 func DeleteDomainHandler(w http.ResponseWriter, req *http.Request) {
@@ -27,14 +26,15 @@ func DeleteDomainHandler(w http.ResponseWriter, req *http.Request) {
 
     domain, deleteError := domiodb.DeleteDomain(domainName, userProfile.Email)
 
-    r53.DeleteDomainZone(domain)
     if (deleteError != nil) {
-        color.Set(color.FgRed)
-        log.Println(deleteError)
-        color.Unset()
+
+        utils.ShowError(deleteError)
+
         responses.ReturnErrorResponse(w, deleteError)
         return
     }
+
+    r53.DeleteDomainZone(domain)
     responses.ReturnObjectResponse(w, messages.DomainDeleted)
 
     defer req.Body.Close()

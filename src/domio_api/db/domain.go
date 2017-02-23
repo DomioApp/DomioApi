@@ -129,9 +129,6 @@ func DeleteDomain(domainName string, ownerEmail string) (*Domain, *domioerrors.D
 
     rowsAffected, err := result.RowsAffected()
     if (err != nil) {
-        color.Set(color.FgHiRed)
-        log.Print(err)
-        color.Unset()
         return nil, &domioerrors.DomainNotFound
     }
 

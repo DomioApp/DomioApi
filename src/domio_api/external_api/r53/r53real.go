@@ -14,6 +14,7 @@ import (
 )
 
 func DeleteDomainZoneReal(domain *domiodb.Domain) error {
+
     conf := config.Config
     token := ""
     creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
@@ -29,9 +30,8 @@ func DeleteDomainZoneReal(domain *domiodb.Domain) error {
     params := &route53.DeleteHostedZoneInput{
         Id: &domain.ZoneId.String,
     }
-    //resp, err := svc.DeleteHostedZone(params)
-    resp, err := svc.DeleteHostedZone(params)
 
+    resp, err := svc.DeleteHostedZone(params)
     if err != nil {
         color.Set(color.FgRed)
         log.Println(err)

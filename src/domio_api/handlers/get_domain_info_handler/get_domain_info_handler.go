@@ -43,7 +43,7 @@ func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request) {
     if (domainInfoError != nil) {
 
         log.Print(domainInfoError)
-        responses.ReturnErrorResponse(w, domainInfoError)
+        responses.ReturnErrorResponseWithCustomCode(w, domainInfoError, http.StatusNotFound)
         return
     }
 
