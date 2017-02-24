@@ -2,15 +2,20 @@ package router
 
 import (
     "net/http"
-    "log"
     "domio_api/types"
+    "domio_api/components/tokens"
+    "log"
 )
-
 
 func ManageAccess(handlerFunc http.HandlerFunc, checkAccessFunc types.CheckAccessFunc) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
-        log.Print(checkAccessFunc(w))
-        handlerFunc(w, req)
+
+        userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
+
+        log.Print(userProfile)
+        log.Print(verifyTokenError)
+
+        result := checkAccessFunc(req)
+        handlerFunc(w, req, result)
     }
 }
-

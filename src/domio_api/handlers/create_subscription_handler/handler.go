@@ -15,7 +15,7 @@ func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
 
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 
-    if (verifyTokenError != domioerrors.DomioError{}) {
+    if (verifyTokenError != nil) {
         responses.ReturnErrorResponse(w, verifyTokenError)
         return
     }
@@ -48,7 +48,7 @@ func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
         return
     }
 
-    domiodb.SetDomainAsRented(domainInfo.Name, stripeSubscription.ID, &userProfile)
+    domiodb.SetDomainAsRented(domainInfo.Name, stripeSubscription.ID, userProfile)
 
     responses.ReturnObjectResponse(w, stripeSubscription)
 

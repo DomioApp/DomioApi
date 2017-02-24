@@ -10,4 +10,4 @@ type Route struct {
     CheckAccessFunc CheckAccessFunc
 }
 
-type CheckAccessFunc func(w http.ResponseWriter) bool
+type CheckAccessFunc func(req *http.Request) bool

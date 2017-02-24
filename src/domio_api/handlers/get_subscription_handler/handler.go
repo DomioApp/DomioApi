@@ -18,7 +18,7 @@ func GetSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
     log.Print(req.Header.Get("Authorization"))
 
-    if (verifyTokenError != domioerrors.DomioError{}) {
+    if (verifyTokenError != nil) {
         responses.ReturnErrorResponse(w, domioerrors.JwtTokenParseError)
         return
     }

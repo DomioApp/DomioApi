@@ -27,7 +27,7 @@ func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request) {
 
     _, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 
-    if (verifyTokenError == domioerrors.DomioError{}) {
+    if (verifyTokenError == nil) {
         isAuthenticated = true
     } else {
         isAuthenticated = false

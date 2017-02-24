@@ -4,6 +4,6 @@ import (
     "net/http"
 )
 
-func CheckAccessFunc(w http.ResponseWriter) bool {
+func CheckAccessFunc(req *http.Request) bool {
     return true
 }

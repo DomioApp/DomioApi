@@ -11,7 +11,7 @@ import (
 func GetUserCardsHandler(w http.ResponseWriter, req *http.Request) {
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 
-    if (verifyTokenError != domioerrors.DomioError{}) {
+    if (verifyTokenError != nil) {
         responses.ReturnErrorResponse(w, domioerrors.JwtTokenParseError)
         return
     }
