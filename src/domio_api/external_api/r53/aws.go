@@ -1,12 +1,12 @@
 package r53
 
 import (
-    "github.com/aws/aws-sdk-go/aws/credentials"
     "domio_api/components/config"
-    "github.com/aws/aws-sdk-go/aws/session"
     "github.com/aws/aws-sdk-go/aws"
-    "fmt"
+    "github.com/aws/aws-sdk-go/aws/credentials"
     "github.com/aws/aws-sdk-go/service/route53"
+    "github.com/aws/aws-sdk-go/aws/session"
+    "fmt"
 )
 
 func GetAwsService() (*route53.Route53, error) {
