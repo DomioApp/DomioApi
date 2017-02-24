@@ -3,28 +3,13 @@ package r53
 import (
     "github.com/aws/aws-sdk-go/service/route53"
     "github.com/aws/aws-sdk-go/aws"
-    "domio_api/components/config"
-    "github.com/aws/aws-sdk-go/aws/credentials"
-    "github.com/aws/aws-sdk-go/aws/session"
-    "fmt"
     "log"
     "strings"
     "github.com/fatih/color"
 )
 
 func UpdateRecord(zoneId string, domainName string, key string, value string, TTL int64, weight int64) (*route53.ChangeResourceRecordSetsOutput, error) {
-
-    conf := config.Config
-    token := ""
-    creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
-    sess, err := session.NewSession(&aws.Config{Credentials: creds})
-
-    if err != nil {
-        fmt.Println("failed to create session,", err)
-        return nil, err
-    }
-
-    svc := route53.New(sess)
+    svc, _ := GetAwsService();
 
     recordSet := &route53.ResourceRecordSet{// Required
         Name: aws.String(domainName), // Required

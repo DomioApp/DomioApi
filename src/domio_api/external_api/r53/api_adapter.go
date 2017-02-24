@@ -1,9 +1,6 @@
 package r53
 
 import (
-    "domio_api/components/config"
-    "github.com/aws/aws-sdk-go/aws/credentials"
-    "github.com/aws/aws-sdk-go/aws/session"
     "github.com/aws/aws-sdk-go/aws"
     "github.com/aws/aws-sdk-go/service/route53"
     "fmt"
@@ -30,17 +27,7 @@ func CreateDomainZone(domain *domiodb.Domain) (*route53.CreateHostedZoneOutput, 
 }
 
 func GetHostedZone(domain *domiodb.Domain) interface{} {
-    conf := config.Config
-    token := ""
-    creds := credentials.NewStaticCredentials(conf.AWS_ACCESS_KEY_ID, conf.AWS_SECRET_ACCESS_KEY, token)
-    sess, err := session.NewSession(&aws.Config{Credentials: creds})
-
-    if err != nil {
-        fmt.Println("failed to create session,", err)
-        return nil
-    }
-
-    svc := route53.New(sess)
+    svc, _ := GetAwsService();
 
     params := &route53.GetHostedZoneInput{
         Id: aws.String(domain.ZoneId.String), // Required
