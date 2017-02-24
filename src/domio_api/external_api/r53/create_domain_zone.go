@@ -9,27 +9,7 @@ import (
     "log"
 )
 
-func DeleteDomainZoneReal(domain *domiodb.Domain) error {
-
-    svc, _ := GetAwsService();
-
-    params := &route53.DeleteHostedZoneInput{
-        Id: &domain.ZoneId.String,
-    }
-
-    resp, err := svc.DeleteHostedZone(params)
-    if err != nil {
-        color.Set(color.FgRed)
-        log.Println(err)
-        color.Unset()
-        return err
-    }
-    log.Println(resp)
-    log.Print("Domain zone removed from Route 53")
-    return nil
-}
-
-func CreateDomainZoneReal(domain *domiodb.Domain) (*route53.CreateHostedZoneOutput, error) {
+func CreateDomainZone(domain *domiodb.Domain) (*route53.CreateHostedZoneOutput, error) {
     svc, _ := GetAwsService();
     id := time.Now().Format(time.RFC850);
 
