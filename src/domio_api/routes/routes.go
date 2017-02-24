@@ -27,19 +27,22 @@ import (
     "domio_api/handlers/delete_record_handler"
 )
 
+type CheckAccessFunc func(w http.ResponseWriter) bool
+
 const (
-    Everyone = 0
-    User = 1
-    Owner = 2
-    Administrator = 3
+    Nobody = 0
+    Everyone = 1
+    User = 2
+    Owner = 3
+    Administrator = 4
 )
 
 type Route struct {
-    Name        string
-    Method      string
-    Pattern     string
-    HandlerFunc http.HandlerFunc
-    AccessLevel uint64
+    Name            string
+    Method          string
+    Pattern         string
+    HandlerFunc     http.HandlerFunc
+    CheckAccessFunc CheckAccessFunc
 }
 
 type Routes []Route
@@ -47,7 +50,7 @@ type Routes []Route
 var RoutesList = Routes{
     Route{
         "CreateUser",
-        "POST",
+        http.MethodPost,
         "/users",
         create_user_handler.CreateUserHandler,
         Everyone,
@@ -55,15 +58,15 @@ var RoutesList = Routes{
 
     Route{
         "LoginUser",
-        "POST",
+        http.MethodPost,
         "/user/login",
         login_user_handler.LoginUserHandler,
-        Everyone,
+        login_user_handler.CheckAccessFunc,
     },
 
     Route{
         "GetDomainInfo",
-        "GET",
+        http.MethodGet,
         "/domain/{name}",
         get_domain_info_handler.GetDomainInfoHandler,
         Everyone,
@@ -71,7 +74,7 @@ var RoutesList = Routes{
 
     Route{
         "ShowStatus",
-        "GET",
+        http.MethodGet,
         "/",
         show_status_handler.ShowStatusHandler,
         Everyone,
@@ -79,7 +82,7 @@ var RoutesList = Routes{
 
     Route{
         "DeleteUser",
-        "DELETE",
+        http.MethodDelete,
         "/user",
         delete_user_handler.DeleteUserHandler,
         Owner,
@@ -87,7 +90,7 @@ var RoutesList = Routes{
 
     Route{
         "VerifyToken",
-        "POST",
+        http.MethodPost,
         "/tokens/verify",
         verify_token_handler.VerifyTokenHandler,
         Everyone,
@@ -95,7 +98,7 @@ var RoutesList = Routes{
 
     Route{
         "GetAvailableDomains",
-        "GET",
+        http.MethodGet,
         "/domains/available",
         get_available_domains_handler.GetAvailableDomainsHandler,
         Everyone,
@@ -103,7 +106,7 @@ var RoutesList = Routes{
 
     Route{
         "GetUserDomains",
-        "GET",
+        http.MethodGet,
         "/user/domains",
         get_user_domains_handler.GetUserDomainsHandler,
         Owner,
@@ -111,7 +114,7 @@ var RoutesList = Routes{
 
     Route{
         "GetUserCards",
-        "GET",
+        http.MethodGet,
         "/cards",
         get_user_cards_handler.GetUserCardsHandler,
         Owner,
@@ -119,7 +122,7 @@ var RoutesList = Routes{
 
     Route{
         "GetUserCard",
-        "GET",
+        http.MethodGet,
         "/cards/{id}",
         get_user_card_handler.GetUserCardHandler,
         Owner,
@@ -127,14 +130,14 @@ var RoutesList = Routes{
 
     Route{
         "DeleteUserCard",
-        "DELETE",
+        http.MethodDelete,
         "/cards/{id}",
         delete_card_handler.DeleteCardHandler,
         Owner,
     },
     Route{
         "CreateDomain",
-        "POST",
+        http.MethodPost,
         "/domains",
         create_domain_handler.CreateDomainHandler,
         User,
@@ -142,7 +145,7 @@ var RoutesList = Routes{
 
     Route{
         "UpdateDomain",
-        "PUT",
+        http.MethodPut,
         "/domain/{name}",
         update_domain_handler.UpdateDomainHandler,
         Owner,
@@ -150,7 +153,7 @@ var RoutesList = Routes{
 
     Route{
         "DeleteDomain",
-        "DELETE",
+        http.MethodDelete,
         "/domain/{name}",
         delete_domain_handler.DeleteDomainHandler,
         Owner,
@@ -158,7 +161,7 @@ var RoutesList = Routes{
 
     Route{
         "GetUserSubscriptions",
-        "GET",
+        http.MethodGet,
         "/subscriptions",
         get_user_subscriptions_handler.GetUserSubscriptionsHandler,
         Owner,
@@ -166,7 +169,7 @@ var RoutesList = Routes{
 
     Route{
         "CreateSubscription",
-        "POST",
+        http.MethodPost,
         "/subscriptions",
         create_subscription_handler.CreateSubscriptionHandler,
         User,
@@ -174,7 +177,7 @@ var RoutesList = Routes{
 
     Route{
         "UpdateSubscription",
-        "PUT",
+        http.MethodPut,
         "/subscriptions/{id}",
         update_subscription_handler.UpdateSubscriptionHandler,
         Owner,
@@ -182,7 +185,7 @@ var RoutesList = Routes{
 
     Route{
         "GetSubscription",
-        "GET",
+        http.MethodGet,
         "/subscriptions/{id}",
         get_subscription_handler.GetSubscriptionHandler,
         Owner,
@@ -190,7 +193,7 @@ var RoutesList = Routes{
 
     Route{
         "DeleteSubscription",
-        "DELETE",
+        http.MethodDelete,
         "/subscription/{subId}",
         delete_subscription_handler.DeleteSubscriptionHandler,
         Owner,
@@ -198,7 +201,7 @@ var RoutesList = Routes{
 
     Route{
         "DeleteRecord",
-        "DELETE",
+        http.MethodDelete,
         "/subscription/{subId}/records",
         delete_record_handler.DeleteRecordHandler,
         Owner,
@@ -206,7 +209,7 @@ var RoutesList = Routes{
 
     Route{
         "CreateCard",
-        "POST",
+        http.MethodPost,
         "/cards",
         create_card_handler.CreateCardHandler,
         User,
@@ -214,7 +217,7 @@ var RoutesList = Routes{
 
     Route{
         "GetSubscriptionRecords",
-        "GET",
+        http.MethodGet,
         "/subscriptions/{id}/records",
         get_subscription_records_handler.GetSubscriptionRecordsHandler,
         Owner,
@@ -222,7 +225,7 @@ var RoutesList = Routes{
 
     Route{
         "UpdateSubscriptionRecords",
-        "PUT",
+        http.MethodPut,
         "/subscription/{id}/records",
         update_subscription_records_handler.UpdateSubscriptionRecordsHandler,
         Owner,

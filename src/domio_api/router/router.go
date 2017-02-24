@@ -22,15 +22,11 @@ func NewRouter() *mux.Router {
     }
 
     for _, route := range routes.RoutesList {
-        var handler http.Handler
-        handler = route.HandlerFunc
-
         router.
         Methods(route.Method).
             Path(route.Pattern).
             Name(route.Name).
-            Handler(handler)
-
+            Handler(ManageAccess(route.HandlerFunc, route.CheckAccessFunc))
     }
 
     return router
