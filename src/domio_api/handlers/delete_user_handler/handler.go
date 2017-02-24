@@ -13,7 +13,7 @@ import (
     "domio_api/components/config"
 )
 
-func DeleteUserHandler(w http.ResponseWriter, req *http.Request) {
+func DeleteUserHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
 
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 

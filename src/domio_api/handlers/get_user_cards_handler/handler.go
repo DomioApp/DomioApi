@@ -8,7 +8,7 @@ import (
     "domio_api/external_api/stripe/card"
 )
 
-func GetUserCardsHandler(w http.ResponseWriter, req *http.Request) {
+func GetUserCardsHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 
     if (verifyTokenError != nil) {

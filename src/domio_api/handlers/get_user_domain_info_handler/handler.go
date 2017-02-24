@@ -7,7 +7,7 @@ import (
     "domio_api/components/responses"
 )
 
-func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request) {
+func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
 
     requestVars := mux.Vars(req)
     domainName := requestVars["name"]

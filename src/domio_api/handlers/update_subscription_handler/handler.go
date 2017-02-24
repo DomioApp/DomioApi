@@ -12,7 +12,7 @@ import (
     "domio_api/external_api/r53"
 )
 
-func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
+func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
 
     var domainToEdit domiodb.DomainToEdit
     var updatedDomain domiodb.DomainJson

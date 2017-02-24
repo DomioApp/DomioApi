@@ -9,7 +9,7 @@ import (
     "domio_api/external_api/stripe/card"
 )
 
-func GetUserCardHandler(w http.ResponseWriter, req *http.Request) {
+func GetUserCardHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
 
     requestVars := mux.Vars(req)
     cardId := requestVars["id"]

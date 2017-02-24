@@ -13,7 +13,7 @@ import (
     "domio_api/components/config"
 )
 
-func CreateUserHandler(w http.ResponseWriter, req *http.Request) {
+func CreateUserHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
     //colorRed := color.New(color.FgRed)
 
     var user domiodb.EmailAndPasswordPair

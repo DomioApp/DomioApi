@@ -10,7 +10,7 @@ import (
     "domio_api/external_api/stripe/subscription"
 )
 
-func GetUserSubscriptionsHandler(w http.ResponseWriter, req *http.Request) {
+func GetUserSubscriptionsHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 
     if (verifyTokenError != nil) {

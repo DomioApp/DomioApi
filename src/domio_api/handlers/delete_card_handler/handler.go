@@ -11,7 +11,7 @@ import (
     "domio_api/external_api/stripe/card"
 )
 
-func DeleteCardHandler(w http.ResponseWriter, req *http.Request) {
+func DeleteCardHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
 
     requestVars := mux.Vars(req)
     cardId := requestVars["id"]

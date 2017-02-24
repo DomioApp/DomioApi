@@ -19,13 +19,12 @@ type Claims struct {
     Email string `json:"email"`
 }
 
-func VerifyTokenHandler(w http.ResponseWriter, req *http.Request) {
+func VerifyTokenHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
     defer req.Body.Close()
 
     var tokenToVerify Token
 
     err := requests.DecodeJsonRequestBody(req, &tokenToVerify)
-
 
     if err != nil {
         responses.ReturnErrorResponse(w, domioerrors.IncorrectJSONInputError)

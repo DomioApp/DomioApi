@@ -8,7 +8,7 @@ import (
     "domio_api/components/tokens"
 )
 
-func LogoutUserHandler(w http.ResponseWriter, req *http.Request) {
+func LogoutUserHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 
     if (verifyTokenError != nil) {

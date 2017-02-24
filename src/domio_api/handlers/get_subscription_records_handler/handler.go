@@ -12,7 +12,7 @@ import (
 )
 
 
-func GetSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request) {
+func GetSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
 
     requestVars := mux.Vars(req)
     subscriptionId := requestVars["id"]

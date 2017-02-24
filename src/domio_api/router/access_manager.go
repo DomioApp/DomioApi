@@ -7,7 +7,7 @@ import (
     "log"
 )
 
-func ManageAccess(handlerFunc http.HandlerFunc, checkAccessFunc types.CheckAccessFunc) http.HandlerFunc {
+func ManageAccess(handlerFunc types.HandlerFuncWithParams, checkAccessFunc types.CheckAccessFunc) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
 
         userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
@@ -16,6 +16,8 @@ func ManageAccess(handlerFunc http.HandlerFunc, checkAccessFunc types.CheckAcces
         log.Print(verifyTokenError)
 
         result := checkAccessFunc(req)
-        handlerFunc(w, req, result)
-    }
+        log.Print(result)
+
+        handlerFunc(w, req, nil)
+}
 }

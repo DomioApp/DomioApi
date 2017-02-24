@@ -14,7 +14,7 @@ type AppStatusInfo struct {
     Hash          string `json:"app_hash"`
 }
 
-func ShowStatusHandler(w http.ResponseWriter, req *http.Request) {
+func ShowStatusHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
     info := AppStatusInfo{
         Buildstamp:config.AppStatusInfo.Buildstamp,
         BuildTimeDate:config.AppStatusInfo.GetBuildDateTime(),

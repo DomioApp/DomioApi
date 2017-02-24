@@ -6,7 +6,7 @@ import (
     "domio_api/components/responses"
 )
 
-func GetAvailableDomainsHandler(w http.ResponseWriter, req *http.Request) {
+func GetAvailableDomainsHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
     defer req.Body.Close()
     availableDomains := domiodb.GetAvailableDomains()
     responses.ReturnObjectResponse(w, availableDomains)

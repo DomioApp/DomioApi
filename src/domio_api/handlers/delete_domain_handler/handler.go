@@ -12,7 +12,7 @@ import (
     "domio_api/utils"
 )
 
-func DeleteDomainHandler(w http.ResponseWriter, req *http.Request) {
+func DeleteDomainHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
 
     requestVars := mux.Vars(req)
     domainName := requestVars["name"]

@@ -19,7 +19,7 @@ type Record struct {
     Weight int64 `json:"weight"`
 }
 
-func UpdateSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request) {
+func UpdateSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
 
     var record Record
 

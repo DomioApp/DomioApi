@@ -19,7 +19,7 @@ type Record struct {
     Weight int64 `json:"weight"`
 }
 
-func DeleteRecordHandler(w http.ResponseWriter, req *http.Request) {
+func DeleteRecordHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
 
     var record Record
 

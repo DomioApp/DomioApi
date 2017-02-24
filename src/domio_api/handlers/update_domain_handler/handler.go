@@ -11,7 +11,7 @@ import (
     "github.com/gorilla/mux"
 )
 
-func UpdateDomainHandler(w http.ResponseWriter, req *http.Request) {
+func UpdateDomainHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
 
     var domainToEdit domiodb.DomainToEdit
     var updatedDomain domiodb.DomainJson

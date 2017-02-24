@@ -11,7 +11,7 @@ import (
     "domio_api/external_api/r53"
 )
 
-func CreateDomainHandler(w http.ResponseWriter, req *http.Request) {
+func CreateDomainHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
 
     var newDomain domiodb.Domain
 

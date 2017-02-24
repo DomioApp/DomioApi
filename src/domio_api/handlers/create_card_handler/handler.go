@@ -12,7 +12,7 @@ import (
     "domio_api/external_api/stripe/card"
 )
 
-func CreateCardHandler(w http.ResponseWriter, req *http.Request) {
+func CreateCardHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
     var cardRequest stripe_card_adapter.CardRequest
 
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))

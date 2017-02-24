@@ -10,7 +10,7 @@ import (
     "domio_api/external_api/stripe/subscription"
 )
 
-func GetSubscriptionHandler(w http.ResponseWriter, req *http.Request) {
+func GetSubscriptionHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
 
     requestVars := mux.Vars(req)
     subscriptionId := requestVars["id"]
