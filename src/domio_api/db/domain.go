@@ -1,13 +1,13 @@
 package domiodb
 
 import (
-    domioerrors "domio_api/errors"
     "github.com/lib/pq"
     "log"
     "github.com/fatih/color"
     "domio_api/components/tokens"
     "database/sql"
     "strings"
+    "domio_api/errors"
 )
 
 type Domain struct {

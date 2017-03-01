@@ -1,4 +1,4 @@
-package errors
+package domioerrors
 
 type DomioError struct {
     Code    int `json:"code"`

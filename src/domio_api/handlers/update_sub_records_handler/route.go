@@ -1,4 +1,4 @@
-package update_domain_handler
+package update_subscription_records_handler
 
 import (
     "net/http"
@@ -7,10 +7,10 @@ import (
 
 func GetRoute() *types.Route {
     return &types.Route{
-        "UpdateDomain",
+        "UpdateSubscriptionRecords",
         http.MethodPut,
-        "/domain/{name}",
-        UpdateDomainHandler,
+        "/subscription/{id}/records",
+        UpdateSubscriptionRecordsHandler,
         CheckAccessFunc,
         nil,
     }

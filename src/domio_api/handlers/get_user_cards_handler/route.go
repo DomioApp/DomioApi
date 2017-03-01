@@ -12,5 +12,6 @@ func GetRoute() *types.Route {
         "/cards",
         GetUserCardsHandler,
         CheckAccessFunc,
+        nil,
     }
 }

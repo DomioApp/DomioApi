@@ -13,17 +13,16 @@ import (
     "domio_api/handlers/update_domain_handler"
     "domio_api/handlers/delete_domain_handler"
     "domio_api/handlers/get_user_subscriptions_handler"
-    "domio_api/handlers/create_subscription_handler"
-    "domio_api/handlers/update_subscription_handler"
     "domio_api/handlers/get_subscription_handler"
-    "domio_api/handlers/delete_subscription_handler"
     "domio_api/handlers/delete_record_handler"
     "domio_api/handlers/create_card_handler"
     "domio_api/handlers/get_subscription_records_handler"
-    "domio_api/handlers/update_subscription_records_handler"
     "domio_api/handlers/get_domain_info_handler"
     "domio_api/handlers/get_user_cards_handler"
     "domio_api/handlers/show_status_handler"
+    "domio_api/handlers/update_sub_handler"
+    "domio_api/handlers/delete_sub_handler"
+    "domio_api/handlers/update_sub_records_handler"
 )
 
 type Routes []*types.Route
@@ -44,7 +43,6 @@ var RoutesList = Routes{
     update_domain_handler.GetRoute(),
     delete_domain_handler.GetRoute(),
     get_user_subscriptions_handler.GetRoute(),
-    create_subscription_handler.GetRoute(),
     update_subscription_handler.GetRoute(),
     get_subscription_handler.GetRoute(),
     delete_subscription_handler.GetRoute(),

@@ -2,9 +2,9 @@ package tokens
 
 import (
     "github.com/dgrijalva/jwt-go"
-    domioerrors  "domio_api/errors"
     "strings"
     "fmt"
+    "domio_api/errors"
 )
 
 type UserTokenWithClaims struct {

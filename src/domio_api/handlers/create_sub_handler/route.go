@@ -1,4 +1,4 @@
-package login_user_handler
+package create_subscription_handler
 
 import (
     "net/http"
@@ -7,10 +7,10 @@ import (
 
 func GetRoute() *types.Route {
     return &types.Route{
-        "LoginUser",
+        "CreateSubscription",
         http.MethodPost,
-        "/user/login",
-        LoginUserHandler,
+        "/subscriptions",
+        CreateSubscriptionHandler,
         CheckAccessFunc,
         nil,
     }

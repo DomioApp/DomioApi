@@ -12,5 +12,6 @@ func GetRoute() *types.Route {
         "/domains",
         CreateDomainHandler,
         CheckAccessFunc,
+        nil,
     }
 }

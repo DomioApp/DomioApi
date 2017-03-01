@@ -7,7 +7,7 @@ import (
     "domio_api/components/tokens"
 )
 
-func GetUserDomainsHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
+func GetUserDomainsHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool, data interface{}) {
 
     userDomains := domiodb.GetUserDomains(userProfile.Email)
 

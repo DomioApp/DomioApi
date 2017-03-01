@@ -12,5 +12,6 @@ func GetRoute() *types.Route {
         "/subscriptions/{id}/records",
         GetSubscriptionRecordsHandler,
         CheckAccessFunc,
+        nil,
     }
 }

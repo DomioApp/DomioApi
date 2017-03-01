@@ -12,5 +12,6 @@ func GetRoute() *types.Route {
         "/user",
         DeleteUserHandler,
         CheckAccessFunc,
+        nil,
     }
 }

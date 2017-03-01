@@ -1,4 +1,4 @@
-package delete_domain_handler
+package delete_subscription_handler
 
 import (
     "net/http"
@@ -7,11 +7,11 @@ import (
 
 func GetRoute() *types.Route {
     return &types.Route{
-        "DeleteDomain",
+        "DeleteSubscription",
         http.MethodDelete,
-        "/domain/{name}",
-        DeleteDomainHandler,
+        "/subscription/{subId}",
+        DeleteSubscriptionHandler,
         CheckAccessFunc,
-        DataGetterFunc,
+        nil,
     }
 }
