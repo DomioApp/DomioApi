@@ -23,11 +23,14 @@ import (
     "domio_api/handlers/update_subscription_records_handler"
     "domio_api/handlers/get_domain_info_handler"
     "domio_api/handlers/get_user_cards_handler"
+    "domio_api/handlers/show_status_handler"
 )
 
 type Routes []*types.Route
 
 var RoutesList = Routes{
+    show_status_handler.GetRoute(),
+
     create_user_handler.GetRoute(),
     login_user_handler.GetRoute(),
     get_domain_info_handler.GetRoute(),

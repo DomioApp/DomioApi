@@ -7,6 +7,7 @@ import (
     "domio_api/components/responses"
     "domio_api/components/requests"
     //"log"
+    "domio_api/components/tokens"
 )
 
 type UserLoggedinObject struct {
@@ -15,7 +16,7 @@ type UserLoggedinObject struct {
     TokenString string  `json:"token"`
 }
 
-func LoginUserHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
+func LoginUserHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
     var emailAndPasswordPair domiodb.EmailAndPasswordPair
 
     err := requests.DecodeJsonRequestBody(req, &emailAndPasswordPair)

@@ -10,15 +10,8 @@ import (
     "domio_api/external_api/stripe/subscription"
 )
 
-func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
+func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
     var newSubscription stripe_subscription_adapter.NewSubscription
-
-    userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
-
-    if (verifyTokenError != nil) {
-        responses.ReturnErrorResponse(w, verifyTokenError)
-        return
-    }
 
     err := requests.DecodeJsonRequestBody(req, &newSubscription)
 

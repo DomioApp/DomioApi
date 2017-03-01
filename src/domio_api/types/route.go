@@ -1,6 +1,9 @@
 package types
 
-import "net/http"
+import (
+    "net/http"
+    "domio_api/components/tokens"
+)
 
 type Route struct {
     Name            string
@@ -12,4 +15,4 @@ type Route struct {
 
 type CheckAccessFunc func(req *http.Request) bool
 
-type HandlerFuncWithParams func(w http.ResponseWriter, req *http.Request, data *interface{})
+type HandlerFuncWithParams func(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims)

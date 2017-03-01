@@ -11,17 +11,10 @@ import (
     "github.com/gorilla/mux"
 )
 
-func UpdateDomainHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
+func UpdateDomainHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
 
     var domainToEdit domiodb.DomainToEdit
     var updatedDomain domiodb.DomainJson
-
-    userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
-
-    if (verifyTokenError != nil) {
-        responses.ReturnErrorResponse(w, domioerrors.JwtTokenParseError)
-        return
-    }
 
     err := requests.DecodeJsonRequestBody(req, &domainToEdit)
 
@@ -33,9 +26,6 @@ func UpdateDomainHandler(w http.ResponseWriter, req *http.Request, data *interfa
 
     requestVars := mux.Vars(req)
     domainName := requestVars["name"]
-
-    log.Print(userProfile)
-    log.Print(domainName)
 
     domainUpdateError := domiodb.UpdateDomain(domainName, domainToEdit)
 

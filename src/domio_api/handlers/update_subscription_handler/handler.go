@@ -12,17 +12,10 @@ import (
     "domio_api/external_api/r53"
 )
 
-func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
+func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
 
     var domainToEdit domiodb.DomainToEdit
     var updatedDomain domiodb.DomainJson
-
-    userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
-
-    if (verifyTokenError != nil) {
-        responses.ReturnErrorResponse(w, domioerrors.JwtTokenParseError)
-        return
-    }
 
     err := requests.DecodeJsonRequestBody(req, &domainToEdit)
 

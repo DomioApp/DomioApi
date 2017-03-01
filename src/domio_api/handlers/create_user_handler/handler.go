@@ -11,9 +11,10 @@ import (
     "domio_api/components/requests"
     "domio_api/handlers/login_user_handler"
     "domio_api/components/config"
+    "domio_api/components/tokens"
 )
 
-func CreateUserHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
+func CreateUserHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
     //colorRed := color.New(color.FgRed)
 
     var user domiodb.EmailAndPasswordPair

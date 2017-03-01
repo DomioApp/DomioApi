@@ -16,7 +16,7 @@ type DomainInfo struct {
     HostedZone interface{}
 }
 
-func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
+func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
 
     requestVars := mux.Vars(req)
     domainName := requestVars["name"]

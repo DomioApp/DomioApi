@@ -5,23 +5,13 @@ import (
     "domio_api/db"
     "github.com/gorilla/mux"
     "domio_api/components/responses"
+    "domio_api/components/tokens"
 )
 
-func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
+func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
 
     requestVars := mux.Vars(req)
     domainName := requestVars["name"]
-
-    defer req.Body.Close()
-
-    /*
-    _, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
-
-    if (verifyTokenError != nil) {
-        responses.ReturnErrorResponse(w, domioerrors.JwtTokenParseError)
-        return
-    }
-    */
 
     domainInfo, err := domiodb.GetDomainInfo(domainName)
     if (err != nil) {
@@ -32,4 +22,6 @@ func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request, data *interf
     //domiodb.GetHostedZone(&domainInfo)
 
     responses.ReturnObjectResponse(w, domainInfo)
+
+    defer req.Body.Close()
 }

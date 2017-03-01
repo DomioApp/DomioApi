@@ -11,16 +11,10 @@ import (
     "github.com/stripe/stripe-go"
     "github.com/stripe/stripe-go/customer"
     "domio_api/components/config"
+    "domio_api/external_api/stripe/customer"
 )
 
-func DeleteUserHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
-
-    userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
-
-    if (verifyTokenError != nil) {
-        responses.ReturnErrorResponse(w, domioerrors.JwtTokenParseError)
-        return
-    }
+func DeleteUserHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
 
     deletedUser, deleteError := domiodb.DeleteUser(userProfile.Email)
 
@@ -30,17 +24,9 @@ func DeleteUserHandler(w http.ResponseWriter, req *http.Request, data *interface
         return
     }
 
-    deleteStripeCustomer(deletedUser.StripeId)
+    stripe_user_adapter.DeleteStripeCustomer(deletedUser.StripeId)
 
     responses.ReturnObjectResponse(w, messages.UserDeleted)
 
     defer req.Body.Close()
-}
-
-func deleteStripeCustomer(stripe_customer_id string) (*stripe.Customer, error) {
-
-    stripe.Key = config.Config.STRIPE_KEY
-
-    c, err := customer.Del(stripe_customer_id)
-    return c, err
 }

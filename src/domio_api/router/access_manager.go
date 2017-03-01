@@ -18,6 +18,6 @@ func ManageAccess(handlerFunc types.HandlerFuncWithParams, checkAccessFunc types
         result := checkAccessFunc(req)
         log.Print(result)
 
-        handlerFunc(w, req, nil)
+        handlerFunc(w, req, userProfile)
 }
 }

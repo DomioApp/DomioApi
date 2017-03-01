@@ -11,16 +11,9 @@ import (
     "domio_api/external_api/r53"
 )
 
-func CreateDomainHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
+func CreateDomainHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
 
     var newDomain domiodb.Domain
-
-    userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
-
-    if (verifyTokenError != nil) {
-        responses.ReturnErrorResponse(w, domioerrors.JwtTokenParseError)
-        return
-    }
 
     err := requests.DecodeJsonRequestBody(req, &newDomain)
 

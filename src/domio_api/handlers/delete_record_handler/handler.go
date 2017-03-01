@@ -19,20 +19,12 @@ type Record struct {
     Weight int64 `json:"weight"`
 }
 
-func DeleteRecordHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
+func DeleteRecordHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
 
     var record Record
 
     requestVars := mux.Vars(req)
     subId := requestVars["subId"]
-
-    userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
-    log.Print(req.Header.Get("Authorization"))
-
-    if (verifyTokenError != nil) {
-        responses.ReturnErrorResponse(w, domioerrors.JwtTokenParseError)
-        return
-    }
 
     decodeErr := requests.DecodeJsonRequestBody(req, &record)
 

@@ -4,6 +4,7 @@ import (
     "net/http"
     "domio_api/components/responses"
     "domio_api/components/config"
+    "domio_api/components/tokens"
 )
 
 type AppStatusInfo struct {
@@ -14,7 +15,7 @@ type AppStatusInfo struct {
     Hash          string `json:"app_hash"`
 }
 
-func ShowStatusHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
+func ShowStatusHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
     info := AppStatusInfo{
         Buildstamp:config.AppStatusInfo.Buildstamp,
         BuildTimeDate:config.AppStatusInfo.GetBuildDateTime(),

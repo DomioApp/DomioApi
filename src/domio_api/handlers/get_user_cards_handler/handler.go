@@ -2,22 +2,14 @@ package get_user_cards_handler
 
 import (
     "net/http"
-    domioerrors  "domio_api/errors"
     "domio_api/components/tokens"
     "domio_api/components/responses"
     "domio_api/external_api/stripe/card"
 )
 
-func GetUserCardsHandler(w http.ResponseWriter, req *http.Request, data *interface{}) {
-    userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
+func GetUserCardsHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
 
-    if (verifyTokenError != nil) {
-        responses.ReturnErrorResponse(w, domioerrors.JwtTokenParseError)
-        return
-    }
-
-    userEmail := userProfile.Email
-    userCards, _ := stripe_card_adapter.GetCards(userEmail)
+    userCards, _ := stripe_card_adapter.GetCards(userProfile.Email)
 
     responses.ReturnObjectResponse(w, userCards)
 
