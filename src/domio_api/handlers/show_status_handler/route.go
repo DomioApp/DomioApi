@@ -11,7 +11,7 @@ func GetRoute() *types.Route {
         http.MethodGet,
         "/",
         ShowStatusHandler,
-        nil,
-        nil,
+        CheckAccessFunc,
+        DataGetterFunc,
     }
 }

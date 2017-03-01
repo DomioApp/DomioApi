@@ -1,4 +1,4 @@
-package get_subscription_handler
+package get_user_subs_handler
 
 import (
     "net/http"
@@ -7,11 +7,11 @@ import (
 
 func GetRoute() *types.Route {
     return &types.Route{
-        "GetSubscription",
+        "GetUserSubscriptions",
         http.MethodGet,
-        "/subscriptions/{id}",
-        GetSubscriptionHandler,
+        "/subscriptions",
+        GetUserSubscriptionsHandler,
         CheckAccessFunc,
-        nil,
+        DataGetterFunc,
     }
 }

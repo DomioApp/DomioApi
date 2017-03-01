@@ -1,4 +1,4 @@
-package create_subscription_handler
+package create_sub_handler
 
 import (
     "net/http"

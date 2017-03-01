@@ -1,4 +1,4 @@
-package delete_subscription_handler
+package delete_sub_handler
 
 import (
     "net/http"

@@ -1,4 +1,4 @@
-package delete_subscription_handler
+package delete_sub_handler
 
 import (
     "net/http"
@@ -12,6 +12,6 @@ func GetRoute() *types.Route {
         "/subscription/{subId}",
         DeleteSubscriptionHandler,
         CheckAccessFunc,
-        nil,
+        DataGetterFunc,
     }
 }

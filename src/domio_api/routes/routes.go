@@ -12,11 +12,11 @@ import (
     "domio_api/handlers/create_domain_handler"
     "domio_api/handlers/update_domain_handler"
     "domio_api/handlers/delete_domain_handler"
-    "domio_api/handlers/get_user_subscriptions_handler"
-    "domio_api/handlers/get_subscription_handler"
+    "domio_api/handlers/get_user_subs_handler"
+    "domio_api/handlers/get_sub_handler"
     "domio_api/handlers/delete_record_handler"
     "domio_api/handlers/create_card_handler"
-    "domio_api/handlers/get_subscription_records_handler"
+    "domio_api/handlers/get_sub_records_handler"
     "domio_api/handlers/get_domain_info_handler"
     "domio_api/handlers/get_user_cards_handler"
     "domio_api/handlers/show_status_handler"
@@ -42,12 +42,12 @@ var RoutesList = Routes{
     create_domain_handler.GetRoute(),
     update_domain_handler.GetRoute(),
     delete_domain_handler.GetRoute(),
-    get_user_subscriptions_handler.GetRoute(),
-    update_subscription_handler.GetRoute(),
-    get_subscription_handler.GetRoute(),
-    delete_subscription_handler.GetRoute(),
+    get_user_subs_handler.GetRoute(),
+    update_sub_handler.GetRoute(),
+    get_sub_handler.GetRoute(),
+    delete_sub_handler.GetRoute(),
     delete_record_handler.GetRoute(),
     create_card_handler.GetRoute(),
-    get_subscription_records_handler.GetRoute(),
-    update_subscription_records_handler.GetRoute(),
+    get_sub_records_handler.GetRoute(),
+    update_sub_records_handler.GetRoute(),
 }

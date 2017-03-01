@@ -1,4 +1,4 @@
-package get_subscription_records_handler
+package get_sub_records_handler
 
 import (
     "net/http"

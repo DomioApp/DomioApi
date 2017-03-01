@@ -1,4 +1,4 @@
-package update_subscription_records_handler
+package update_sub_records_handler
 
 import (
     "net/http"

@@ -12,6 +12,6 @@ func GetRoute() *types.Route {
         "/subscription/{subId}/records",
         DeleteRecordHandler,
         CheckAccessFunc,
-        nil,
+        DataGetterFunc,
     }
 }

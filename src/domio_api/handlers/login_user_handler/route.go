@@ -12,6 +12,6 @@ func GetRoute() *types.Route {
         "/user/login",
         LoginUserHandler,
         CheckAccessFunc,
-        nil,
+        DataGetterFunc,
     }
 }

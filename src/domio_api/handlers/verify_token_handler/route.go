@@ -12,6 +12,6 @@ func GetRoute() *types.Route {
         "/tokens/verify",
         VerifyTokenHandler,
         CheckAccessFunc,
-        nil,
+        DataGetterFunc,
     }
 }

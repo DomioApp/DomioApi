@@ -1,4 +1,4 @@
-package update_subscription_handler
+package update_sub_handler
 
 import (
     "net/http"
