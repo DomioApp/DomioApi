@@ -16,14 +16,12 @@ type DomainInfo struct {
     HostedZone interface{}
 }
 
-func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     requestVars := mux.Vars(req)
     domainName := requestVars["name"]
 
     var isAuthenticated bool = false
-
-    defer req.Body.Close()
 
     _, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 

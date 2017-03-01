@@ -7,11 +7,9 @@ import (
     "domio_api/external_api/stripe/card"
 )
 
-func GetUserCardsHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func GetUserCardsHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     userCards, _ := stripe_card_adapter.GetCards(userProfile.Email)
 
     responses.ReturnObjectResponse(w, userCards)
-
-    defer req.Body.Close()
 }

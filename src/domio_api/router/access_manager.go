@@ -4,20 +4,22 @@ import (
     "net/http"
     "domio_api/types"
     "domio_api/components/tokens"
-    "log"
+    "domio_api/components/responses"
+    domioerrors "domio_api/errors"
 )
 
 func ManageAccess(handlerFunc types.HandlerFuncWithParams, checkAccessFunc types.CheckAccessFunc) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
 
-        userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
+        userProfile, _ := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 
-        log.Print(userProfile)
-        log.Print(verifyTokenError)
+        isAccessGranted := checkAccessFunc(userProfile, req)
 
-        result := checkAccessFunc(req)
-        log.Print(result)
+        if (isAccessGranted == false) {
+            responses.ReturnErrorResponseWithCustomCode(w, domioerrors.AccessIsForbidden, http.StatusUnauthorized)
+            return
+        }
 
-        handlerFunc(w, req, userProfile)
-}
+        handlerFunc(w, req, userProfile, isAccessGranted)
+    }
 }

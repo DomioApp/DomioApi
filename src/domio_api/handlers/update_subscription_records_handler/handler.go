@@ -19,7 +19,7 @@ type Record struct {
     Weight int64 `json:"weight"`
 }
 
-func UpdateSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func UpdateSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     var record Record
 
@@ -55,6 +55,4 @@ func UpdateSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request, 
     log.Print(domain)
     log.Print("===========================================================")
     responses.ReturnObjectResponse(w, domain)
-
-    defer req.Body.Close()
 }

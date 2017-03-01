@@ -8,7 +8,7 @@ import (
     "domio_api/external_api/stripe/card"
 )
 
-func GetUserCardHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func GetUserCardHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     requestVars := mux.Vars(req)
     cardId := requestVars["id"]
@@ -17,6 +17,4 @@ func GetUserCardHandler(w http.ResponseWriter, req *http.Request, userProfile *t
     userCard, _ := stripe_card_adapter.GetCard(userEmail, cardId)
 
     responses.ReturnObjectResponse(w, userCard)
-
-    defer req.Body.Close()
 }

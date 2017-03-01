@@ -11,6 +11,7 @@ func (e *DomioError) Error() string {
 
 var IncorrectJSONInputError = DomioError{1000, "Wrong JSON input"}
 var WrongEmailOrPassword = DomioError{1010, "Wrong email or password"}
+var AccessIsForbidden = DomioError{1015, "Access to the area is forbidden for current user"}
 
 var JsonDecodeError = DomioError{1020, "Request Json Decoding Error"}
 var PayloadValidationError = DomioError{1030, "Request Json Decoding Error"}

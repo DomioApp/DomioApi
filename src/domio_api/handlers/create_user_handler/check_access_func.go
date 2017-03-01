@@ -2,8 +2,9 @@ package create_user_handler
 
 import (
     "net/http"
+    "domio_api/components/tokens"
 )
 
-func CheckAccessFunc(req *http.Request) bool {
+func CheckAccessFunc(userProfile *tokens.UserTokenWithClaims, req *http.Request) bool {
     return true
 }

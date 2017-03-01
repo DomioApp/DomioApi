@@ -11,7 +11,7 @@ import (
 )
 
 
-func GetSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func GetSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     requestVars := mux.Vars(req)
     subscriptionId := requestVars["id"]
@@ -28,6 +28,4 @@ func GetSubscriptionRecordsHandler(w http.ResponseWriter, req *http.Request, use
     log.Print(records)
 
     responses.ReturnObjectResponse(w, records.ResourceRecordSets)
-
-    defer req.Body.Close()
 }

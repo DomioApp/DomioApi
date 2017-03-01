@@ -19,7 +19,7 @@ type Record struct {
     Weight int64 `json:"weight"`
 }
 
-func DeleteRecordHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func DeleteRecordHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     var record Record
 
@@ -53,6 +53,4 @@ func DeleteRecordHandler(w http.ResponseWriter, req *http.Request, userProfile *
     r53.DeleteRecord(domain.ZoneId.String, "www." + domain.Name, record.Key, record.Value)
 
     responses.ReturnObjectResponse(w, domain)
-
-    defer req.Body.Close()
 }

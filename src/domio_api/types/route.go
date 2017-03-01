@@ -13,6 +13,6 @@ type Route struct {
     CheckAccessFunc CheckAccessFunc
 }
 
-type CheckAccessFunc func(req *http.Request) bool
+type CheckAccessFunc func(userProfile *tokens.UserTokenWithClaims, req *http.Request) bool
 
-type HandlerFuncWithParams func(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims)
+type HandlerFuncWithParams func(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessEnabled bool)

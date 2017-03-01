@@ -8,7 +8,7 @@ import (
     "domio_api/components/tokens"
 )
 
-func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     requestVars := mux.Vars(req)
     domainName := requestVars["name"]
@@ -18,10 +18,10 @@ func GetDomainInfoHandler(w http.ResponseWriter, req *http.Request, userProfile 
         responses.ReturnErrorResponse(w, err)
         return
     }
+
     //TODO figure out when info from the bottom needed and refactor accordingly
     //domiodb.GetHostedZone(&domainInfo)
 
     responses.ReturnObjectResponse(w, domainInfo)
 
-    defer req.Body.Close()
 }

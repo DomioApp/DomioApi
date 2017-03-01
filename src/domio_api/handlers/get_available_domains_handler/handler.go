@@ -7,9 +7,7 @@ import (
     "domio_api/components/tokens"
 )
 
-func GetAvailableDomainsHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func GetAvailableDomainsHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
     availableDomains := domiodb.GetAvailableDomains()
     responses.ReturnObjectResponse(w, availableDomains)
-
-    defer req.Body.Close()
 }

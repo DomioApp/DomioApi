@@ -14,7 +14,7 @@ import (
     "domio_api/external_api/stripe/customer"
 )
 
-func DeleteUserHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func DeleteUserHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     deletedUser, deleteError := domiodb.DeleteUser(userProfile.Email)
 
@@ -27,6 +27,4 @@ func DeleteUserHandler(w http.ResponseWriter, req *http.Request, userProfile *to
     stripe_user_adapter.DeleteStripeCustomer(deletedUser.StripeId)
 
     responses.ReturnObjectResponse(w, messages.UserDeleted)
-
-    defer req.Body.Close()
 }

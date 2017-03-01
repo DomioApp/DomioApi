@@ -8,7 +8,7 @@ import (
     "domio_api/components/tokens"
 )
 
-func LogoutUserHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func LogoutUserHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
     userProfile, verifyTokenError := tokens.VerifyTokenString(req.Header.Get("Authorization"))
 
     if (verifyTokenError != nil) {
@@ -20,7 +20,4 @@ func LogoutUserHandler(w http.ResponseWriter, req *http.Request, userProfile *to
     userDomains := domiodb.GetUserDomains(userEmail)
 
     responses.ReturnObjectResponse(w, userDomains)
-
-    defer req.Body.Close()
-
 }

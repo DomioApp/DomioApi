@@ -11,7 +11,7 @@ import (
     "domio_api/utils"
 )
 
-func DeleteDomainHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func DeleteDomainHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     requestVars := mux.Vars(req)
     domainName := requestVars["name"]
@@ -28,6 +28,4 @@ func DeleteDomainHandler(w http.ResponseWriter, req *http.Request, userProfile *
 
     r53.DeleteDomainZone(domain)
     responses.ReturnObjectResponse(w, messages.DomainDeleted)
-
-    defer req.Body.Close()
 }

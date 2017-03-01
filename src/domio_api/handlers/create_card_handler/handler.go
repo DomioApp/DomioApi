@@ -12,7 +12,7 @@ import (
     "domio_api/external_api/stripe/card"
 )
 
-func CreateCardHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func CreateCardHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     var cardRequest stripe_card_adapter.CardRequest
 
@@ -41,6 +41,4 @@ func CreateCardHandler(w http.ResponseWriter, req *http.Request, userProfile *to
     }
 
     responses.ReturnObjectResponse(w, newCard)
-
-    defer req.Body.Close()
 }

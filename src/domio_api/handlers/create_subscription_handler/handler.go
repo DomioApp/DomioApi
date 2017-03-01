@@ -10,7 +10,7 @@ import (
     "domio_api/external_api/stripe/subscription"
 )
 
-func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
     var newSubscription stripe_subscription_adapter.NewSubscription
 
     err := requests.DecodeJsonRequestBody(req, &newSubscription)
@@ -44,6 +44,4 @@ func CreateSubscriptionHandler(w http.ResponseWriter, req *http.Request, userPro
     domiodb.SetDomainAsRented(domainInfo.Name, stripeSubscription.ID, userProfile)
 
     responses.ReturnObjectResponse(w, stripeSubscription)
-
-    defer req.Body.Close()
 }

@@ -11,7 +11,7 @@ import (
     "github.com/gorilla/mux"
 )
 
-func UpdateDomainHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func UpdateDomainHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     var domainToEdit domiodb.DomainToEdit
     var updatedDomain domiodb.DomainJson
@@ -36,6 +36,4 @@ func UpdateDomainHandler(w http.ResponseWriter, req *http.Request, userProfile *
     }
 
     responses.ReturnObjectResponse(w, updatedDomain)
-
-    defer req.Body.Close()
 }

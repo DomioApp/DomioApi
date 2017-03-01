@@ -11,7 +11,7 @@ import (
     "domio_api/external_api/r53"
 )
 
-func CreateDomainHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func CreateDomainHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     var newDomain domiodb.Domain
 
@@ -48,6 +48,4 @@ func CreateDomainHandler(w http.ResponseWriter, req *http.Request, userProfile *
     domiodb.SetDomainNameServers(createdDomain, createdDomainZone.DelegationSet.NameServers[0], createdDomainZone.DelegationSet.NameServers[1], createdDomainZone.DelegationSet.NameServers[2], createdDomainZone.DelegationSet.NameServers[3])
 
     responses.ReturnObjectResponse(w, createdDomain)
-
-    defer req.Body.Close()
 }

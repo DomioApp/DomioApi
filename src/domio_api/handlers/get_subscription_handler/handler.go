@@ -9,7 +9,7 @@ import (
     "domio_api/external_api/stripe/subscription"
 )
 
-func GetSubscriptionHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func GetSubscriptionHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     requestVars := mux.Vars(req)
     subscriptionId := requestVars["id"]
@@ -20,6 +20,4 @@ func GetSubscriptionHandler(w http.ResponseWriter, req *http.Request, userProfil
     subscription := stripe_subscription_adapter.GetUserSubscription(subscriptionId)
 
     responses.ReturnObjectResponse(w, subscription)
-
-    defer req.Body.Close()
 }

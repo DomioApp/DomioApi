@@ -16,7 +16,7 @@ type UserLoggedinObject struct {
     TokenString string  `json:"token"`
 }
 
-func LoginUserHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func LoginUserHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
     var emailAndPasswordPair domiodb.EmailAndPasswordPair
 
     err := requests.DecodeJsonRequestBody(req, &emailAndPasswordPair)
@@ -39,6 +39,4 @@ func LoginUserHandler(w http.ResponseWriter, req *http.Request, userProfile *tok
     }
 
     responses.ReturnObjectResponse(w, UserLoggedinObject{Email:userClaims.Subject, Id:userClaims.Id, TokenString:tokenString})
-
-    defer req.Body.Close()
 }

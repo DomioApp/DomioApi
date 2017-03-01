@@ -10,7 +10,7 @@ import (
     "domio_api/external_api/stripe/subscription"
 )
 
-func DeleteSubscriptionHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func DeleteSubscriptionHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     requestVars := mux.Vars(req)
     subscriptionId := requestVars["subId"]
@@ -22,6 +22,4 @@ func DeleteSubscriptionHandler(w http.ResponseWriter, req *http.Request, userPro
     domiodb.SetDomainAsAvailable(sub.Meta["domain"], userProfile)
 
     responses.ReturnObjectResponse(w, messages.SubscriptionDeleted)
-
-    defer req.Body.Close()
 }

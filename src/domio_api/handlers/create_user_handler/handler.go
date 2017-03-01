@@ -14,7 +14,7 @@ import (
     "domio_api/components/tokens"
 )
 
-func CreateUserHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func CreateUserHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
     //colorRed := color.New(color.FgRed)
 
     var user domiodb.EmailAndPasswordPair
@@ -74,7 +74,6 @@ func CreateUserHandler(w http.ResponseWriter, req *http.Request, userProfile *to
     }
 
     responses.ReturnObjectResponse(w, loggedInUser)
-    defer req.Body.Close()
 }
 
 func createStripeCustomer(email string) (*stripe.Customer, error) {

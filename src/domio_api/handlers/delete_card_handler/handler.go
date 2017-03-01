@@ -9,7 +9,7 @@ import (
     "domio_api/external_api/stripe/card"
 )
 
-func DeleteCardHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func DeleteCardHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     requestVars := mux.Vars(req)
     cardId := requestVars["id"]
@@ -17,6 +17,4 @@ func DeleteCardHandler(w http.ResponseWriter, req *http.Request, userProfile *to
     stripe_card_adapter.DeleteCard(userProfile.Id, cardId)
 
     responses.ReturnObjectResponse(w, messages.CardDeleted)
-
-    defer req.Body.Close()
 }

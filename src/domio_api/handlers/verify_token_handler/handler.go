@@ -19,9 +19,7 @@ type Claims struct {
     Email string `json:"email"`
 }
 
-func VerifyTokenHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
-    defer req.Body.Close()
-
+func VerifyTokenHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
     var tokenToVerify Token
 
     err := requests.DecodeJsonRequestBody(req, &tokenToVerify)

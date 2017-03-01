@@ -12,7 +12,7 @@ import (
     "domio_api/external_api/r53"
 )
 
-func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims) {
+func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool) {
 
     var domainToEdit domiodb.DomainToEdit
     var updatedDomain domiodb.DomainJson
@@ -49,6 +49,4 @@ func UpdateSubscriptionHandler(w http.ResponseWriter, req *http.Request, userPro
     }
 
     responses.ReturnObjectResponse(w, updatedDomain)
-
-    defer req.Body.Close()
 }
