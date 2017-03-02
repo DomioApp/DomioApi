@@ -6,5 +6,5 @@ import (
 )
 
 func CheckAccessFunc(userProfile *tokens.UserTokenWithClaims, req *http.Request) bool {
-    return true
+    return userProfile != nil
 }
