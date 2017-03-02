@@ -53,20 +53,6 @@ func GetAvailableDomains() []AvailableDomainJson {
     var domains = make([]AvailableDomainJson, 0)
     Db.Select(&domains, "SELECT name, price_per_month FROM domains WHERE is_rented=false AND is_visible=true ORDER BY price_per_month")
 
-    /*
-    var domainsJson []AvailableDomainJson = make([]AvailableDomainJson, 0)
-
-    for i := range domains {
-        currentDomain := domains[i]
-
-        domain := AvailableDomainJson{
-            Name:currentDomain.Name,
-            PricePerMonth:currentDomain.PricePerMonth,
-        }
-        domainsJson = append(domainsJson, domain)
-    }
-    log.Print(domains)
-    */
     return domains
 }
 
@@ -78,6 +64,11 @@ func GetUserDomains(userEmail string) []Domain {
         log.Print(selectErr)
     }
     return domains
+}
+
+func GetUserDomainsCount(userEmail string) int {
+    domains := GetUserDomains(userEmail);
+    return len(domains)
 }
 
 func GetDomainInfo(domainName string) (*Domain, *domioerrors.DomioError) {

@@ -823,6 +823,36 @@
         ]
       }
     },
+    "/user/domains/count": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get domains count that are owned by the current authenticated user",
+        "description": "Multiple status values can be provided with comma seperated strings",
+        "operationId": "getOwnedDomainsCount",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DomainsCount"
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      }
+    },
     "/users/{username}": {
       "get": {
         "tags": [
@@ -965,6 +995,17 @@
         "password": {
           "type": "string",
           "example": "john@gmail.com"
+        }
+      }
+    },
+    "DomainsCount": {
+      "required": [
+        "count"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "example": 17
         }
       }
     },
