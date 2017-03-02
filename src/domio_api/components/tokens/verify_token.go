@@ -3,8 +3,8 @@ package tokens
 import (
     "github.com/dgrijalva/jwt-go"
     "strings"
-    "fmt"
     "domio_api/errors"
+    "log"
 )
 
 type UserTokenWithClaims struct {
@@ -22,12 +22,12 @@ func VerifyTokenString(tokenString string) (*UserTokenWithClaims, *domioerrors.D
 
     if validationError, ok := jwtParseError.(*jwt.ValidationError); ok {
         if validationError.Errors & jwt.ValidationErrorMalformed != 0 {
-            fmt.Println("That's not even a token")
+            log.Println("That's not even a token")
             return nil, &domioerrors.JwtTokenParseError
         } else if validationError.Errors & (jwt.ValidationErrorExpired | jwt.ValidationErrorNotValidYet) != 0 {
             return nil, &domioerrors.JwtTokenExpiredError
         } else {
-            fmt.Println("Couldn't handle this token 1:", jwtParseError)
+            log.Println("Couldn't handle this token 1:", jwtParseError)
         }
     }
 

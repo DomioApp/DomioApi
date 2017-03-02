@@ -72,7 +72,7 @@ func GetAvailableDomains() []AvailableDomainJson {
 
 func GetUserDomains(userEmail string) []Domain {
     var domains []Domain = make([]Domain, 0)
-    log.Print(userEmail)
+
     selectErr := Db.Select(&domains, "SELECT * FROM domains WHERE owner=$1 ORDER BY price_per_month", userEmail)
     if (selectErr != nil) {
         log.Print(selectErr)
