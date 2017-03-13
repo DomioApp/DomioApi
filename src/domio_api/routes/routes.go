@@ -25,6 +25,7 @@ import (
     "domio_api/handlers/update_sub_records_handler"
     "domio_api/handlers/create_sub_handler"
     "domio_api/handlers/get_user_domains_count_handler"
+    "domio_api/handlers/get_users_handler"
 )
 
 type Routes []*types.Route
@@ -58,4 +59,7 @@ var RoutesList = Routes{
 
     delete_record_handler.GetRoute(),
     create_card_handler.GetRoute(),
+
+    // stuff availble only in backoffice
+    get_users_handler.GetRoute(),
 }

@@ -138,6 +138,6 @@ func GetUser(email string) (UserInfo, *domioerrors.DomioError) {
 
 func GetUsers() []UserInfo {
     users := []UserInfo{}
-    Db.Select(&users, "SELECT email FROM users")
+    Db.Select(&users, "SELECT email, id, role FROM users")
     return users
 }

@@ -56,6 +56,10 @@
         "description": "Find out more",
         "url": "http://swagger.io"
       }
+    },
+    {
+      "name": "backoffice",
+      "description": "Backoffice stuff"
     }
   ],
   "paths": {
@@ -727,6 +731,37 @@
             "description": "User email already exists and can't be used for a new registration"
           }
         }
+      },
+      "get": {
+        "tags": [
+          "backoffice"
+        ],
+        "summary": "Get all users",
+        "description": "Multiple status values can be provided with comma seperated strings",
+        "operationId": "getUsers",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
       }
     },
     "/user": {
