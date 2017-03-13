@@ -586,6 +586,51 @@
         ]
       }
     },
+    "/domains/pending": {
+      "get": {
+        "tags": [
+          "backoffice"
+        ],
+        "summary": "Get domains needing review",
+        "description": "Multiple status values can be provided with comma seperated strings",
+        "operationId": "getPendingDomains",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "description": "Status values that need to be considered for filter",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Domain"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "security": [
+          {
+            "jwt_key": []
+          }
+        ]
+      }
+    },
     "/domain/{name}": {
       "get": {
         "tags": [

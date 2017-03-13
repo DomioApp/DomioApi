@@ -14,6 +14,7 @@ type Domain struct {
     Name           string `json:"name" db:"name"`
     Owner          string `json:"owner" db:"owner"`
     PricePerMonth  uint64 `json:"price_per_month" db:"price_per_month"`
+    IsApproved     bool `json:"is_approved" db:"is_approved"`
     IsVisible      bool `json:"is_visible" db:"is_visible"`
     IsRented       bool `json:"is_rented" db:"is_rented"`
     RentedBy       sql.NullString `json:"rented_by" db:"rented_by"`
@@ -38,10 +39,11 @@ type DomainToEdit struct {
 type DomainJson struct {
     Name          string `json:"name" db:"name"`
     Owner         string `json:"owner" db:"owner"`
+    PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
+    IsApproved     bool `json:"is_approved" db:"is_approved"`
     IsRented      bool   `json:"is_rented" db:"is_rented"`
     IsVisible     bool `json:"is_visible" db:"is_visible"`
     RentedBy      string `json:"rented_by,omitempty" db:"rented_by"`
-    PricePerMonth uint64 `json:"price_per_month" db:"price_per_month"`
     ZoneId        string `json:"zone_id,omitempty" db:"zone_id"`
     NS1           string `json:"ns1" db:"ns1"`
     NS2           string `json:"ns2" db:"ns2"`
@@ -52,6 +54,17 @@ type DomainJson struct {
 func GetAvailableDomains() []AvailableDomainJson {
     var domains = make([]AvailableDomainJson, 0)
     Db.Select(&domains, "SELECT name, price_per_month FROM domains WHERE is_rented=false AND is_visible=true ORDER BY price_per_month")
+
+    return domains
+}
+
+func GetPendingDomains() []DomainJson {
+    var domains = make([]DomainJson, 0)
+    err := Db.Select(&domains, "SELECT name, price_per_month FROM domains WHERE is_approved!=$1", true)
+
+    if (err != nil) {
+        log.Print(err)
+    }
 
     return domains
 }
