@@ -8,7 +8,6 @@ import (
     "domio_api/components/responses"
     "domio_api/components/requests"
     "log"
-    "domio_api/external_api/r53"
 )
 
 func CreateDomainHandler(w http.ResponseWriter, req *http.Request, userProfile *tokens.UserTokenWithClaims, isAccessGranted bool, data interface{}) {
