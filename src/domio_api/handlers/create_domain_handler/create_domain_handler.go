@@ -42,10 +42,11 @@ func CreateDomainHandler(w http.ResponseWriter, req *http.Request, userProfile *
         return
     }
 
-    createdDomainZone, _ := r53.CreateDomainZone(createdDomain)
+    //TODO: Actions below should be performed when the domain is approved in backoffice.
+    //createdDomainZone, _ := r53.CreateDomainZone(createdDomain)
 
-    domiodb.SetDomainZoneId(createdDomain, createdDomainZone.HostedZone.Id)
-    domiodb.SetDomainNameServers(createdDomain, createdDomainZone.DelegationSet.NameServers[0], createdDomainZone.DelegationSet.NameServers[1], createdDomainZone.DelegationSet.NameServers[2], createdDomainZone.DelegationSet.NameServers[3])
+    //domiodb.SetDomainZoneId(createdDomain, createdDomainZone.HostedZone.Id)
+    //domiodb.SetDomainNameServers(createdDomain, createdDomainZone.DelegationSet.NameServers[0], createdDomainZone.DelegationSet.NameServers[1], createdDomainZone.DelegationSet.NameServers[2], createdDomainZone.DelegationSet.NameServers[3])
 
     responses.ReturnObjectResponse(w, createdDomain)
 }
