@@ -68,7 +68,7 @@ http {
         }
 
         location /domio_api.json {
-            alias /usr/local/domio_api/domio_api.json;
+            alias /usr/share/nginx/html/domio_api.json;
             expires 7d;
         }
 
