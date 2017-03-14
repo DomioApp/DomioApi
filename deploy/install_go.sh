@@ -13,14 +13,14 @@ mkdir ~/godist
 cd ~/godist
 
 echo Downloading go source...
-wget https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
+wget https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz
 
 echo Extracting go source...
-sudo tar -xf go1.7.4.linux-amd64.tar.gz
+sudo tar -xf go1.8.linux-amd64.tar.gz
 sudo mv go /usr/local
 
 echo Removing downloaded packages...
-[ -e go1.7.4.linux-amd64.tar.gz ] && rm go1.7.4.linux-amd64.tar.gz
+[ -e go1.8.linux-amd64.tar.gz ] && rm go1.8.linux-amd64.tar.gz
 
 echo Linking binaries...
 ln -s /usr/local/go/bin/go /usr/bin/go
