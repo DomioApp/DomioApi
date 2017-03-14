@@ -42,15 +42,16 @@ CREATE TABLE domains (
     name character varying NOT NULL,
     owner character varying NOT NULL,
     price_per_month integer NOT NULL,
-    subscription_id character varying(30),
     zone_id character varying(26),
-    is_visible boolean DEFAULT false NOT NULL,
     is_rented boolean DEFAULT false NOT NULL,
     rented_by character varying,
     ns1 character varying,
     ns2 character varying,
     ns3 character varying,
     ns4 character varying,
+    subscription_id character varying(30),
+    is_visible boolean DEFAULT false NOT NULL,
+    is_approved boolean DEFAULT false NOT NULL,
     CONSTRAINT domain_name_min_length CHECK ((length((name)::text) > 3))
 );
 ALTER TABLE ONLY domains ALTER COLUMN rented_by SET STORAGE PLAIN;
