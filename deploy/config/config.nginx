@@ -67,6 +67,11 @@ http {
             index  index.html index.htm;
         }
 
+        location /domio_api.json {
+            alias /usr/local/domio_api/domio_api.json;
+            expires 7d;
+        }
+
         location / {
             if ($request_method = 'OPTIONS') {
 
